@@ -1,0 +1,25 @@
+<div class="container-wrap">
+    <div class="container">
+        <div class="contar-wrap">
+            <h4 class="item-title">
+                <p><i class="layui-icon layui-icon-speaker"></i>公告：<span>欢迎来到我的轻博客</span></p>
+            </h4>
+        {{range .list}}
+            <div class="item">
+                <div class="item-box  layer-photos-demo1 layer-photos-demo">
+                    <h3><a href="/page?id={{.Id}}">{{.Title}}</a></h3>
+                    <h5>发布于：<span>{{time .Renew false}}</span></h5>
+                    <p>{{.Summary}}</p>
+                </div>
+                <div class="comment count">
+                    <a href="details.html#comment">评论</a>
+                    <a href="javascript:;" class="like">点赞</a>
+                </div>
+            </div>
+        {{end}}
+        </div>
+        <div class="item-btn">
+            <button class="layui-btn layui-btn-normal">下一页</button>
+        </div>
+    </div>
+</div>

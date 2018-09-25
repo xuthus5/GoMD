@@ -1,0 +1,108 @@
+<div class="admin-submenu">
+    <div style="width: 100%; height: 100%">
+
+        <div class="submenu-scene">
+            文章管理
+        </div>
+
+        <div class="submenu-item">文章管理</div>
+
+        <ul>
+            <li class="active"><a href="#"> 文章管理</a></li>
+            <li><a href="/article/add">添加文章</a></li>
+            <li><a href="/article/category">添加标签</a></li>
+        </ul>
+
+        <div id="admin-submenu-c">
+            <i class="layui-icon layui-icon-prev"></i>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="admin-content">
+    <div class="layui-row layui-col-space30">
+        <div class="layui-col-md12">
+
+            <div class="adminpageheader">
+                <h2 class="adminpagetitle">当前位置：<a href="">文章管理</a></h2>
+            </div>
+
+            <div class="admin-block">
+                <div class="block">
+
+                    <h1 class="heading-mi"></h1>
+
+                    <div class="example1">
+
+                        <table class="layui-table" lay-data="{url:'/api/article/list', id:'idTest'}" lay-filter="demo">
+                            <thead>
+                            <tr>
+                                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                                <th lay-data="{field:'Id', width:80, sort: true, fixed: true}">ID</th>
+                                <th lay-data="{field:'Title', width:320}">标题</th>
+                                <th lay-data="{field:'Author', width:120, sort: true}">作者</th>
+                                <th lay-data="{field:'Name', width:100}">分类</th>
+                                <th lay-data="{field:'Tags', width:200, sort: true}">标签</th>
+                                <th lay-data="{field:'Renew', width:200}">更新时间</th>
+                                <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}">操作</th>
+                            </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+        layui.use('table', function () {
+            var $ = layui.jquery,
+                    table = layui.table;
+            //监听表格复选框选择
+            table.on('checkbox(demo)', function (obj) {
+                console.log(obj)
+            });
+            //监听工具条
+            table.on('tool(demo)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    layer.confirm('确定删除？', function (index) {
+                        $.get("/api/article/delete?id=" + data.Id, function (res) {
+                            if (res.Error === 0) {
+                                layer.open({
+                                    title: res.Title
+                                    , content: res.Msg,
+                                    yes: function (index) {
+                                        window.location.href = "/article";
+                                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    }
+                                });
+                            } else {
+                                layer.msg(res.Title + res.Msg, {time: 2000});
+                            }
+                        }, "json");
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    self.location = '/article/update?id=' + data.Id;
+                }
+            });
+
+            $('.demoTable .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+    </script>
+</div>

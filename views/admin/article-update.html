@@ -1,0 +1,354 @@
+<link rel="stylesheet" href="/static/admin/css/tagsinput.css">
+<script src="/static/admin/editor/examples/js/jquery.min.js"></script>
+<script src="/static/admin/js/tagsinput.js" type="text/javascript" charset="utf-8"></script>
+<div class="admin-submenu">
+    <div style="width: 100%; height: 100%">
+        <div class="submenu-scene">
+            文章管理
+        </div>
+        <div class="submenu-item">文章管理</div>
+        <ul>
+            <li><a href="/article"> 文章管理</a></li>
+            <li class="active"><a href="/article/add">添加文章</a></li>
+            <li><a href="/article/category">添加标签</a></li>
+        </ul>
+        <div id="admin-submenu-c">
+            <i class="layui-icon layui-icon-prev"></i>
+        </div>
+    </div>
+</div>
+<div class="admin-content">
+    <div class="layui-row layui-col-space30">
+        <div class="layui-col-md12">
+            <div class="admin-block">
+                <div class="block">
+                    <div class="block-tab">
+                        <div class="layui-tab layui-tab-brief" lay-filter="fors">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">编辑文章</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="block-body">
+                                        <div class="example">
+                                        {{range .article}}
+                                            <form class="layui-form" action="" method="post"
+                                                  lay-filter="component-form-element">
+
+                                                <div class="layui-row layui-col-space10 layui-form-item">
+                                                    <div class="layui-col-md4">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>文章标题：</label>
+                                                        <div class="layui-input-block">
+                                                            <input type="text" name="title" lay-verify="required"
+                                                                   placeholder="" autocomplete="off" class="layui-input"
+                                                                   value="{{.Title}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-col-md4">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>文章分类：</label>
+                                                        <div class="layui-input-block">
+                                                            <select name="cid" lay-verify="required" lay-filter="cid">
+                                                                <option value=""></option>
+                                                            {{with $cid := .Cid}}
+                                                            {{range $.category}}
+                                                            {{if eq $cid .Id}}
+                                                                <option value="{{.Id}}" selected>{{.Name}}</option>
+                                                            {{end}}
+                                                            {{end}}
+                                                            {{end}}
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="layui-col-md4 tagsinput-primary form-group">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>云标签：</label>
+                                                        <div class="layui-input-block">
+                                                            <input type="text" name="tags" lay-verify="required"
+                                                                   placeholder="输入后回车" autocomplete="off"
+                                                                   class="tagsinput" id="tagsinputval"
+                                                                   data-role="tagsinput" value="{{.Tags}}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="layui-col-md4">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>作者：</label>
+                                                        <div class="layui-input-block">
+                                                            <input type="text" name="author" lay-verify="required"
+                                                                   placeholder="" autocomplete="off" class="layui-input"
+                                                                   value="{{$.user}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-col-md4">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>状态：</label>
+                                                        <div class="layui-input-block">
+                                                            <select name="status" lay-verify="required"
+                                                                    lay-filter="status">
+                                                                <option value="0">0</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="layui-col-md4">
+                                                        <label class="layui-form-label">密码：</label>
+                                                        <div class="layui-input-block">
+                                                            <input type="text" name="password" placeholder=""
+                                                                   autocomplete="off" class="layui-input">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="layui-form-item">
+                                                        <label class="layui-form-label"><span class="text-red">*</span>摘要：</label>
+                                                        <div class="layui-input-block">
+                                                            <textarea name="summary" placeholder=""
+                                                                      class="layui-textarea">{{.Summary}}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <link rel="stylesheet"
+                                                      href="/static/admin/editor/examples/css/style.css">
+                                                <link rel="stylesheet" href="/static/admin/editor/css/editormd.css">
+                                                <div class="layui-form-item">
+                                                    <div id="layout layui-form-item">
+                                                        <div id="editormd">
+                                                            <textarea style="display:none;"
+                                                                      id="content">{{.Content}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <script src="/static/admin/editor/editormd.js"></script>
+                                                    <script type="text/javascript">
+                                                        var testEditor;
+                                                        $(function () {
+                                                            testEditor = editormd("editormd", {
+                                                                width: "100%",
+                                                                height: 750,
+                                                                syncScrolling: "single",
+                                                                saveHTMLToTextarea: true,
+                                                                path: "/static/admin/editor/lib/",
+                                                                toolbarIcons: function () {
+                                                                    // Or return editormd.toolbarModes[name]; // full, simple, mini
+                                                                    // Using "||" set icons align right.
+                                                                    //return ["undo", "redo", "bold", "hr", "preview", "watch","fullscreen", "info", "testIcon", "testIcon2", "file", "faicon", "||", "watch", "fullscreen", "preview", "testIcon"]
+                                                                    return editormd.toolbarModes["full"];
+                                                                },
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <div class="layui-input-block">
+                                                        <button class="layui-btn" lay-submit="" lay-filter="submit">
+                                                            立即提交
+                                                        </button>
+                                                        <button type="reset" class="layui-btn layui-btn-primary">重置
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        {{end}}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'layer', 'form'], function () {
+        var $ = layui.jquery
+                , layer = layui.layer
+                , form = layui.form;
+        form.on('submit(submit)', function (data) {
+            function GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            $.post("/api/article/update?id=" + GetQueryString("id"), data.field, function (res) {
+                if (res.Error === 0) {
+                    layer.open({
+                        title: res.Title
+                        , content: res.Msg,
+                        btn: ['首页', '后台'],
+                        yes: function (index) {
+                            window.location.href = "/";
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        }
+                        , btn2: function (index) {
+                            window.location.href = "/admin";
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        }
+                    });
+                } else {
+                    layer.msg(res.Title + res.Msg, {time: 2000});
+                }
+            }, "json");
+            return false;
+        })
+    });
+</script>
+
+<div class="admin-panel">
+    <div class="layui-collapse">
+
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-face-smile-fine"></i> <span
+                    class="sfqt">后台播报</span></h2>
+            <div class="layui-colla-content layui-show item-color">
+                <ul>
+                    <li>更新了后台整体布局代码，剔除行内样式</li>
+                    <li>冲突样式放低优先级，不影响样式覆盖</li>
+                    <li>修复菜单搜索文字弹跳的Bug</li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-speaker"></i> <span class="sfqt">内部公告</span>
+            </h2>
+            <div class="layui-colla-content item-color">暂无</div>
+        </div>
+
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-log"></i> <span
+                    class="sfqt">工作日志</span></h2>
+            <div class="layui-colla-content item-color">暂无</div>
+        </div>
+
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-survey"></i> <span class="sfqt">我的工单</span>
+            </h2>
+            <div class="layui-colla-content item-color">暂无</div>
+        </div>
+
+
+        <div class="layui-colla-item ">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-notice"></i> <span class="sfqt">系统更新</span>
+            </h2>
+            <div class="layui-colla-content item-color">
+                <ul>
+                    <li>暂无</span> </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title panel-item"><i class="layui-icon layui-icon-about"></i> <span
+                    class="sfqt">联系我们</span></h2>
+            <div class="layui-colla-content item-color">暂无</div>
+        </div>
+    </div>
+
+
+    <div class="admin-panel-a">
+        <div id="admin-panel-c"><i class="layui-icon layui-icon-spread-left"></i> 收起面板</div>
+    </div>
+
+
+</div>
+
+
+<script>
+    layui.use(['element', 'form', 'layer', 'jquery'], function () {
+
+        var element = layui.element;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+
+
+        /* 左侧收缩hover效果 */
+        $('.menu-item').mouseover(function () {
+
+            if ($('.admin-menu.fold').length > 0) {
+                $(this).find('.menu-item-tip').show();
+            }
+        });
+        $('.menu-item').mouseout(function () {
+
+            if ($('.admin-menu.fold').length > 0) {
+                $(this).find('.menu-item-tip').hide();
+            }
+
+        });
+
+        /* 左菜单控制 */
+        $('#admin-menu-f').click(function () {
+            if ($('.admin-menu').hasClass('open')) {
+                $('.header-logo').toggleClass('open');
+                $('.admin-menu').toggleClass('open');
+                $('.admin-menu').addClass('fold');
+                if ($('.admin-submenu').hasClass('out')) {
+                    $('.admin-content').css({"margin-left": "60px"});
+                } else {
+                    $('.admin-content').css({"margin-left": "170px"});
+                }
+            } else {
+                $('.header-logo').toggleClass('open');
+                $('.admin-menu').toggleClass('open');
+                $('.admin-menu').removeClass('fold');
+                if ($('.admin-submenu').hasClass('out')) {
+                    $('.admin-content').css({"margin-left": "130px"});
+                } else {
+                    $('.admin-content').css({"margin-left": "240px"});
+                }
+            }
+        });
+
+        /* 子菜单控制 */
+        $('#admin-submenu-c').click(function () {
+            if (!$(this).hasClass('out')) {
+                $(this).toggleClass('out');
+                $('.admin-submenu').addClass('out');
+                if ($('.admin-menu').hasClass('fold')) {
+                    $('.admin-content').css({"margin-left": "60px"});
+                } else {
+                    $('.admin-content').css({"margin-left": "130px"});
+                }
+            } else {
+                $('.admin-submenu').removeClass('out');
+                $(this).toggleClass('out');
+                if ($('.admin-menu').hasClass('fold')) {
+                    $('.admin-content').css({"margin-left": "170px"});
+                } else {
+                    $('.admin-content').css({"margin-left": "240px"});
+                }
+            }
+        });
+
+        /* 侧边栏控制面板 */
+        $('#admin-panel-c').click(function () {
+            if (!$(this).hasClass('out')) {
+                $(this).html('<i class="layui-icon layui-icon-tips"></i> 消息看板');
+                $('.admin-panel').addClass('out');
+                $(this).toggleClass('out');
+                $('.admin-content').css({"margin-right": "0"});
+            } else {
+                $(this).html('<i class="layui-icon layui-icon-spread-left"></i> 收起面板');
+                $('.admin-panel').removeClass('out');
+                $(this).toggleClass('out');
+                $('.admin-content').css({"margin-right": "170px"});
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

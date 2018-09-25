@@ -1,0 +1,34 @@
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="heading-block">
+                <h1>文章归档</h1>
+                <p>文章的分类信息存储在了这里</p>
+            </div>
+
+            <div class="block">
+                <div class="layui-container">
+                    <div class="columns">
+                        <div class="column col-8 col-mx-auto">
+                            <ul class="layui-timeline">
+                            {{range .list}}
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">{{time .Renew true}}</h3>
+                                        <p>
+                                        {{.Title}}
+                                        </p>
+                                    </div>
+                                </li>
+                            {{end}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 70px"></div>
+        </div>
+    </div>
+</div>

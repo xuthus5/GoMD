@@ -1,0 +1,182 @@
+/* 标题标签 h1-h6 样式 */
+#article h1, #article h2, #article h3, #article h4, #article h5, #article h6 {
+    margin: .5em 0;
+    color: inherit;
+    font-weight: 500;
+}
+
+#article h1 {
+    padding: 10px 0 10px 10px;
+    font-size: 22px;
+    border-left: 8px solid #D87393;
+    background: rgba(25, 13, 31, 0.3);
+}
+
+#article h2 {
+    padding: 10px 0 10px 10px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-left: 8px solid #009688;
+    border-radius: 0 2px 2px 0;
+    background-color: #f2f2f2;
+}
+
+#article h3 {
+    padding: 5px 0 5px 10px;
+    font-size: 18px;
+    border-left: 6px solid #8ac1d8;
+    background-color: #f2f2f2;
+}
+
+#article h4 {
+    padding: 5px 0 5px 10px;
+    font-size: 18px;
+    border-left: 6px solid #b9d88f;
+    background-color: #f2f2f2;
+}
+
+#article h5 {
+    padding: 5px 0 5px 10px;
+    font-size: 18px;
+    border-left: 6px solid rgba(8, 152, 70, 0.47);
+    background-color: #f2f2f2;
+}
+
+#article h6 {
+    padding: 5px 0 5px 10px;
+    font-size: 18px;
+    border-left: 6px solid #d89589;
+    background-color: #f2f2f2;
+}
+
+/* 带背景的tag */
+.tag-1, .tag-2, .tag-3, .tag-4, .tag-5, .tag-6, .tag-7, .tag-8, .tag-9 {
+    font-size: 15px;
+    border-radius: 6px;
+    padding: 1px 6px;
+    margin: 0 2px;
+}
+
+.tag-1 {
+    color: #c7254e;
+    background-color: #f9f2f4;
+}
+
+.tag-2 {
+    color: #3A9AB2;
+    background-color: #DEF6F4;
+}
+
+.tag-3 {
+    color: #6666ff;
+    background-color: #e4e4f5;
+}
+
+.tag-4 {
+    color: #aaaa00;
+    background-color: #f6F6cc;
+}
+
+.tag-5 {
+    color: #dd66Ff;
+    background-color: #f4e4ff;
+}
+
+.tag-6 {
+    color: #DD8740;
+    background-color: #FFeecc;
+}
+
+.tag-7 {
+    color: #2Eb975;
+    background-color: #eeffcc;
+}
+
+.tag-8 {
+    background-color: #C6CBCF;
+}
+
+.tag-9 {
+    color: #AF6661;
+    background-color: #FFD6C1;
+}
+
+/* 引用 */
+#article blockquote {
+    border: dotted 1px #009688;
+    color: #999;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 0 2px 2px 0;
+    background-color: #f2f2f2;
+
+}
+
+#article blockquote p {
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 段落 */
+#article p {
+    font-size: 16px;
+}
+
+/* 表格 */
+table {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    text-align: center;
+    width: 100%;
+    margin: 10px 0;
+    /*background-color:grey;*/
+    /*color:#ddd;*/
+}
+
+table td, table th {
+    padding: 8px 0;
+    border: 1px solid #ddd;
+}
+
+table > thead {
+    /*background-color: #FFC3AC;*/
+    background-color: #f5f5f5;
+}
+
+table > thead > tr > th {
+    text-align: center;
+}
+
+table > tbody > tr:nth-child(2n) {
+    background-color: #f5f5f5;
+}
+
+table > tbody > tr:nth-child(2n+1) {
+    /*background-color: #f5f5f5;*/
+}
+
+table > tfoot {
+    background-color: #f5f5f5;
+}
+
+/* a标签 */
+#article a{
+    color: #0E9A00;
+    font-size: 18px;
+}
+
+/* 列表样式 */
+#article ul {
+    padding-left: 20px;
+}
+#article ol {
+    padding-left: 20px;
+}
+#article ul li{
+    font-size: 16px;
+    list-style: circle;
+}
+#article ol li{
+    font-size: 16px;
+    list-style: decimal;
+}
