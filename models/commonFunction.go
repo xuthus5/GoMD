@@ -62,7 +62,7 @@ func TableNumber(table string) (count int64,err error){
 	return
 }
 
-// 用于获取网站主题
+// 用于获取网站配置信息
 func GetOneConfig(info string) string{
 	data := []Config{}
 	err := dbx.Select(&data,"select * from config where Option=?",info)
@@ -70,4 +70,19 @@ func GetOneConfig(info string) string{
 		panic(err.Error())
 	}
 	return data[0].Value
+}
+
+//公告管理模块
+func AddNotice(data *Notice) error{
+	_, err := dbc.Insert(data)
+	return err
+}
+//返回一条最近公告
+func GetOneNotice() string{
+	data := []Notice{}
+	err := dbx.Select(&data,"select * from notice order by data desc limit 0,1")
+	if err != nil {
+		panic(err.Error())
+	}
+	return data[0].Content
 }

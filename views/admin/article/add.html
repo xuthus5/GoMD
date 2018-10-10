@@ -1,0 +1,156 @@
+<link href="/static/admin/css/plugins/bootstrap-markdown/bootstrap-markdown.min.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>添加文章</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/article">文章管理</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>添加文章</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>添加文章
+                        <small>请使用markdown语法</small>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#" class="dropdown-item">Config option 1</a>
+                            </li>
+                            <li><a href="#" class="dropdown-item">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form id="form" role="form">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">标题</label>
+                                <input type="text" class="form-control" name="title" placeholder="请输入文章标题" required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label class="font-normal">分类</label>
+                                <div>
+                                    <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"
+                                            tabindex="2">
+                                        <option></option>
+                                    {{range .list}}
+                                        <option value="{{.Id}}">{{.Name}}</option>{{end}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">标签</label>
+                                <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车"/>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">作者</label>
+                                <input type="text" name="author" class="form-control" value="{{.master}}">
+                            </div>
+                        </div>
+                        {{/*<div class="form-row">*/}}
+                            {{/*<div class="form-group col-md-4">*/}}
+                                {{/*<label for="inputEmail4">作者</label>*/}}
+                                {{/*<input type="text" name="author" class="form-control" value="{{.master}}">*/}}
+                            {{/*</div>*/}}
+                            {{/*<div class="form-group col-md-4">*/}}
+                                {{/*<label for="inputPassword4">状态</label>*/}}
+                                {{/*<input type="text" name="status" class="form-control" placeholder="Password">*/}}
+                            {{/*</div>*/}}
+                            {{/*<div class="form-group col-md-4">*/}}
+                                {{/*<label for="inputPassword4">密码</label>*/}}
+                                {{/*<input type="text" name="password" class="form-control" placeholder="Password">*/}}
+                            {{/*</div>*/}}
+                        {{/*</div>*/}}
+                        <div class="form-group">
+                            <label for="inputPassword4">摘要</label>
+                            <textarea class="form-control" rows="3" name="summary"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="content" data-provide="markdown" rows="10">#</textarea>
+                        </div>
+
+                        <button type="button" id="submit" class="btn btn-primary">发表</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chosen -->
+<script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+<!-- Tags Input -->
+<script src="/static/admin/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<!-- Bootstrap markdown -->
+<script src="/static/admin/js/plugins/bootstrap-markdown/bootstrap-markdown.js"></script>
+<script src="/static/admin/js/plugins/bootstrap-markdown/markdown.js"></script>
+
+<script>
+    $('.chosen-select').chosen({width: "100%"});
+
+    $(document).ready(function () {
+        $('.tagsinput').tagsinput({
+            tagClass: 'label label-primary'
+        });
+    });
+    // 定义layer主题名称
+    layer.config({
+        skin: 'layer-class'
+    });
+    $("#submit").click(function () {
+        const postData = $("#form").serialize();
+        $.post("/api/article/add", postData, function (res) {
+            if (res.Error === 0) {
+                layer.open({
+                    title: res.Title
+                    , content: res.Msg,
+                    btn: ['首页', '后台'],
+                    yes: function (index) {
+                        window.location.href = "/";
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                    , btn2: function (index) {
+                        window.location.href = "/admin";
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                });
+            } else {
+                layer.msg(res.Title + res.Msg, {time: 2000});
+            }
+        }, "json");
+        return false;
+    });
+</script>

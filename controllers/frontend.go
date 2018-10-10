@@ -13,8 +13,8 @@ type FrontendController struct {
 var theme = models.GetOneConfig("Theme")
 var layout = theme+"/layout.html"
 
+//首页逻辑
 func (this *FrontendController) Index() {
-	//首页
 	page, _ := this.GetInt64("page")
 	pageSize := tools.StringToInt64(models.GetOneConfig("PageSize"))
 	if page < 1 {

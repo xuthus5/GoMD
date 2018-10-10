@@ -1,46 +1,52 @@
-<script src="/static/admin/editor/examples/js/jquery.min.js"></script>
-<link rel="stylesheet" href="/static/common/highlight/styles/agate.css">
+<script src="/static/admin/js/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" href="/static/common/highlight/styles/rainbow.css">
 <script src="/static/common/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="static/index/default/css/artui.css">
 
 <div style="margin-bottom: 40px"></div>
 <div class="layui-container">
-    <div class="layui-row layui-col-space30">
-        <div class="layui-col-md1"></div>
-    {{range .article}}
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md10">
-            <div class="blogbox">
-                <div class="blogbox-header">
-                    <div class="heading-block">
-                        <h1>{{.Title}}</h1>
-                        <p><span id="meta-left">最近更新: {{time .Renew false}} </span>&nbsp;&nbsp;分类：<span
-                                id="meta-right">{{range $.label}}{{.Name}}{{end}}</span></p>
-                    </div>
-                    <div class="pull-left">
-                        <p class="blogbox-info">
-                            <span class="layui-badge-dot layui-bg-black"></span>
-                        {{range $tag := tags .Tags}}
-                            <span class="article-label bg-purple">{{$tag}}</span>
-                        {{end}}
-                        </p>
-                    </div>
-                    <div class="pull-right">
-                        <p class="blogbox-author">
-                            <span class="article-label bg-grey">{{.Author}}</span>
-                        </p>
-                    </div>
-                    <div class="layui-clear"></div>
+<div class="layui-row layui-col-space30">
+    <div class="layui-col-md1"></div>
+{{range .article}}
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md10">
+        <div class="blogbox">
+            <div class="blogbox-header">
+                <div class="heading-block">
+                    <h1>{{.Title}}</h1>
+                    <p><span id="meta-left">最近更新: {{time .Renew false}} </span>&nbsp;&nbsp;分类：<span
+                            id="meta-right">{{range $.label}}{{.Name}}{{end}}</span></p>
                 </div>
-                <div class="blogbox-body">
-                    <div class="typo">
-                    {{with $content := markdown .Content}}
-                            {{str2html $content}}
-                        {{end}}
-                    </div>
+                <div class="pull-left">
+                    <p class="blogbox-info">
+                        <span class="layui-badge-dot layui-bg-black"></span>
+                    {{range $tag := tags .Tags}}
+                        <span class="article-label bg-purple">{{$tag}}</span>
+                    {{end}}
+                    </p>
+                </div>
+                <div class="pull-right">
+                    <p class="blogbox-author">
+                        <span class="article-label bg-grey">{{.Author}}</span>
+                    </p>
+                </div>
+                <div class="layui-clear"></div>
+            </div>
+            <div class="blogbox-body">
+                <div class="typo" id="markdown">
+
                 </div>
             </div>
         </div>
-    {{end}}
-        <div class="layui-col-md1"></div>
     </div>
+
+    <div class="layui-col-md1"></div>
 </div>
+</div>
+<script src="/static/common/bootstrap.js"></script>
+<script src="/static/common/strapdown/strapdown.js"></script>
+<script>
+    $("#markdown").text("{{.Content}}");
+    markdown("markdown");
+</script>
+{{end}}

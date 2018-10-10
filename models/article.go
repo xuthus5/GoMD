@@ -87,10 +87,34 @@ func AddCategory(data *Taxonomy) error{
 	_, err := dbc.Insert(data)
 	return err
 }
+// 分类删除
+func DeleteCategory(id int) error {
+	data := &Taxonomy{Id:id}
+	_,err := dbc.Delete(data)
+	return err
+}
+// 分类修改
+func UpdateCategory(data *Taxonomy) error{
+	_, err := dbc.Update(data)
+	if err != nil {
+		return err
+	}else{
+		return nil
+	}
+}
 // 查询分类列表  用于后台展示所有分类
 func CategoryList() *[]Taxonomy{
 	list := []Taxonomy{}
 	err := dbx.Select(&list, "select * from taxonomy")
+	if err != nil {
+		panic(err.Error())
+	}
+	return &list
+}
+// 获得一个分类信息 主要用于更新分类信息
+func GetOneCategoryInfo(id string) *[]Taxonomy{
+	list := []Taxonomy{}
+	err := dbx.Select(&list, "select * from taxonomy where id=?",id)
 	if err != nil {
 		panic(err.Error())
 	}

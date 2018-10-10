@@ -2,7 +2,10 @@ package main
 
 import (
 	"GoMD/models"
+	"github.com/astaxie/beego"
 	"gopkg.in/russross/blackfriday.v2"
+	"html/template"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -48,10 +51,27 @@ func YMD(timestamp string,exact bool) string{
 	}
 }
 
-/* 获取网站基本信息 */
+/* 直接调取数据库配置表-网站基本信息 */
+func SiteConfig(info string) string{
+	return models.GetOneConfig(info)
+}
 
 /* 返回表中的数据条数 用于数据统计 */
 func TableNumber(table string) int64{
 	count,_ := models.TableNumber(table)
 	return count
+}
+
+/* 获取公告表数据 */
+func GetNotice() string{
+	return models.GetOneNotice()
+}
+
+//自定义404报错
+func PageNotFound(rw http.ResponseWriter, r *http.Request){
+	t,_:= template.New("error.html").ParseFiles(beego.BConfig.WebConfig.ViewsPath+"/common/error.html")
+	data := make(map[string]interface{})
+	data["code"] = "404"
+	data["title"] = "页面被吃掉了！"
+	t.Execute(rw, data)
 }

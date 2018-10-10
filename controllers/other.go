@@ -13,6 +13,7 @@ func (this *OtherController) Login() {
 	Username := this.GetString("username")
 	Password := this.GetString("password")
 	if Username == "" || Password == "" {
+		this.Data["config"] = models.ConfigList()
 		this.TplName = "admin/login.html"
 	} else {
 		user := &models.Config{Option:"Author",Value:Username}
@@ -20,7 +21,7 @@ func (this *OtherController) Login() {
 		err := models.Login(user,pass)
 		var data *ResultData
 		if err == nil{
-			this.SetSession("Username",Username)
+			this.SetSession("master",Username)
 			data = &ResultData{Error:0,Title:"你好啊",Msg:"欢迎回来！"}
 		}else{
 			data = &ResultData{Error:1,Title:"不好啦",Msg:"账号或密码输入有误！"}
@@ -31,7 +32,7 @@ func (this *OtherController) Login() {
 }
 
 func (this *OtherController) Logout() {
-	sess := this.GetSession("Username")
+	sess := this.GetSession("master")
 	if sess != nil {
 		//删除指定的session
 		this.DelSession("Username")
