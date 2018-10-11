@@ -22,7 +22,7 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <img alt="image" class="rounded-circle" src="/static/admin/img/profile_small.jpg"/>
+                        <img alt="image" class="rounded-circle" src="{{sc "UserImageUrl"}}"/>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold">{{.master}}</span>
                             <span class="text-muted text-xs block">管理员 <b class="caret"></b></span>
@@ -68,6 +68,9 @@
                 {{/*</li>*/}}
                 <li>
                     <a href="/admin/setting"><i class="fa fa-desktop"></i> <span class="nav-label">网站配置</span></a>
+                </li>
+                <li class="special_link">
+                    <a href="/"><i class="fa fa-home"></i> <span class="nav-label">回首页</span></a>
                 </li>
             </ul>
 

@@ -23,7 +23,7 @@
         <div class="layui-col-md12">
             <div class="paginator">
                 <div class="text-center">
-                {{if ne .paging.PageCount 1}}
+                {{if gt .paging.PageCount 1}}
                 {{if eq $.page 1}}
                     <a href="?page={{calc $.page 1 "+"}}"
                        class="{{if eq $.page $.paging.Page}}active{{end}} layui-btn ghost-btn-purple">下一页</a>

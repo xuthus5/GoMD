@@ -89,9 +89,18 @@ func AddCategory(data *Taxonomy) error{
 }
 // 分类删除
 func DeleteCategory(id int) error {
+	//删除分类的同时，需要将旗下的文章删除
 	data := &Taxonomy{Id:id}
 	_,err := dbc.Delete(data)
-	return err
+	if err != nil {
+		return err
+	}
+	article := &Article{Cid:id}
+	_,err = dbc.Delete(article,"Cid")
+	if err != nil {
+		return err
+	}
+	return nil
 }
 // 分类修改
 func UpdateCategory(data *Taxonomy) error{

@@ -45,6 +45,7 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "Theme", Value: "default"})
 	dbc.Insert(&Config{Option: "CopyRight", Value: "GoMD"})
 	dbc.Insert(&Config{Option: "PageSize", Value: "10"})
+	dbc.Insert(&Config{Option: "UserImageUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	//文章分类表初始化
 	dbc.Insert(&Taxonomy{
 		Name: "默认",

@@ -101,9 +101,8 @@ type DisplayArticle struct {
 	Renew  string
 }
 
-
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加
-type ConfigOption struct {
+type SiteConfigOption struct {
 	WebTitle    string `form:"WebTitle"`
 	Keywords    string `form:"Keywords"`
 	WebUrl      string `form:"WebUrl"`
@@ -111,6 +110,14 @@ type ConfigOption struct {
 	Status      string `form:"Status"`
 	Theme       string `form:"Theme"`
 	PageSize    string `form:"PageSize"`
+	CopyRight   string `form:"CopyRight"`
+}
+
+// 用户配置信息
+type UserConfigOption struct {
+	Author       string `form:"Author"`
+	Password     string `form:"Password"`
+	UserImageUrl string `form:"UserImageUrl"`
 }
 
 // 后台资源管理中心 获取资源分类
