@@ -12,6 +12,7 @@ func init() {
 	beego.Router("/search", &controllers.FrontendController{},"*:Search")
 	beego.Router("/about", &controllers.FrontendController{},"*:About")
 	beego.Router("/archive", &controllers.FrontendController{},"*:Archive")
+	beego.Router("/category", &controllers.FrontendController{},"*:Category")
 
 	//后台界面
 	beego.Router("/admin",&controllers.BackendController{},"get:Index") //后台主页
@@ -22,6 +23,7 @@ func init() {
 	beego.Router("/admin/article/category",&controllers.BackendController{},"get:CategoryAdd") //添加标签
 	beego.Router("/admin/article/category/update",&controllers.BackendController{},"get:CategoryUpdate") //修改标签
 	beego.Router("/admin/setting",&controllers.BackendController{},"get:Setting") //配置界面
+	beego.Router("/admin/attachment",&controllers.BackendController{},"get:Attachment") //附件管理界面
 
 	//api接口
 	beego.Router("/api/article/list",&controllers.ApiController{},"get:ArticleList") //文章列表
@@ -35,6 +37,9 @@ func init() {
 	beego.Router("/api/site/config",&controllers.ApiController{},"post:SiteConfig") //网站配置
 	beego.Router("/api/notice",&controllers.ApiController{},"post:Notice") //网站配置
 	beego.Router("/api/notice/list",&controllers.ApiController{},"get:NoticeList") //网站配置
+	beego.Router("/api/file/upload",&controllers.ApiController{},"post:FileUpload") //文件上传
+	beego.Router("/api/file/list",&controllers.ApiController{},"get:FileList") //文件上传
+	beego.Router("/api/file/delete",&controllers.ApiController{},"get:FileDelete") //文件删除
 
 
 	//其他

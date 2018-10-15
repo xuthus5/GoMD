@@ -1,7 +1,10 @@
 # golang实现的博客程序
 
-## [演示](http://xblogs.cn)
-## [后台](http://xblogs.cn/admin) 账号密码 admin/admin(请勿修改账户信息)
+> GoMD是一款基于golang的beego框架开发的简洁markdown内容管理程序
+
++ [前台演示](http://xblogs.cn)
++ [后台演示](http://xblogs.cn/admin)
++ 账号密码 admin/admin(请勿修改账户信息)
 
 ## 如何使用
 
@@ -36,26 +39,3 @@ go run main.go
 #运行方法二
 bee run
 ```
-
-**注意**
-
-程序启动后，会在项目根目录下加锁 `install.lock` ，若希望重新部署项目，请备份数据后清除该文件与数据库文件 `data.db`
-
-
-## 主题
-
-### 默认
-
-![首页](./static/preview/default-index.png)
-![文章](./static/preview/default-page.png)
-
-### 闲言
-
-![首页](./static/preview/xianyan-index.png)
-![文章](./static/preview/xianyan-page.png)
-
-### 后台
-
-![登陆](./static/preview/admin-login.jpg)
-![文章](./static/preview/admin-article.png)
-![设置](./static/preview/admin-setting.png)
