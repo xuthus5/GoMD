@@ -12,7 +12,7 @@ import "GoMD/tools"
 //获取后台文章列表  后台文章页面调用该方法 返回一个json数据
 func GetArticleJson() *[]DisplayArticle{
 	list := []DisplayArticle{}
-	err := dbx.Select(&list, "select article.id,article.title,article.author,taxonomy.name,article.tags,article.renew from article,taxonomy where article.cid=taxonomy.id order by article.renew desc")
+	err := dbx.Select(&list, "select article.id,article.title,article.author,category.name,article.tags,article.renew from article,category where article.cid=category.id order by article.renew desc")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -23,9 +23,9 @@ func GetArticleJson() *[]DisplayArticle{
 }
 
 //获取后台分类列表
-func GetCategoryJson() *[]Taxonomy{
-	list := []Taxonomy{}
-	err := dbx.Select(&list, "select * from taxonomy order by id desc")
+func GetCategoryJson() *[]Category{
+	list := []Category{}
+	err := dbx.Select(&list, "select * from category order by id desc")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -41,6 +41,16 @@ func GetNoticeJson() *[]Notice {
 	}
 	for i,v:= range list{
 		list[i].Data = tools.UnixTimeToString(v.Data)
+	}
+	return &list
+}
+
+//获取后台文件列表
+func GetFileJson() *[]Attachment {
+	list := []Attachment{}
+	err := dbx.Select(&list,"select * from attachment order by id desc")
+	if err != nil {
+		panic(err.Error())
 	}
 	return &list
 }

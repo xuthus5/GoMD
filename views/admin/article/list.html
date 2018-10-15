@@ -109,7 +109,11 @@
                             }
                         });
                     } else {
-                        layer.msg(res.Title + res.Msg, {time: 2000});
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
                     }
                 }, "json");
                 layer.close(index);

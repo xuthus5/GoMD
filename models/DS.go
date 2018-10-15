@@ -24,13 +24,13 @@ type Config struct {
 type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
-	Type     int    `form:"-"`
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`
 	Tags     string `orm:"size(64)" form:"tags"`
 	Renew    string `orm:"size(20)" form:"-"`
 	Content  string `orm:"type(text)" form:"content"`
+	Type     int    `form:"-"` //类型 markdown输出markdown类型 其他自定义
 	Summary  string `form:"summary"`
 	Status   string `form:"status"`
 	Password string `form:"password"`
@@ -66,8 +66,8 @@ type Message struct {
 	Data    string
 }
 
-// taxonomy分类表 慢慢优化完全利用
-type Taxonomy struct {
+// category分类表 慢慢优化完全利用
+type Category struct {
 	Id          int    //分类方法ID
 	Name        string //分类名称
 	Key         string //分类标识
@@ -76,11 +76,11 @@ type Taxonomy struct {
 	Parent      string //所属父分类方法ID
 }
 
-// 资源记录表
-type Source struct {
+// 附件资源记录表
+type Attachment struct {
 	Id      int                     //id
 	Name    string                  //名称
-	Type    string `orm:"size(64)"` //分类
+	Type    string `orm:"size(64)"` //分类 独立的文件 属于article的文章
 	Path    string                  //路径
 	Created string `orm:"size(10)"` //创建时间
 }
@@ -103,14 +103,16 @@ type DisplayArticle struct {
 
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加
 type SiteConfigOption struct {
-	WebTitle    string `form:"WebTitle"`
-	Keywords    string `form:"Keywords"`
-	WebUrl      string `form:"WebUrl"`
-	Description string `form:"Description"`
-	Status      string `form:"Status"`
-	Theme       string `form:"Theme"`
-	PageSize    string `form:"PageSize"`
-	CopyRight   string `form:"CopyRight"`
+	WebTitle       string `form:"WebTitle"`
+	Keywords       string `form:"Keywords"`
+	WebUrl         string `form:"WebUrl"`
+	Description    string `form:"Description"`
+	Status         string `form:"Status"`
+	Theme          string `form:"Theme"`
+	PageSize       string `form:"PageSize"`
+	CopyRight      string `form:"CopyRight"`
+	LogoUrl        string `form:"LogoUrl"`
+	SecondaryTitle string `form:"SecondaryTitle"`
 }
 
 // 用户配置信息

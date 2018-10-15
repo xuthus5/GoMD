@@ -6,14 +6,20 @@ import (
 )
 
 func main() {
-	beego.AddFuncMap("tags", Tags)
-	beego.AddFuncMap("calc", Calc)
-	beego.AddFuncMap("markdown", MarkDown)
-	beego.AddFuncMap("time", YMD)
-	beego.AddFuncMap("sc", SiteConfig)
-	beego.AddFuncMap("tableNum", TableNumber)
-	beego.AddFuncMap("notice", GetNotice)
+	//自定义 模板方法
+	beego.AddFuncMap("tags", Tags)	//拆分标签
+	beego.AddFuncMap("calc", Calc)	//加减计算
+	beego.AddFuncMap("markdown", MarkDown)	//将markdown输出为html
+	beego.AddFuncMap("time", YMD)	//将时间戳转成正常时间
+	beego.AddFuncMap("sc", SiteConfig)	//调取网站配置 直接抽调数据库配置字段
+	beego.AddFuncMap("tableNum", TableNumber)	//获取表中的数据
+	beego.AddFuncMap("notice", GetNotice)	//网站的公告
+	beego.AddFuncMap("category", GetCategory)	//文章的分类信息
+	beego.AddFuncMap("cn", GetAOfCategoryNumber)	//获取分类下的文章数量
+	//自定义 404错误处理页面
 	beego.ErrorHandler("404",PageNotFound)
+	//自定义 开放静态资源路径
+	beego.SetStaticPath("/file", "file")
 	beego.Run()
 }
 

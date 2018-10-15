@@ -1,0 +1,30 @@
+<main>
+<article class="content">
+{{range .article}}
+    <h1>{{.Title}}</h1>
+    <div class="meta">
+            <span class="item"><i class="icon iconfont icon-calendar"></i><time
+                    datetime="{{time .Renew false}}">{{time .Renew false}}</time></span>
+        <span class="item"><i class="icon iconfont icon-message"></i><a
+                href="#comments">0 评</a></span>
+    </div>
+    <div class="post">
+        <div class="md_block" id="markdown">
+
+        </div>
+    </div>
+</article>
+    <script src="/static/common/bootstrap.js"></script>
+    <script src="/static/common/strapdown/strapdown.js"></script>
+    <script>
+        $("#markdown").text("{{.Content}}");
+        markdown("markdown");
+    </script>
+{{end}}
+    <section class="pager">
+        {{/*<?php $this->thePrev('%s', '', array('title' => '', 'tagClass' => 'next')); ?>*/}}
+        {{/*<?php $this->theNext('%s', '', array('title' => '', 'tagClass' => 'pre')); ?>*/}}
+    </section>
+    {{/*<?php $this->need('comments.php'); ?>*/}}
+</main>
+</div>

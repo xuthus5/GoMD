@@ -39,10 +39,20 @@
                         <div class="col-sm-12 b-r">
                             <p>网站全局配置.</p>
                             <form role="form" id="form-site">
-                                <div class="form-group  row"><label class="col-sm-2 col-form-label">网站名称</label>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label">网站标题</label>
 
                                     <div class="col-sm-10"><input type="text" class="form-control" name="WebTitle"
                                                                   value="{{.config.WebTitle}}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-lg-2 col-form-label">网站二级标题</label>
+                                    <div class="col-lg-10"><input type="text" placeholder="请输入网站的二级标题" name="SecondaryTitle" class="form-control" value="{{.config.SecondaryTitle}}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-lg-2 col-form-label">网站LOGO</label>
+                                    <div class="col-lg-10"><input type="text" placeholder="网站LOGO的资源地址" name="LogoUrl" class="form-control" value="{{.config.LogoUrl}}">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -82,11 +92,34 @@
                                         <select data-placeholder="请选择一个分类" name="Theme" class="chosen-select form-control"
                                                 tabindex="2">
                                             <option></option>
-                                            <option value="default" selected>默认</option>
+                                            <option value="fantasy" selected>默认</option>
                                             <option value="xianyan">闲言</option>
                                         </select>
                                     </div>
                                 </div>
+                                {{/*<div class="hr-line-dashed"></div>*/}}
+                                {{/*<div class="form-group row"><label class="col-lg-2 col-form-label">选择markdown渲染样式</label>*/}}
+                                    {{/*<div class="col-lg-10">*/}}
+                                        {{/*<select data-placeholder="请选择一个样式" name="MarkdownTheme" class="chosen-select form-control"*/}}
+                                                {{/*tabindex="2">*/}}
+                                            {{/*<option></option>*/}}
+                                            {{/*<option value="jwsky" selected>jwsky</option>*/}}
+                                            {{/*<option value="github-markdown">github</option>*/}}
+                                            {{/*<option value="artui">artui</option>*/}}
+                                        {{/*</select>*/}}
+                                    {{/*</div>*/}}
+                                {{/*</div>*/}}
+                                {{/*<div class="hr-line-dashed"></div>*/}}
+                                {{/*<div class="form-group row"><label class="col-lg-2 col-form-label">开启代码高亮</label>*/}}
+                                    {{/*<div class="col-lg-10">*/}}
+                                        {{/*<select data-placeholder="请选择一个样式" name="HighLight" class="chosen-select form-control"*/}}
+                                                {{/*tabindex="2">*/}}
+                                            {{/*<option></option>*/}}
+                                            {{/*<option value="jwsky" selected>jwsky</option>*/}}
+                                            {{/*<option value="github-markdown">github</option>*/}}
+                                        {{/*</select>*/}}
+                                    {{/*</div>*/}}
+                                {{/*</div>*/}}
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
@@ -176,7 +209,11 @@
                     }
                 });
             } else {
-                layer.msg(res.Title + res.Msg, {time: 2000});
+                layer.msg(res.Title + res.Msg, {
+                    icon: 2,
+                    shade: [0.8, '#393D49'], // 透明度  颜色
+                    time: 2000
+                });
             }
         }, "json");
         return false;

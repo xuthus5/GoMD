@@ -67,6 +67,18 @@ func (this *FrontendController) Archive() {
 	this.Data["config"] = models.ConfigList()
 	data,_ := models.AllArticleList()
 	this.Data["list"] = data
+	this.Data["category"] = models.CategoryList()
 	this.Layout = layout
 	this.TplName = theme+"/archive.html"
+}
+
+func (this *FrontendController) Category() {
+	// 输出分类下的所有文章
+	id := this.GetString("id")
+	this.Data["config"] = models.ConfigList()
+	list,_ := models.GetCategoryArticle(id)
+	this.Data["list"] = list
+	this.Data["info"] = models.GetOneCategoryInfo(id)
+	this.Layout = layout
+	this.TplName = theme+"/category.html"
 }

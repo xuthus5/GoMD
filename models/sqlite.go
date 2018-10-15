@@ -17,7 +17,7 @@ func init() {
 	// 注册默认数据库
 	orm.RegisterDataBase("default", "sqlite3", "data.db")
 	// 需要在init中注册定义的model
-	orm.RegisterModel(new(Config), new(Article), new(Taxonomy), new(Link), new(Message), new(Notice), new(Source))
+	orm.RegisterModel(new(Config), new(Article), new(Category), new(Link), new(Message), new(Notice), new(Attachment))
 	// 开启 orm 调试模式：开发过程中建议打开，release时需要关闭
 	orm.Debug = true
 	// 自动建表
@@ -42,12 +42,14 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "WebTitle", Value: "GoMD的博客"})
 	dbc.Insert(&Config{Option: "Author", Value: "admin"})
 	dbc.Insert(&Config{Option: "Password", Value: "admin"})
-	dbc.Insert(&Config{Option: "Theme", Value: "default"})
+	dbc.Insert(&Config{Option: "Theme", Value: "fantasy"})
 	dbc.Insert(&Config{Option: "CopyRight", Value: "GoMD"})
 	dbc.Insert(&Config{Option: "PageSize", Value: "10"})
+	dbc.Insert(&Config{Option: "SecondaryTitle", Value: "金鳞岂是池中物，一遇风雨便化龙"})
 	dbc.Insert(&Config{Option: "UserImageUrl", Value: "/static/common/images/user-head-image.jpeg"})
+	dbc.Insert(&Config{Option: "LogoUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	//文章分类表初始化
-	dbc.Insert(&Taxonomy{
+	dbc.Insert(&Category{
 		Name: "默认",
 		Key:  "default",
 		Description:"默认的分类",

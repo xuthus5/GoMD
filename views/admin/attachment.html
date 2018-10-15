@@ -1,7 +1,11 @@
+<link href="/static/admin/css/plugins/dropzone/basic.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/dropzone/dropzone.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+<link href="/static/admin/css/style.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/admin/bootstrap-table/bootstrap-table.css">
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>仪表盘</h2>
+        <h2>附件管理</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/">首页</a>
@@ -10,17 +14,17 @@
                 <a href="/admin">后台</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>快速开始</strong>
+                <strong>附件管理</strong>
             </li>
         </ol>
     </div>
 </div>
 <div class="wrapper wrapper-content">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-4">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>文章操作</h5>
+                    <h5>上传</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -31,17 +35,23 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="table-responsive">
-                        <table id="article-list"></table>
-                    </div>
+                    <p>
+                        此处采用<strong>Dropzone.js</strong>上传控件，选择文件将会自动上传，上传成功将返回勾，上传失败将返回叉.
+                    </p>
+
+                    <form action="#" class="dropzone" id="dropzoneForm">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
 
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-8">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>分类操作</h5>
+                    <h5>附件管理</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -53,7 +63,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <table id="category-list"></table>
+                        <table id="attachment-list"></table>
                     </div>
                 </div>
             </div>
@@ -62,65 +72,46 @@
 </div>
 <script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
 <script src="/static/admin/layer/layer.js"></script>
+<!-- Jasny -->
+<script src="/static/admin/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<!-- DROPZONE -->
+<script src="/static/admin/js/plugins/dropzone/dropzone.js"></script>
 <script>
-    $('#article-list').bootstrapTable({
-        url: '/api/article/list',
-        responseHandler: responseHandler,
+    layer.config({
+        skin: 'layer-class'
+    });
+    Dropzone.autoDiscover = false;
+    $("#dropzoneForm").dropzone({
+        url: "/api/file/upload",
+        maxFilesize: 20,
+        dictDefaultMessage: "<strong>拖拽文件到此处或者点击此处选择文件进行上传. </strong></br>"
+    });
+    $('#attachment-list').bootstrapTable({
+        url: '/api/file/list',
+        responseHandler:responseHandler,
         columns: [{
             field: 'Id',
             title: 'ID'
         }, {
-            field: 'Title',
+            field: 'Name',
             title: '标题'
         }, {
-            field: 'Author',
-            title: '作者'
-        }, {
-            field: 'Name',
-            title: '分类'
-        }, {
-            field: 'Tags',
-            title: '标签'
-        }, {
-            field: 'Renew',
+            field: 'Path' ,
+            title: '路径'
+        },{
+            field: 'Created',
             title: '更新时间'
-        }, {
+        },{
             field: 'Option',
             title: '操作',
             align: 'center',
             formatter: operateFormatter,
-            events: "operateEventsArticle",
+            events: "operateEvents",
         }],
     });
-
-    $('#category-list').bootstrapTable({
-        url: '/api/article/category/list',
-        responseHandler: responseHandler,
-        columns: [{
-            field: 'Id',
-            title: 'ID'
-        }, {
-            field: 'Name',
-            title: '名称'
-        }, {
-            field: 'Key',
-            title: '标识'
-        }, {
-            field: 'Description',
-            title: '描述'
-        }, {
-            field: 'Option',
-            title: '操作',
-            align: 'center',
-            formatter: operateFormatter,
-            events: "operateEventsCategory",
-        }],
-    });
-
     function responseHandler(res) {
         return res.data;
     }
-
     function operateFormatter(value, row, index) {
         return [
             '<div class="operate-group">',
@@ -129,40 +120,7 @@
             '</div>'
         ].join('');
     }
-
-    // 定义layer主题名称
-    layer.config({
-        skin: 'layer-class'
-    });
-    window.operateEventsArticle = {
-        'click .update': function (e, value, row, index) {
-            self.location = '/admin/article/update?id=' + row.Id;
-        },
-        'click .delete': function (e, value, row, index) {
-            layer.confirm('确定删除？', function (index) {
-                $.get("/api/article/delete?id=" + row.Id, function (res) {
-                    if (res.Error === 0) {
-                        layer.open({
-                            title: res.Title
-                            , content: res.Msg,
-                            yes: function (index) {
-                                window.location.href = "/admin/article";
-                                layer.close(index); //如果设定了yes回调，需进行手工关闭
-                            }
-                        });
-                    } else {
-                        layer.msg(res.Title + res.Msg, {
-                            icon: 2,
-                            shade: [0.8, '#393D49'], // 透明度  颜色
-                            time: 2000
-                        });
-                    }
-                }, "json");
-                layer.close(index);
-            });
-        }
-    };
-    window.operateEventsCategory = {
+    window.operateEvents = {
         'click .update': function (e, value, row, index) {
             layer.open({
                 type: 2,
@@ -170,18 +128,18 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['380px', '90%'],
-                content: '/admin/article/category/update?id='+row.Id //iframe的url
+                content: '/admin/file/update?id='+row.Id //iframe的url
             });
         },
         'click .delete': function (e, value, row, index) {
             layer.confirm('确定删除？', function (index) {
-                $.get("/api/article/category/delete?id=" + row.Id, function (res) {
+                $.get("/api/file/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
                             title: res.Title
                             , content: res.Msg,
                             yes: function (index) {
-                                window.location.href = "/admin/article/category";
+                                window.location.href = "/admin/attachment";
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                             }
                         });

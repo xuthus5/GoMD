@@ -12,9 +12,7 @@ import (
 )
 
 /* ---------------------------------
-
 功能： 模板函数文件
-
 ------------------------------------*/
 
 /* 文章页面标签显示 */
@@ -62,9 +60,23 @@ func TableNumber(table string) int64{
 	return count
 }
 
+/* 返回分类下的文章数量 */
+func GetAOfCategoryNumber(cid int) int64 {
+	count,_ := models.GetNumFromACategory(cid)
+	return count
+}
+
 /* 获取公告表数据 */
 func GetNotice() string{
 	return models.GetOneNotice()
+}
+
+/* 根据分类cid 返回对应的分类名称 */
+func GetCategory(id int) string {
+	ids := strconv.Itoa(id)
+	temp := models.GetOneCategoryInfo(ids)
+	category := *temp
+	return category[0].Name
 }
 
 //自定义404报错

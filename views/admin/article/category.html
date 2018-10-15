@@ -145,6 +145,7 @@
                 $.get("/api/article/category/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
+                            skin: 'layer-class',
                             title: res.Title
                             , content: res.Msg,
                             yes: function (index) {
@@ -178,7 +179,11 @@
                         }
                     });
                 } else {
-                    layer.msg(res.Title + res.Msg, {time: 2000});
+                    layer.msg(res.Title + res.Msg, {
+                        icon: 2,
+                        shade: [0.8, '#393D49'], // 透明度  颜色
+                        time: 2000
+                    });
                 }
             }, "json");
             return false;

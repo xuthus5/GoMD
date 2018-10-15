@@ -9,13 +9,6 @@ type BackendController struct {
 	beego.Controller
 }
 
-/* Error  返回操作结果 0 没有错误 1 有错误 */
-type ResultData struct {
-	Error 	int64
-	Title 	string
-	Msg 	string
-}
-
 //仪表盘 首页
 func (this *BackendController) Index() {
 	master := this.GetSession("master")
@@ -106,4 +99,16 @@ func (this *BackendController) Setting() {
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/setting.html"
+}
+
+// 附件管理
+func (this *BackendController) Attachment() {
+	master := this.GetSession("master")
+	if master == nil{
+		this.Redirect("/login",302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/attachment.html"
 }
