@@ -18,8 +18,6 @@ func init() {
 	orm.RegisterDataBase("default", "sqlite3", "data.db")
 	// 需要在init中注册定义的model
 	orm.RegisterModel(new(Config), new(Article), new(Category), new(Link), new(Message), new(Notice), new(Attachment))
-	// 开启 orm 调试模式：开发过程中建议打开，release时需要关闭
-	orm.Debug = true
 	// 自动建表
 	orm.RunSyncdb("default", false, true)
 
@@ -50,9 +48,9 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "LogoUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	//文章分类表初始化
 	dbc.Insert(&Category{
-		Name: "默认",
-		Key:  "default",
-		Description:"默认的分类",
+		Name:        "默认",
+		Key:         "default",
+		Description: "默认的分类",
 	})
 	//文章表初始化
 	dbc.Insert(&Article{
