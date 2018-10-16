@@ -23,10 +23,14 @@ func AllArticleList() (*[]Article,error){
 	return &list,err
 }
 // 查看某一篇文章 提供ID 查询文章
-func GetOneArticle(id string) (*[]Article,error){
+func GetOneArticle(id,method string) (*[]Article){
 	data := []Article{}
-	err := dbx.Select(&data, "select * from article where id=?",id)
-	return &data,err
+	if method == "uuid" {
+		dbx.Select(&data, "select * from article where uuid=?",id)
+	}else{
+		dbx.Select(&data, "select * from article where id=?",id)
+	}
+	return &data
 }
 // 限制文章数量  用于文章分页
 func LimitArticleDisplay(page,limit int64) (*[]Article,int64){
@@ -121,19 +125,20 @@ func CategoryList() *[]Category{
 	return &list
 }
 // 获得一个分类信息 主要用于更新分类信息
-func GetOneCategoryInfo(id string) *[]Category{
+func GetOneCategoryInfo(key,method string) *[]Category{
 	list := []Category{}
-	err := dbx.Select(&list, "select * from category where id=?",id)
-	if err != nil {
-		panic(err.Error())
+	if method == "id" {
+		dbx.Select(&list, "select * from category where id=?",key)
+	}else{
+		dbx.Select(&list, "select * from category where key=?",key)
 	}
 	return &list
 }
 
 // 返回分类下的所有文章信息
-func GetCategoryArticle(id string) (*[]Article,error) {
+func GetCategoryArticle(cid string) (*[]Article,error) {
 	list := []Article{}
-	err := dbx.Select(&list, "select * from article where cid= ? order by id desc",id)
+	err := dbx.Select(&list, "select * from article where cid= ? order by id desc",cid)
 	return &list,err
 }
 

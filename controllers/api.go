@@ -4,6 +4,7 @@ import (
 	"GoMD/models"
 	"GoMD/tools"
 	"github.com/astaxie/beego"
+	"github.com/satori/go.uuid"
 	"qiniupkg.com/x/log.v7"
 	"reflect"
 	"strconv"
@@ -14,12 +15,12 @@ type ApiController struct {
 	beego.Controller
 }
 
-// 返回文章列表json数据数据格式
+// 返回json列表 数据格式
 type JsonData struct {
-	Code  int         `json:"code"`
-	Count int         `json:"count"`
-	Msg   string      `json:"msg"`
-	Data  interface{} `json:"data"`
+	Code  int         `json:"code"`  //错误代码
+	Count int         `json:"count"` // 数据数量
+	Msg   string      `json:"msg"`   //输出信息
+	Data  interface{} `json:"data"`  //数据
 }
 
 //返回后台文章列表 json数据类型返回 路由 /api/article/list
@@ -42,6 +43,7 @@ func (this *ApiController) ArticleAdd() {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
+		data.Uuid = uuid.Must(uuid.NewV4()).String()
 		err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -63,6 +65,7 @@ func (this *ApiController) ArticleUpdate() {
 	} else {
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
+		data.Uuid = uuid.Must(uuid.NewV4()).String()
 		err := models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -204,26 +207,27 @@ func (this *ApiController) FileUpload() {
 	}
 	defer f.Close()
 	//获取当前年月日
-	year,month,_ := tools.EnumerateDate()
-	savePath := "file/"+year+"/"+month+"/"
+	year, month, _ := tools.EnumerateDate()
+	savePath := "file/" + year + "/" + month + "/"
 	//创建存储目录
 	tools.DirCreate(savePath)
 	// 保存位置
-	err = this.SaveToFile("file", savePath+ h.Filename)
+	err = this.SaveToFile("file", savePath+h.Filename)
 	//写入数据库
 	if err == nil {
 		//写入数据库
-		data := &models.Attachment{Name:h.Filename,Path:savePath+h.Filename,Created:tools.Int64ToString(time.Now().Unix())}
+		data := &models.Attachment{Name: h.Filename, Path: savePath + h.Filename, Created: tools.Int64ToString(time.Now().Unix())}
 		code := models.FileSave(data)
 		if code != nil {
-			info = &ResultData{Error:0,Title:"结果:",Msg:"上传失败！"}
-		}else{
-			info = &ResultData{Error:1,Title:"结果:",Msg:"上传成功！"}
+			info = &ResultData{Error: 0, Title: "结果:", Msg: "上传失败！"}
+		} else {
+			info = &ResultData{Error: 1, Title: "结果:", Msg: "上传成功！"}
 		}
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
 }
+
 //文件列表api 路由 /api/file/list
 func (this *ApiController) FileList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetFileJson()}

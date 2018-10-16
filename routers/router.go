@@ -8,11 +8,11 @@ import (
 func init() {
 	//前台界面
 	beego.Router("/", &controllers.FrontendController{},"*:Index")
-	beego.Router("/page", &controllers.FrontendController{},"*:Page")
+	beego.Router("/article/:uuid", &controllers.FrontendController{},"*:Article")
 	beego.Router("/search", &controllers.FrontendController{},"*:Search")
 	beego.Router("/about", &controllers.FrontendController{},"*:About")
 	beego.Router("/archive", &controllers.FrontendController{},"*:Archive")
-	beego.Router("/category", &controllers.FrontendController{},"*:Category")
+	beego.Router("/category/:key", &controllers.FrontendController{},"*:Category")
 
 	//后台界面
 	beego.Router("/admin",&controllers.BackendController{},"get:Index") //后台主页

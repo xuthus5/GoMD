@@ -2,14 +2,14 @@
     <section class="article-list">
     {{range .list}}
         <article>
-            <h2><a href="/page?id={{.Id}}" class="">{{.Title}}</a></h2>
+            <h2><a href="/article/{{.Uuid}}" class="">{{.Title}}</a></h2>
             <div class="excerpt">
                 <p>{{.Summary}}</p>
             </div>
             <div class="meta">
                 <span class="item"><i class="iconfont icon-calendar"></i><time
                         datetime="{{time .Renew false}}">{{time .Renew false}}</time></span>
-                <span class="item"><i class="iconfont icon-tag"></i><a href="/category?id={{.Cid}}" class="">{{category .Cid}}</a></span>
+                <span class="item"><i class="iconfont icon-tag"></i><a href="/category/{{category .Cid "key"}}" class="">{{category .Cid "name"}}</a></span>
                 <span class="item"><i class="iconfont icon-message"></i><a
                         href="/">0 评</a></span>
             </div>
