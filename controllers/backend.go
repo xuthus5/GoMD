@@ -61,7 +61,7 @@ func (this *BackendController) ArticleUpdate() {
 	}
 	this.Data["master"] = master
 	id := this.GetString("id")
-	article,_ := models.GetOneArticle(id)
+	article := models.GetOneArticle(id,"id")
 	this.Data["article"] = article
 	this.Data["category"] = models.CategoryList()
 	this.Layout = "admin/layout.html"
@@ -85,7 +85,7 @@ func (this *BackendController) CategoryUpdate()  {
 		this.Redirect("/login",302)
 	}
 	this.Data["master"] = master
-	this.Data["category"] = models.GetOneCategoryInfo(this.GetString("id"))
+	this.Data["category"] = models.GetOneCategoryInfo(this.GetString("id"),"id")
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/article/cu.html"
 }

@@ -9,7 +9,7 @@
         {{range .list}}
             <li>
                 <time datetime="{{time .Renew false}}">{{time .Renew false}}</time>
-                <a href="/page?id={{.Id}}">{{.Title}}</a>
+                <a href="/article/{{.Uuid}}">{{.Title}}</a>
             </li>
         {{end}}
         </ul>

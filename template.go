@@ -72,11 +72,16 @@ func GetNotice() string{
 }
 
 /* 根据分类cid 返回对应的分类名称 */
-func GetCategory(id int) string {
+func GetCategory(id int,method string) (value string) {
 	ids := strconv.Itoa(id)
-	temp := models.GetOneCategoryInfo(ids)
+	temp := models.GetOneCategoryInfo(ids,"id")
 	category := *temp
-	return category[0].Name
+	if method == "name" {
+		value = category[0].Name
+	}else{
+		value = category[0].Key
+	}
+	return
 }
 
 //自定义404报错

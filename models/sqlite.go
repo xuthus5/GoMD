@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/satori/go.uuid"
 	"time"
 )
 
@@ -57,6 +58,7 @@ func Initialization() {
 	//文章表初始化
 	dbc.Insert(&Article{
 		Title:   "你好！世界",
+		Uuid: uuid.Must(uuid.NewV4()).String(),
 		Cid:     1,
 		Tags:    "文章",
 		Summary: "你好！这是系统为你生成的第一篇文章！",

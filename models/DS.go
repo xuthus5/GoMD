@@ -24,13 +24,14 @@ type Config struct {
 type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
+	Type     int    `form:"-"` //类型 markdown输出markdown类型 其他自定义
+	Uuid     string `form:"-"`
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`
 	Tags     string `orm:"size(64)" form:"tags"`
 	Renew    string `orm:"size(20)" form:"-"`
 	Content  string `orm:"type(text)" form:"content"`
-	Type     int    `form:"-"` //类型 markdown输出markdown类型 其他自定义
 	Summary  string `form:"summary"`
 	Status   string `form:"status"`
 	Password string `form:"password"`
