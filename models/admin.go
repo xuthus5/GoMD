@@ -79,6 +79,28 @@ func SearchArticleCategory(id int) *[]Category{
 	return &data
 }
 
+// ---------------评论管理----------------------
+// 添加一条评论
+func AddComment(data *Comment) error {
+	_, err := dbc.Insert(data)
+	return err
+}
+
+// 得到一篇文章下的所有评论
+func GetArticleComments(id int) *[]Comment{
+	data := []Comment{}
+	err := dbx.Select(&data, "select * from comment where aid=?",id)
+	if err != nil {
+		panic(err.Error())
+	}
+	return &data
+}
+
+// 得到一篇文章下的评论数量 传入文章id
+func GetCommentNumFromArticle(id int) (int64,error){
+	qs := dbc.QueryTable("comment")
+	return qs.Filter("aid",id).Count()
+}
 
 // ---------------分类管理----------------------
 /*

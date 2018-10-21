@@ -16,6 +16,8 @@ func main() {
 	beego.AddFuncMap("notice", GetNotice)	//网站的公告
 	beego.AddFuncMap("category", GetCategory)	//文章的分类信息
 	beego.AddFuncMap("cn", GetAOfCategoryNumber)	//获取分类下的文章数量
+	beego.AddFuncMap("comment", GetCommentNumber)	//获取分类下的文章数量
+	beego.AddFuncMap("gavatar", GetGravatar)	//获取评论者gavatar头像
 	//自定义 404错误处理页面
 	beego.ErrorHandler("404",PageNotFound)
 	//自定义 开放静态资源路径

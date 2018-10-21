@@ -40,7 +40,7 @@ func GetNoticeJson() *[]Notice {
 		panic(err.Error())
 	}
 	for i,v:= range list{
-		list[i].Data = tools.UnixTimeToString(v.Data)
+		list[i].Date = tools.UnixTimeToString(v.Date)
 	}
 	return &list
 }

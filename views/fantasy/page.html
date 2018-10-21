@@ -5,9 +5,10 @@
     <div class="meta">
             <span class="item"><i class="icon iconfont icon-calendar"></i><time
                     datetime="{{time .Renew false}}">{{time .Renew false}}</time></span>
-        <span class="item"><i class="iconfont icon-tag"></i><a href="/category/{{category .Cid "key"}}" class="">{{category .Cid "name"}}</a></span>
+        <span class="item"><i class="iconfont icon-tag"></i><a href="/category/{{category .Cid "key"}}"
+                                                               class="">{{category .Cid "name"}}</a></span>
         <span class="item"><i class="icon iconfont icon-message"></i><a
-                href="#comments">0 评</a></span>
+                href="#comments">{{comment .Id}} 评</a></span>
     </div>
     <div class="post">
         <div class="md_block" id="markdown">
@@ -21,11 +22,107 @@
         $("#markdown").text("{{.Content}}");
         markdown("markdown");
     </script>
-{{end}}
+
     <section class="pager">
-        {{/*<?php $this->thePrev('%s', '', array('title' => '', 'tagClass' => 'next')); ?>*/}}
+    {{/*<?php $this->thePrev('%s', '', array('title' => '', 'tagClass' => 'next')); ?>*/}}
         {{/*<?php $this->theNext('%s', '', array('title' => '', 'tagClass' => 'pre')); ?>*/}}
     </section>
-    {{/*<?php $this->need('comments.php'); ?>*/}}
+<section id="comments">
+    <link href="/static/index/fantasy/comment.css" type="text/css" rel="stylesheet"/>
+<div class="doc_comments">
+<div class="doc_comments_wrapper">
+    <div class="comments_block_title">发表评论</div>
+    <div class="new_comment_form_container">
+        <form id="new_comment_form">
+            <div class="comment_trigger">
+                <div class="avatar">
+                    <img src="/static/index/fantasy/visitor.png"/>
+                </div>
+                <div class="trigger_title">撰写评论</div>
+            </div>
+            <div class="new_comment">
+                <textarea name="content" cols="50" rows="2" class="textarea_box" required></textarea>
+                <span class="comment_error"></span>
+            </div>
+            <div class="comment_triggered">
+                <div class="input_body">
+                    <ul class="ident">
+                        <li>
+                            <input type="hidden" name="aid" value="{{.Id}}">
+                            <input type="text" name="name" value="" required placeholder="昵称"/>
+                        </li>
+                        <li>
+                            <input type="text" name="email" value="" placeholder="邮箱"/>
+                        </li>
+                        <li>
+                            <input type="text" name="link" value="" placeholder="网站:不要输入http://"/>
+                        </li>
+                    </ul>
+                    <input type="button" id="submit" value="提交评论" class="comment_submit_button c_button"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{{end}}
+    <ul class="comments">
+        <ol class="comment-list">
+        {{range .comments}}
+            <li id="1" class="comment">
+                <div class="comment_wrapper">
+                    <div class="author">
+                        <div class="avatar"><img src="{{gavatar .Email}}">
+                        </div>
+                        <div class="author-name">
+                            <b><a href="http://{{.Link}}" rel="external nofollow">{{.Name}}</a></b>
+                            <a href="javascript:void(0)" onclick="reply_comment('{{.Name}}', '{{.Id}}')"
+                               class="reply">reply</a>
+                        </div>
+                        <div class="author-date">
+                            <small>{{time .Date true}}</small>
+                        </div>
+                    </div>
+                    <div class="comment_content">
+                        <div class="p_part"><p>{{.Content}}</p></div>
+                    </div>
+                </div>
+            </li>
+        {{end}}
+        </ol>
+    </ul>
+    <script type="text/javascript" src="/static/index/fantasy/script.js"></script>
+</div>
+</div>
+</section>
 </main>
 </div>
+
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    // 定义layer主题名称
+    layer.config({
+        skin: 'layer-class'
+    });
+    $("#submit").click(function () {
+        const postData = $("#new_comment_form").serialize();
+        $.post("/api/comment/add", postData, function (res) {
+            if (res.Error === 0) {
+                layer.open({
+                    title: res.Title
+                    , content: res.Msg,
+                    yes: function (index) {
+                        window.location.reload();
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                });
+            } else {
+                layer.msg(res.Title + res.Msg, {
+                    icon: 2,
+                    shade: [0.8, '#393D49'], // 透明度  颜色
+                    time: 2000
+                });
+            }
+        }, "json");
+        return false;
+    });
+</script>

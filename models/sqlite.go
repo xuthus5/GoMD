@@ -18,7 +18,7 @@ func init() {
 	// 注册默认数据库
 	orm.RegisterDataBase("default", "sqlite3", "data.db")
 	// 需要在init中注册定义的model
-	orm.RegisterModel(new(Config), new(Article), new(Category), new(Link), new(Message), new(Notice), new(Attachment))
+	orm.RegisterModel(new(Config), new(Article), new(Comment), new(Category), new(Link), new(Message), new(Notice), new(Attachment))
 	// 自动建表
 	orm.RunSyncdb("default", false, true)
 
@@ -64,9 +64,17 @@ func Initialization() {
 		Author:  "admin",
 		Renew:   tools.Int64ToString(time.Now().Unix()),
 	})
+	//评论表初始化
+	dbc.Insert(&Comment{
+		Aid:1,
+		Content:"这是系统为你生成的一条评论。",
+		Name:"GoMD",
+		Link:"/",
+		Email:"1397190480@qq.com",
+	})
 	//公告表初始化
 	dbc.Insert(&Notice{
 		Content: "你好！欢迎使用GoMD",
-		Data:    tools.Int64ToString(time.Now().Unix()),
+		Date:    tools.Int64ToString(time.Now().Unix()),
 	})
 }

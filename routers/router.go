@@ -40,6 +40,8 @@ func init() {
 	beego.Router("/api/file/upload",&controllers.ApiController{},"post:FileUpload") //文件上传
 	beego.Router("/api/file/list",&controllers.ApiController{},"get:FileList") //文件上传
 	beego.Router("/api/file/delete",&controllers.ApiController{},"get:FileDelete") //文件删除
+	beego.Router("/api/comment/add",&controllers.ApiController{},"post:CommentAdd") //评论添加
+	//beego.Router("/api/comment/delete",&controllers.ApiController{},"get:CommentDelete") //评论删除
 
 
 	//其他

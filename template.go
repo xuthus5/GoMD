@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoMD/models"
+	"GoMD/tools"
 	"github.com/astaxie/beego"
 	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
@@ -82,6 +83,18 @@ func GetCategory(id int,method string) (value string) {
 		value = category[0].Key
 	}
 	return
+}
+
+/* 返回评论的头像地址 */
+func GetGravatar(email string) string {
+	result := tools.StringToMd5(email)
+	return "http://cn.gravatar.com/avatar/"+result+"&d=identicon"
+}
+
+/* 获取当前文章的评论数量 */
+func GetCommentNumber(id int) int64 {
+	num,_ := models.GetCommentNumFromArticle(id)
+	return num
 }
 
 //自定义404报错

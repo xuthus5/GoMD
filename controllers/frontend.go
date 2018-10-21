@@ -37,6 +37,7 @@ func (this *FrontendController) Article() {
 	temp := *article
 	label := models.SearchArticleCategory(temp[0].Cid)
 	this.Data["article"] = article
+	this.Data["comments"] = models.GetArticleComments(temp[0].Id)
 	this.Data["label"] = label
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
