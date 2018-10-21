@@ -38,6 +38,18 @@ type Article struct {
 	Link     string `form:"-"`
 }
 
+// 评论列表
+type Comment struct {
+	Id      int    `form:"-"`       //id
+	Aid     int    `form:"aid"`     //所属文章id
+	Reply 	int    `form:"-"`		//对评论的回复
+	Content string `form:"content"` //内容
+	Date    string `form:"-"`       //时间
+	Email   string `form:"email"`   //邮箱
+	Name    string `form:"name"`    //名称
+	Link    string `form:"link"`    //链接
+}
+
 // 链接表
 type Link struct {
 	Id          int    //自增唯一ID
@@ -53,7 +65,7 @@ type Link struct {
 type Notice struct {
 	Id      int    //自增唯一ID
 	Content string //内容
-	Data    string //发布时间
+	Date    string //发布时间
 	Url     string //定向url
 }
 
@@ -64,7 +76,7 @@ type Message struct {
 	Email   string
 	Url     string
 	Content string
-	Data    string
+	Date    string
 }
 
 // category分类表 慢慢优化完全利用

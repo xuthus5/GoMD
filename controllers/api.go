@@ -181,7 +181,7 @@ func (this *ApiController) SiteConfig() {
 
 // 公告数据接受 路由 /api/notice
 func (this *ApiController) Notice() {
-	notice := &models.Notice{Content: this.GetString("content"), Url: this.GetString("url"), Data: tools.Int64ToString(time.Now().Unix())}
+	notice := &models.Notice{Content: this.GetString("content"), Url: this.GetString("url"), Date: tools.Int64ToString(time.Now().Unix())}
 	info := &ResultData{}
 	if models.AddNotice(notice) != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "发布失败！"}
@@ -243,6 +243,25 @@ func (this *ApiController) FileDelete() {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 	} else {
 		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 发布评论 路由 /api/comment/add
+func (this *ApiController) CommentAdd() {
+	data := &models.Comment{}
+	info := &ResultData{}
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Date = tools.Int64ToString(time.Now().Unix())
+		err := models.AddComment(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！"}
+		}
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
