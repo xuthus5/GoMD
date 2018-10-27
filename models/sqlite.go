@@ -56,7 +56,7 @@ func Initialization() {
 	//文章表初始化
 	dbc.Insert(&Article{
 		Title:   "你好！世界",
-		Uuid: uuid.Must(uuid.NewV4()).String(),
+		Uuid:    uuid.Must(uuid.NewV4()).String(),
 		Cid:     1,
 		Tags:    "文章",
 		Summary: "你好！这是系统为你生成的第一篇文章！",
@@ -66,15 +66,21 @@ func Initialization() {
 	})
 	//评论表初始化
 	dbc.Insert(&Comment{
-		Aid:1,
-		Content:"这是系统为你生成的一条评论。",
-		Name:"GoMD",
-		Link:"/",
-		Email:"1397190480@qq.com",
+		Aid:     1,
+		Content: "这是系统为你生成的一条评论。",
+		Name:    "GoMD",
+		Link:    "/",
+		Email:   "1397190480@qq.com",
 	})
 	//公告表初始化
 	dbc.Insert(&Notice{
 		Content: "你好！欢迎使用GoMD",
 		Date:    tools.Int64ToString(time.Now().Unix()),
+	})
+	//附件表初始化
+	dbc.Insert(&Attachment{
+		Name:    "user-head-image.jpeg",
+		Path:    "file/user-head-image.jpeg",
+		Created: tools.Int64ToString(time.Now().Unix()),
 	})
 }
