@@ -41,7 +41,7 @@
 
                     <form action="#" class="dropzone" id="dropzoneForm">
                         <div class="fallback">
-                            <input name="file" type="file" multiple />
+                            <input name="file" type="file" multiple/>
                         </div>
                     </form>
 
@@ -76,6 +76,7 @@
 <script src="/static/admin/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 <!-- DROPZONE -->
 <script src="/static/admin/js/plugins/dropzone/dropzone.js"></script>
+
 <script>
     layer.config({
         skin: 'layer-class'
@@ -88,7 +89,8 @@
     });
     $('#attachment-list').bootstrapTable({
         url: '/api/file/list',
-        responseHandler:responseHandler,
+        responseHandler: responseHandler,
+        onClickCell: dealOnClickCell,
         columns: [{
             field: 'Id',
             title: 'ID'
@@ -96,12 +98,12 @@
             field: 'Name',
             title: '标题'
         }, {
-            field: 'Path' ,
-            title: '路径'
-        },{
+            field: 'Path',
+            title: '路径(点击复制链接)'
+        }, {
             field: 'Created',
             title: '更新时间'
-        },{
+        }, {
             field: 'Option',
             title: '操作',
             align: 'center',
@@ -109,9 +111,29 @@
             events: "operateEvents",
         }],
     });
+
     function responseHandler(res) {
         return res.data;
     }
+
+    function dealOnClickCell(field, value, row, $element) {
+        if (field === "Path") {
+            var domain = window.location.host;
+            var url = "http://" + domain + "/" + row.Path;
+            var tag = document.createElement('input');
+            tag.setAttribute('id', 'cp_path_input');
+            tag.value = url;
+            document.getElementsByTagName('body')[0].appendChild(tag);
+            document.getElementById('cp_path_input').select();
+            document.execCommand('copy');
+            document.getElementById('cp_path_input').remove();
+            layer.msg('链接复制成功', {
+                icon: 1,
+                time: 1000
+            });
+        }
+    }
+
     function operateFormatter(value, row, index) {
         return [
             '<div class="operate-group">',
@@ -120,6 +142,7 @@
             '</div>'
         ].join('');
     }
+
     window.operateEvents = {
         'click .update': function (e, value, row, index) {
             layer.open({
@@ -128,7 +151,7 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['380px', '90%'],
-                content: '/admin/file/update?id='+row.Id //iframe的url
+                content: '/admin/file/update?id=' + row.Id //iframe的url
             });
         },
         'click .delete': function (e, value, row, index) {
