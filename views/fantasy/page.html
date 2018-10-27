@@ -24,8 +24,14 @@
     </script>
 
     <section class="pager">
-    {{/*<?php $this->thePrev('%s', '', array('title' => '', 'tagClass' => 'next')); ?>*/}}
-        {{/*<?php $this->theNext('%s', '', array('title' => '', 'tagClass' => 'pre')); ?>*/}}
+    {{with $elem := pna .Id "pre"}}
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="pre">{{$elem.title}}</a>
+    {{end}}
+    {{end}}
+    {{with $elem := pna .Id "next"}}
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="next">{{$elem.title}}</a>
+    {{end}}
+    {{end}}
     </section>
 <section id="comments">
     <link href="/static/index/fantasy/comment.css" type="text/css" rel="stylesheet"/>

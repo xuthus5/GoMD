@@ -52,5 +52,8 @@ func GetFileJson() *[]Attachment {
 	if err != nil {
 		panic(err.Error())
 	}
+	for i,v:= range list{
+		list[i].Created = tools.UnixTimeToString(v.Created)
+	}
 	return &list
 }
