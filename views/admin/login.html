@@ -44,20 +44,20 @@
 <!-- layer -->
 <script src="/static/admin/layer/layer.js"></script>
 <script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
     $("#submit").click(function () {
         $(document).ready(function () {
             const postData = $("form").serialize();
             $.post("/login", postData, function (res) {
                 if (res.Error === 0) {
-                    layer.open({
-                        skin: 'layer-class',
-                        title: res.Title
-                        , content: res.Msg,
-                        yes: function (index) {
-                            window.location.href = "/admin";
-                            layer.close(index); //如果设定了yes回调，需进行手工关闭
-                        }
-                    });
+                    layer.msg("登陆成功", {time: 2000});
+                    wait(1);
                 } else {
                     layer.msg(res.Title + res.Msg, {
                         icon: 2,

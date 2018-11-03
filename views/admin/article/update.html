@@ -52,67 +52,63 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form>
-{{range .article}}
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="inputEmail4">标题</label>
-                                <input type="text" class="form-control" name="title" placeholder="请输入文章标题" value="{{.Title}}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="font-normal">分类</label>
-                                <div>
-                                    <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"  tabindex="2">
-                                        <option></option>
-                                    {{with $cid := .Cid}}
-                                    {{range $.category}}
-                                    {{if eq $cid .Id}}
-                                        <option value="{{.Id}}" selected>{{.Name}}</option>
-                                    {{end}}
-                                    {{end}}
-                                    {{end}}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="inputPassword4">标签</label>
-                                <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车" value="{{.Tags}}"/>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="inputEmail4">作者</label>
-                                <input type="text" name="author" class="form-control" value="{{.Author}}">
+                <form>
+                {{range .article}}
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">标题</label>
+                            <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
+                                   value="{{.Title}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-normal">分类</label>
+                            <div>
+                                <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"
+                                        tabindex="2">
+                                    <option></option>
+                                {{with $cid := .Cid}}
+                                {{range $.category}}
+                                {{if eq $cid .Id}}
+                                    <option value="{{.Id}}" selected>{{.Name}}</option>
+                                {{end}}
+                                {{end}}
+                                {{end}}
+                                </select>
                             </div>
                         </div>
-                        {{/*<div class="form-row">*/}}
-                            {{/*<div class="form-group col-md-3">*/}}
-                                {{/*<label for="inputEmail4">作者</label>*/}}
-                                {{/*<input type="text" name="author" class="form-control">*/}}
-                            {{/*</div>*/}}
-                            {{/*<div class="form-group col-md-4">*/}}
-                                {{/*<label for="inputPassword4">状态</label>*/}}
-                                {{/*<input type="text" name="status" class="form-control" placeholder="Password">*/}}
-                            {{/*</div>*/}}
-                            {{/*<div class="form-group col-md-4">*/}}
-                                {{/*<label for="inputPassword4">密码</label>*/}}
-                                {{/*<input type="password" name="password" class="form-control" placeholder="Password">*/}}
-                            {{/*</div>*/}}
-                        {{/*</div>*/}}
-                        <div class="form-group">
-                            <label for="inputPassword4">摘要</label>
-                            <textarea class="form-control" rows="3" name="summary">{{.Summary}}</textarea>
+                        <div class="form-group col-md-3">
+                            <label for="inputPassword4">标签</label>
+                            <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车"
+                                   value="{{.Tags}}"/>
                         </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">作者</label>
+                            <input type="text" name="author" class="form-control" value="{{.Author}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword4">摘要</label>
+                        <textarea class="form-control" rows="3" name="summary">{{.Summary}}</textarea>
+                    </div>
 
-                        <div class="form-group">
-                            <textarea name="content" data-provide="markdown" rows="10">{{.Content}}</textarea>
-                        </div>
+                    <div class="form-group">
+                        <textarea name="content" data-provide="markdown" rows="10" id="content">{{.Content}}</textarea>
+                    </div>
 
-                        <button type="button" id="submit" class="btn btn-primary">发表</button>
-                    </form>
-        {{end}}
+                    <button type="button" id="submit" class="btn btn-primary">发表</button>
+                </form>
+                {{end}}
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div id="showDropZone" style="display: none;">
+    <form action="#" class="dropzone" id="dropzoneForm">
+        <div class="fallback">
+            <input name="file" type="file" multiple/>
+        </div>
+    </form>
 </div>
 <!-- Chosen -->
 <script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
@@ -123,40 +119,112 @@
 <!-- Bootstrap markdown -->
 <script src="/static/admin/js/plugins/bootstrap-markdown/bootstrap-markdown.js"></script>
 <script src="/static/admin/js/plugins/bootstrap-markdown/markdown.js"></script>
+<!-- Jasny -->
+<script src="/static/admin/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<!-- DROPZONE -->
+<script src="/static/admin/js/plugins/dropzone/dropzone.js"></script>
 <script>
+    // 存储链接
+    var bucket = "";
+
+    // 剪切控制
+    function toClipboard(text) {
+        var domain = window.location.host;
+        var url = "http://" + domain + "/" + text;
+        var tag = document.createElement('input');
+        tag.setAttribute('id', 'cp_path_input');
+        tag.value = url;
+        document.getElementsByTagName('body')[0].appendChild(tag);
+        document.getElementById('cp_path_input').select();
+        document.execCommand('copy');
+        document.getElementById('cp_path_input').remove();
+        layer.msg('链接复制成功', {
+            icon: 1,
+            time: 1000
+        });
+    }
+
+    // markdown 控制
+    $("#content").markdown({
+        iconlibrary: 'fa',
+        additionalButtons: [
+            [{
+                name: "groupUpload",
+                data: [{
+                    name: "Upload",
+                    toggle: true,
+                    title: "Upload",
+                    icon: {
+                        fa: 'fa fa-upload',
+                    },
+                    callback: function (e) {
+                        //弹出页面层
+                        layer.open({
+                            type: 1,
+                            title: "上传文件(成功后关闭窗口复制资源链接)",
+                            skin: 'layui-layer-rim', //加上边框
+                            area: ['420px', '240px'], //宽高
+                            content: $('#showDropZone'),
+                            cancel: function (index, layero) {
+                                if (bucket !== "") {
+                                    toClipboard(bucket);
+                                }
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            }
+                        });
+                    }
+                }]
+            }]
+        ]
+    });
+    //上传控制
+    Dropzone.autoDiscover = false;
+    $("#dropzoneForm").dropzone({
+        url: "/api/file/upload",
+        maxFilesize: 20,
+        dictDefaultMessage: "<strong>拖拽文件到此处或者点击此处选择文件进行上传. </strong></br>",
+        init: function () {
+            this.on("success", function (file) {
+                var data = JSON.parse(file.xhr.response);
+                //上传成功 将结果复制给bucket
+                bucket = data.data[0].Path;
+            });
+        }
+    });
     // 定义layer主题名称
     layer.config({
         skin: 'layer-class'
     });
     $('.chosen-select').chosen({width: "100%"});
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('.tagsinput').tagsinput({
             tagClass: 'label label-primary'
         });
     });
+
     function GetQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
         if (r != null) return unescape(r[2]);
         return null;
     }
-    $("#submit").click(function(){
-        $(document).ready(function(){
+
+    $("#submit").click(function () {
+        $(document).ready(function () {
             const postData = $("form").serialize();
             $.post("/api/article/update?id=" + GetQueryString("id"), postData, function (res) {
+                console.log(res);
                 if (res.Error === 0) {
                     layer.open({
                         title: res.Title
                         , content: res.Msg,
-                        btn: ['首页', '后台'],
+                        btn: ['浏览', '列表'],
                         yes: function (index) {
-                            window.location.href = "/";
-                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            window.location.href = "/article/" + res.data;
                         }
                         , btn2: function (index) {
-                            window.location.href = "/admin";
-                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            window.location.href = "/admin/article";
                         }
                     });
                 } else {

@@ -42,7 +42,7 @@ type Article struct {
 type Comment struct {
 	Id      int    `form:"-"`       //id
 	Aid     int    `form:"aid"`     //所属文章id
-	Reply 	int    `form:"-"`		//对评论的回复
+	Reply   int    `form:"-"`       //对评论的回复
 	Content string `form:"content"` //内容
 	Date    string `form:"-"`       //时间
 	Email   string `form:"email"`   //邮箱
@@ -91,10 +91,10 @@ type Category struct {
 
 // 附件资源记录表
 type Attachment struct {
-	Id      int                     //id
-	Name    string                  //名称
+	Id      int    //id
+	Name    string //名称
 	Type    string `orm:"size(64)"` //分类 独立的文件 属于article的文章
-	Path    string                  //路径
+	Path    string //路径
 	Created string `orm:"size(10)"` //创建时间
 }
 

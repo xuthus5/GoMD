@@ -8,22 +8,21 @@ import "GoMD/tools"
 
 ------------------------------ */
 
-
 //获取后台文章列表  后台文章页面调用该方法 返回一个json数据
-func GetArticleJson() *[]DisplayArticle{
+func GetArticleJson() *[]DisplayArticle {
 	list := []DisplayArticle{}
 	err := dbx.Select(&list, "select article.id,article.title,article.author,category.name,article.tags,article.renew from article,category where article.cid=category.id order by article.renew desc")
 	if err != nil {
 		panic(err.Error())
 	}
-	for i,v:= range list{
+	for i, v := range list {
 		list[i].Renew = tools.UnixTimeToString(v.Renew)
 	}
 	return &list
 }
 
 //获取后台分类列表
-func GetCategoryJson() *[]Category{
+func GetCategoryJson() *[]Category {
 	list := []Category{}
 	err := dbx.Select(&list, "select * from category order by id desc")
 	if err != nil {
@@ -35,11 +34,11 @@ func GetCategoryJson() *[]Category{
 //获取后台公告列表 后台notice页面调用该方法 返回一个json
 func GetNoticeJson() *[]Notice {
 	list := []Notice{}
-	err := dbx.Select(&list,"select * from notice order by data desc")
+	err := dbx.Select(&list, "select * from notice order by data desc")
 	if err != nil {
 		panic(err.Error())
 	}
-	for i,v:= range list{
+	for i, v := range list {
 		list[i].Date = tools.UnixTimeToString(v.Date)
 	}
 	return &list
@@ -48,11 +47,11 @@ func GetNoticeJson() *[]Notice {
 //获取后台文件列表
 func GetFileJson() *[]Attachment {
 	list := []Attachment{}
-	err := dbx.Select(&list,"select * from attachment order by id desc")
+	err := dbx.Select(&list, "select * from attachment order by id desc")
 	if err != nil {
 		panic(err.Error())
 	}
-	for i,v:= range list{
+	for i, v := range list {
 		list[i].Created = tools.UnixTimeToString(v.Created)
 	}
 	return &list

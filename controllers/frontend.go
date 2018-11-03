@@ -33,7 +33,7 @@ func (this *FrontendController) Index() {
 func (this *FrontendController) Article() {
 	//文章查看页面
 	id := this.GetString(":uuid")
-	article := models.GetOneArticle(id,"uuid")
+	article := models.GetOneArticle(id, "uuid")
 	temp := *article
 	label := models.SearchArticleCategory(temp[0].Cid)
 	this.Data["article"] = article
@@ -75,7 +75,7 @@ func (this *FrontendController) Category() {
 	// 输出分类下的所有文章
 	key := this.GetString(":key")
 	this.Data["config"] = models.ConfigList()
-	info := models.GetOneCategoryInfo(key,"key")
+	info := models.GetOneCategoryInfo(key, "key")
 	temp := *info
 	list, _ := models.GetCategoryArticle(strconv.Itoa(temp[0].Id))
 	this.Data["list"] = list

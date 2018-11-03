@@ -5,10 +5,10 @@ import (
 )
 
 type Paging struct {
-	Page      int64   //当前页面
-	PageSize  int64   //每页条数
-	Total     int64   //文章总条数
-	PageCount int64   //分页后总页数
+	Page      int64 //当前页面
+	PageSize  int64 //每页条数
+	Total     int64 //文章总条数
+	PageCount int64 //分页后总页数
 }
 
 func CreatePaging(page, pagesize, total int64) *Paging {

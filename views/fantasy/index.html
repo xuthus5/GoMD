@@ -9,9 +9,9 @@
             <div class="meta">
                 <span class="item"><i class="iconfont icon-calendar"></i><time
                         datetime="{{time .Renew false}}">{{time .Renew false}}</time></span>
-                <span class="item"><i class="iconfont icon-tag"></i><a href="/category/{{category .Cid "key"}}" class="">{{category .Cid "name"}}</a></span>
-                <span class="item"><i class="iconfont icon-message"></i><a
-                        href="/article/{{.Uuid}}#comments">{{comment .Id}} 评</a></span>
+                <span class="item"><i class="iconfont icon-crown"></i><a href="/category/{{category .Cid "key"}}" class="">{{category .Cid "name"}}</a></span>
+                {{/*<span class="item"><i class="iconfont icon-tag"></i><a*/}}
+                        {{/*href="/article/{{.Uuid}}#comments">{{comment .Id}} 评</a></span>*/}}
             </div>
         </article>
     {{end}}
