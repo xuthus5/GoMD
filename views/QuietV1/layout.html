@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html class="no-js">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="{{.config.Description}}">
+    <meta name="keywords" content="{{.config.Keywords}}">
+    <title>{{.config.WebTitle}}</title>
+    <link rel="stylesheet" href="/static/index/QuietV1/css/normalize.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/css/typo.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/css/style.css">
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header id="header" class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+            <a id="logo" class="logo" href="/">{{.config.WebTitle}}</a>
+
+            <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="/"><span>首页</span></a>
+                    </li>
+                </ul>
+                <div class="site-search kit-hidden-tb">
+                    <form id="search" class="form-inline" method="post" action="#"
+                          role="search">
+                        <label for="s" class="sr-only">搜索关键字</label>
+                        <input type="text" id="s" name="s" class="form-control" placeholder="输入关键字搜索"/>
+                        <button type="submit" class="search-btn"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<div class="hideheader"></div>
+
+<div id="body" class="body">
+    <div class="container">
+        <div class="row">
+
+        {{.LayoutContent}}
+            <!--开始右侧专栏-->
+            <div class="col-12 col-lg-4 hidden-md sidebar" id="secondary" role="complementary">
+
+                <section class="widget paddingall floatblock">
+                    <div class="side-info-img">
+                        <img src="{{sc "UserImageUrl"}}" alt="">
+                    </div>
+                    <div class="side-info-author">
+                        <span>{{sc "Author"}}</span>
+                    </div>
+                    <div class="side-info-link">
+                        <a href="mailto:seeindo@163.com" target="_blank"><i class="fa fa-envelope-o" aria-hidden="true">&nbsp; </i></a>
+                        <a href="https://cgons.com" target="_blank"><i class="fa fa-internet-explorer"
+                                                                       aria-hidden="true">&nbsp; </i></a>
+                    </div>
+                    <div class="side-info-con">
+                        <pre class="hitokoto">人不是靠做出来的 而是靠活出来的。</pre>
+                    </div>
+                </section>
+
+                <section class="widget paddingall">
+                    <h5 class="widget-title">最新文章</h5>
+                    <ul class="widget-list">
+                    {{with $list := newa 3}}
+                    {{range $list}}
+                        <li><a href="/article/{{.Uuid}}"><i class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
+                        </li>
+                    {{end}}
+                    {{end}}
+                    </ul>
+                </section>
+
+                <section class="widget paddingall">
+                    <h5 class="widget-title">最近回复</h5>
+                    <ul class="widget-list RecentReply zface-box">
+                    {{with $list := newc 5}}
+                    {{range $list}}
+                        <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
+                                                                                src="{{gavatar .Email}}"
+                                                                                alt="{{.Name}}" width="24" height="24"></a></span><a
+                                href="/article/{{itu .Aid}}">{{.Name}}</a>: {{.Content}}
+                        </li>
+                    {{end}}
+                    {{end}}
+                    </ul>
+                </section>
+
+                <section class="widget paddingall">
+                    <h5 class="widget-title">分类</h5>
+                    <ul class="widget-list">
+                    {{with $list := cl}}
+                    {{range $list}}
+                        <li><a href="/category/{{.Key}}"><i class="fa fa-book fa-lg"
+                                                            aria-hidden="true">&nbsp; </i>{{.Name}}({{cn .Id}})</a>
+                        </li>
+                    {{end}}
+                    {{end}}
+                    </ul>
+                </section>
+
+                <section class="widget paddingall">
+                    <h5 class="widget-title">其它</h5>
+                    <ul class="widget-list">
+                        <li class="last"><a href="/admin">后台</a></li>
+                    </ul>
+                </section>
+
+            </div>
+        </div><!-- end .row -->
+    </div>
+    <div class="GoTop" title="返回顶部"></div>
+</div><!-- end #body -->
+
+<footer id="footer" class="footer" role="contentinfo">
+    <em>
+        &copy; year <a href="#">{{.config.WebTitle}}</a>.
+        由 <a href="//xblogs.cn">GoMD</a> 强力驱动. Design By <a href="//www.1025.me">Cgons</a>.
+    </em>
+</footer><!-- end #footer -->
+<link rel="stylesheet" href="https://1025.me/usr/plugins/EditorMD/css/emojify.min.css"/>
+{{/*<script type="text/javascript">*/}}
+    {{/*window.jQuery || document.write(unescape('%3Cscript%20type%3D%22text/javascript%22%20src%3D%22https://1025.me/usr/plugins/EditorMD/lib/jquery.min.js%22%3E%3C/script%3E'));*/}}
+{{/*</script>*/}}
+<script src="https://1025.me/usr/plugins/EditorMD/js/emojify.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        emojify.setConfig({
+            img_dir: 'https:' == document.location.protocol ? "https://staticfile.qnssl.com/emoji-cheat-sheet/1.0.0" : "http://cdn.staticfile.org/emoji-cheat-sheet/1.0.0",
+            blacklist: {
+                'ids': [],
+                'classes': ['no-emojify'],
+                'elements': ['^script$', '^textarea$', '^pre$', '^code$']
+            },
+        });
+        emojify.run();
+    });
+</script>
+
+<script src="/static/index/QuietV1/js/jquery-3.3.1.min.js"></script>
+<script src="/static/index/QuietV1/bootstrap/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="/static/index/QuietV1/js/main.js"></script>
+
+<script type="text/javascript">
+    $('.side-info-img').num();//调用头像边框效果
+    $('.hitokoto').hitokoto(); //调用一言
+    hljs.initHighlightingOnLoad();//开启代码高亮插件 highlightjs
+    readyrun();
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115505877-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-115505877-1');
+</script>
+
+</body>
+</html>

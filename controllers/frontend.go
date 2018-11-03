@@ -41,7 +41,7 @@ func (this *FrontendController) Article() {
 	this.Data["label"] = label
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
-	this.TplName = theme + "/page.html"
+	this.TplName = theme + "/article.html"
 }
 
 func (this *FrontendController) Search() {

@@ -1,0 +1,55 @@
+<div class="col-sm-12 col-lg-8" id="main" role="main">
+{{range .article}}
+    <article class="post Card typo" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-box paddingall">
+            <div class="post-title-box">
+                <h4 class="post-title" itemprop="name headline"><a itemprop="url"
+                                                                   href="/article/{{.Uuid}}">{{.Title}}</a></h4>
+            </div>
+            <div class="post-content" itemprop="articleBody">
+                <div class="md_block" id="markdown">
+
+                </div>
+            </div>
+        </div>
+        <div class="tags-box paddingall">
+            <span itemprop="keywords" class="tags">{{range $tag := tags .Tags}}
+                <a href="#">{{$tag}}</a>&nbsp;&nbsp;{{end}}</span>
+        </div>
+        <div class="info">
+            <ul class="post-meta">
+                <li><i class="fa fa-calendar" aria-hidden="true">&nbsp; </i>
+                    <time datetime="{{time .Renew false}}" itemprop="datePublished">{{time .Renew false}}</time>
+                </li>
+                <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i>{{category .Cid "name"}}</li>
+                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
+                        itemprop="discussionUrl" href="#comments">{{comment .Id}}</a></li>
+                <li><i class="fa fa-hand-o-up"
+                       aria-hidden="true">&nbsp; </i><span>11 次浏览</span></li>
+            </ul>
+        </div>
+        <div class="SubtitleBox hidden-md"></div>
+    </article>
+    <script src="/static/common/jquery-3.1.1.min.js"></script>
+    <script src="/static/common/strapdown/strapdown.js"></script>
+    <script>
+        $("#markdown").text("{{.Content}}");
+        markdown("markdown");
+    </script>
+<div class="Card turned">
+{{with $elem := pna .Id "pre"}}
+{{if ne $elem.isNull "true"}}
+    <span style="float: left;padding:2px;"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<a
+            href="/article/{{$elem.uuid}}" title="{{$elem.title}}">{{$elem.title}}</a></span>
+{{end}}
+{{end}}
+    <span class="num" style="visibility:hidden">1/1</span>
+{{with $elem := pna .Id "next"}}
+{{if ne $elem.isNull "true"}}<span style="float: right;padding:2px;"><a href="/article/{{$elem.uuid}}"
+                                                                        title="{{$elem.title}}">{{$elem.title}}</a>&nbsp;<i
+        class="fa fa-arrow-right" aria-hidden="true"></i></span>
+{{end}}
+{{end}}
+{{end}}
+</div>
+</div><!-- end #main-->
