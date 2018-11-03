@@ -51,14 +51,14 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "LogoUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	//文章分类表初始化
 	dbc.Insert(&Category{
-		Name: "默认",
-		Key:  "default",
-		Description:"默认的分类",
+		Name:        "默认",
+		Key:         "default",
+		Description: "默认的分类",
 	})
 	//文章表初始化
 	dbc.Insert(&Article{
 		Title:   "你好！世界",
-		Uuid: uuid.Must(uuid.NewV4()).String(),
+		Uuid:    uuid.Must(uuid.NewV4()).String(),
 		Cid:     1,
 		Tags:    "文章",
 		Summary: "你好！这是系统为你生成的第一篇文章！",
@@ -68,11 +68,11 @@ func Initialization() {
 	})
 	//评论表初始化
 	dbc.Insert(&Comment{
-		Aid:1,
-		Content:"这是系统为你生成的一条评论。",
-		Name:"GoMD",
-		Link:"/",
-		Email:"1397190480@qq.com",
+		Aid:     1,
+		Content: "这是系统为你生成的一条评论。",
+		Name:    "GoMD",
+		Link:    "/",
+		Email:   "1397190480@qq.com",
 	})
 	//公告表初始化
 	dbc.Insert(&Notice{

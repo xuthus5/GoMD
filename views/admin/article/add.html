@@ -121,7 +121,7 @@
     // 剪切控制
     function toClipboard(text) {
         var domain = window.location.host;
-        var url = "http://" + domain +"/"+ text;
+        var url = "http://" + domain + "/" + text;
         var tag = document.createElement('input');
         tag.setAttribute('id', 'cp_path_input');
         tag.value = url;
@@ -157,7 +157,7 @@
                             area: ['420px', '240px'], //宽高
                             content: $('#showDropZone'),
                             cancel: function (index, layero) {
-                                if(bucket!==""){
+                                if (bucket !== "") {
                                     toClipboard(bucket);
                                 }
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
@@ -203,14 +203,12 @@
                 layer.open({
                     title: res.Title
                     , content: res.Msg,
-                    btn: ['首页', '后台'],
+                    btn: ['浏览', '列表'],
                     yes: function (index) {
-                        window.location.href = "/";
-                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        window.location.href = "/article/" + res.data;
                     }
                     , btn2: function (index) {
-                        window.location.href = "/admin";
-                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        window.location.href = "/admin/article";
                     }
                 });
             } else {

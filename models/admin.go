@@ -1,7 +1,5 @@
 package models
 
-import "qiniupkg.com/x/log.v7"
-
 /* ---------------------------------
 
 功能： 文章处理模块 包含文章表，分类表的处理
@@ -27,7 +25,7 @@ func AllArticleList() (*[]Article, error) {
 }
 
 // 查看某一篇文章 提供ID 查询文章
-func GetOneArticle(id, method string) (*[]Article) {
+func GetOneArticle(id, method string) *[]Article {
 	data := []Article{}
 	if method == "uuid" {
 		dbx.Select(&data, "select * from article where uuid=?", id)
@@ -47,19 +45,18 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 			res["isNull"] = "true"
 			res["title"] = ""
 			res["uuid"] = ""
-		}else{
+		} else {
 			res["isNull"] = "false"
 			res["title"] = data[0].Title
 			res["uuid"] = data[0].Uuid
 		}
 	} else {
 		dbx.Select(&data, "select * from article where id = (select id from article where id > ? order by id asc limit 1);", id)
-		log.Println(data,len(data))
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
 			res["uuid"] = ""
-		}else{
+		} else {
 			res["isNull"] = "false"
 			res["title"] = data[0].Title
 			res["uuid"] = data[0].Uuid
@@ -98,9 +95,11 @@ func UpdateArticle(data *Article) error {
 }
 
 // 添加文章
-func AddArticle(data *Article) error {
-	_, err := dbc.Insert(data)
-	return err
+func AddArticle(data *Article) (string, error) {
+	id, err := dbc.Insert(data)
+	article := &Article{Id: int(id)}
+	dbc.Read(article)
+	return article.Uuid, err
 }
 
 // 文章删除
@@ -143,11 +142,19 @@ func GetCommentNumFromArticle(id int) (int64, error) {
 	return qs.Filter("aid", id).Count()
 }
 
+// 根据传递过来的id返回uuid
+func GetUuidById(id int) string {
+	qs := dbc.QueryTable("article")
+	var article *Article
+	qs.Filter("id", id).One(article, "uuid")
+	return article.Uuid
+}
+
 // ---------------分类管理----------------------
 /*
 	AddCategory	添加一个分类
 	CategoryList	查询所有的分类
- */
+*/
 
 // 添加分类
 func AddCategory(data *Category) error {
@@ -218,18 +225,20 @@ func GetNumFromACategory(cid int) (int64, error) {
 // ---------------附件管理----------------------
 
 //文件上传 入数据库
-func FileSave(info *Attachment) (int64,error) {
+func FileSave(info *Attachment) (int64, error) {
 	return dbc.Insert(info)
 }
+
 // 文件删除
-func FileDelete(id int) (string,error) {
+func FileDelete(id int) (string, error) {
 	data := &Attachment{Id: id}
 	dbc.Read(data)
 	_, err := dbc.Delete(data)
-	return data.Path,err
+	return data.Path, err
 }
+
 // 返回一个附件信息
-func FileInfo(id int64) *[]Attachment{
+func FileInfo(id int64) *[]Attachment {
 	data := []Attachment{}
 	err := dbx.Select(&data, "select * from attachment where id=?", id)
 	if err != nil {

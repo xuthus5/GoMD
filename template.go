@@ -87,7 +87,7 @@ func GetCategory(id int, method string) (value string) {
 
 /* 返回评论的头像地址 */
 func GetGravatar(email string) string {
-	result := tools.StringToMd5(email,0)
+	result := tools.StringToMd5(email, 0)
 	return "http://cn.gravatar.com/avatar/" + result + "&d=identicon"
 }
 
@@ -104,6 +104,11 @@ func PreOrNextAriticle(id int, method string) *map[string]string {
 	} else {
 		return models.GetPreOrNextArticle(id, "next")
 	}
+}
+
+/* 根据id返回uuid */
+func IdToUuid(id int) string {
+	return models.GetUuidById(id)
 }
 
 //自定义404报错

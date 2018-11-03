@@ -7,7 +7,7 @@
         {{range .list}}
             <li>
                 <time>{{time .Renew false}}</time>
-                <a href="/article/{{.Uuid}}">{{.Title}}</a> <span>{{category .Cid}}</span>
+                <a href="/article/{{.Uuid}}">{{.Title}}</a> <span>{{category .Cid "name"}}</span>
             </li>
         {{end}}
         </ul>

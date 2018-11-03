@@ -5,7 +5,7 @@ import (
 	"GoMD/tools"
 	"github.com/astaxie/beego"
 	"github.com/satori/go.uuid"
-	"qiniupkg.com/x/log.v7"
+	"log"
 	"reflect"
 	"strconv"
 	"time"
@@ -44,11 +44,11 @@ func (this *ApiController) ArticleAdd() {
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
 		data.Uuid = uuid.Must(uuid.NewV4()).String()
-		err := models.AddArticle(data)
+		idstr, err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！"}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！", Data: idstr}
 		}
 	}
 	this.Data["json"] = info
@@ -66,11 +66,11 @@ func (this *ApiController) ArticleUpdate() {
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
 		data.Uuid = uuid.Must(uuid.NewV4()).String()
-		err := models.UpdateArticle(data)
+		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！",Data: data.Uuid}
 		}
 	}
 	this.Data["json"] = info
@@ -220,7 +220,7 @@ func (this *ApiController) FileUpload() {
 	//写入数据库
 	if err == nil {
 		//写入数据库
-		data := &models.Attachment{Name: h.Filename, Path: savePath + saveName, Created: tools.Int64ToString(time.Now().Unix())}
+		data := &models.Attachment{Name: saveName, Path: savePath + saveName, Created: tools.Int64ToString(time.Now().Unix())}
 		id, code := models.FileSave(data)
 		if code != nil {
 			info = &ResultData{Error: 1, Title: "结果:", Msg: "上传失败！"}
@@ -243,7 +243,7 @@ func (this *ApiController) FileDelete() {
 	info := &ResultData{}
 	id, _ := strconv.Atoi(this.GetString("id"))
 	//数据库文件删除
-	path,err := models.FileDelete(id)
+	path, err := models.FileDelete(id)
 	if err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 	} else {

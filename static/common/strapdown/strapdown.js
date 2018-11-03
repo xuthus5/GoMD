@@ -1547,7 +1547,7 @@ var markdown = function ($src, $desc) {
     // Generate Markdown
     var html = marked(markdown);
     htmlEl.innerHTML = html;
-    console.log(html);
+    //console.log(html);
     // Prettify
     var codeEls = document.getElementsByTagName('code');
     for (var i = 0, ii = codeEls.length; i < ii; i++) {

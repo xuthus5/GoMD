@@ -7,7 +7,7 @@
         {{range .list}}
             <div class="item">
                 <div class="item-box  layer-photos-demo1 layer-photos-demo">
-                    <h3><a href="/page?id={{.Id}}">{{.Title}}</a></h3>
+                    <h3><a href="/article/{{.Uuid}}">{{.Title}}</a></h3>
                     <h5>发布于：<span>{{time .Renew false}}</span></h5>
                     <p>{{.Summary}}</p>
                 </div>
