@@ -150,7 +150,7 @@ func GetUuidById(id int64) string {
 // 返回指定条数最新评论
 func GetLimitNewComment(num int64) *[]Comment {
 	list := []Comment{}
-	dbx.Select(&list, "select * from comment order by date limit 0,?", num)
+	dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
 	return &list
 }
 

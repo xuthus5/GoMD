@@ -24,8 +24,6 @@
                 <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i>{{category .Cid "name"}}</li>
                 <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
                         itemprop="discussionUrl" href="#comments">{{comment .Id}}</a></li>
-                <li><i class="fa fa-hand-o-up"
-                       aria-hidden="true">&nbsp; </i><span>11 次浏览</span></li>
             </ul>
         </div>
         <div class="SubtitleBox hidden-md"></div>
@@ -36,22 +34,7 @@
         $("#markdown").text("{{.Content}}");
         markdown("markdown");
     </script>
-<div class="Card turned">
-{{with $elem := pna .Id "pre"}}
-{{if ne $elem.isNull "true"}}
-    <span style="float: left;padding:2px;"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<a
-            href="/article/{{$elem.uuid}}" title="{{$elem.title}}">{{$elem.title}}</a></span>
 {{end}}
-{{end}}
-    <span class="num" style="visibility:hidden">1/1</span>
-{{with $elem := pna .Id "next"}}
-{{if ne $elem.isNull "true"}}<span style="float: right;padding:2px;"><a href="/article/{{$elem.uuid}}"
-                                                                        title="{{$elem.title}}">{{$elem.title}}</a>&nbsp;<i
-        class="fa fa-arrow-right" aria-hidden="true"></i></span>
-{{end}}
-{{end}}
-{{end}}
-</div>
 {{template "QuietV1/comment.html" .}}
 </div><!-- end #main-->
 

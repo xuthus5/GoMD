@@ -1,4 +1,9 @@
-<div class="col-12 col-lg-8" id="main" role="main">
+<div class="col-sm-12 col-lg-8" id="main" role="main">
+    <div class="Card turned">
+    {{range .info}}
+        <h6>分类 "{{.Name}}" 下的文章</h6>
+    {{end}}
+    </div>
 {{range .list}}
     <article class="post Card typo indexCard" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-box paddingall">
@@ -26,12 +31,7 @@
     </article>
 {{end}}
 
-{{/*<?php*/}}
-{{/*$currentPage =  $this->_currentPage;*/}}
-{{/*$index = $this->options->index;*/}}
-{{/*pagex($this,$index,$currentPage,'&laquo; 前一页', '后一页 &raquo;');*/}}
-{{/*?>*/}}
-</div><!-- end #main-->
+{{/*<?php $this->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>*/}}
+</div><!-- end #main -->
 
 {{template "QuietV1/sidebar.html" .}}
-
