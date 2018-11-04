@@ -90,7 +90,7 @@ func (this *BackendController) CategoryUpdate() {
 	this.Data["master"] = master
 	this.Data["category"] = models.GetOneCategoryInfo(this.GetString("id"), "id")
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/article/cu.html"
+	this.TplName = "admin/article/category-update.html"
 }
 
 //全局设置
@@ -115,4 +115,27 @@ func (this *BackendController) Attachment() {
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/attachment.html"
+}
+
+// 链接管理
+func (this *BackendController) Link() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/link.html"
+}
+//修改链接页面
+func (this *BackendController) LinkUpdate() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["link"] = models.GetOneLinkInfo(this.GetString("id"))
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/link-update.html"
 }

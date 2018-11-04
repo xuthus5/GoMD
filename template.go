@@ -50,6 +50,18 @@ func YMD(timestamp string, exact bool) string {
 	}
 }
 
+/* 得到单独的年月日 */
+func EnumerateDate(method string) string{
+	year,mouth,day := tools.EnumerateDate()
+	if method == "year" {
+		return year
+	}else if method == "mouth" {
+		return string(mouth)
+	}else {
+		return day
+	}
+}
+
 /* 直接调取数据库配置表-网站基本信息 */
 func SiteConfig(info string) string {
 	return models.GetOneConfig(info)

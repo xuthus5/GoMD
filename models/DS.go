@@ -24,6 +24,7 @@ type Config struct {
 type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
+	Count    int    `form:"-"`
 	Type     int    `form:"-"` //类型 markdown输出markdown类型 其他自定义
 	Uuid     string `form:"-"`
 	Title    string `orm:"size(64)" form:"title"`
@@ -133,9 +134,9 @@ type UserConfigOption struct {
 	Author       string `form:"Author"`
 	Password     string `form:"Password"`
 	UserImageUrl string `form:"UserImageUrl"`
-	UserEmail    string	`form:"UserEmail"`
-	UserQQ       string	`form:"UserQQ"`
-	UserGithub   string	`form:"UserGithub"`
+	UserEmail    string `form:"UserEmail"`
+	UserQQ       string `form:"UserQQ"`
+	UserGithub   string `form:"UserGithub"`
 }
 
 // 后台资源管理中心 获取资源分类

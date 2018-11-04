@@ -154,6 +154,13 @@ func GetLimitNewComment(num int64) *[]Comment {
 	return &list
 }
 
+// 删除文章下的所有评论
+func DeleteCommentFromArticle(id int) error {
+	data := &Comment{Aid: id}
+	_, err := dbc.Delete(data, "aid")
+	return err
+}
+
 // ---------------分类管理----------------------
 
 // 添加分类
@@ -245,4 +252,47 @@ func FileInfo(id int64) *[]Attachment {
 		panic(err.Error())
 	}
 	return &data
+}
+
+//--------------------链接管理-------------------
+
+//添加链接
+func AddLink(info *Link) error {
+	_, err := dbc.Insert(info)
+	return err
+}
+
+//删除链接
+func DeleteLink(id int) error {
+	data := &Link{Id: id}
+	dbc.Read(data)
+	_, err := dbc.Delete(data)
+	return err
+}
+
+//获取所有链接list
+func GetAllLink() *[]Link {
+	list := []Link{}
+	dbx.Select(&list, "select * from link order by id desc")
+	return &list
+}
+
+// 获取一个link 信息
+func GetOneLinkInfo(id string) *[]Link {
+	data := []Link{}
+	err := dbx.Select(&data, "select * from link where id=?", id)
+	if err != nil {
+		panic(err.Error())
+	}
+	return &data
+}
+
+// 分类修改
+func UpdateLink(data *Link) error {
+	_, err := dbc.Update(data)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }

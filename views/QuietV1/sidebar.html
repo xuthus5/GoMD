@@ -9,9 +9,10 @@
             <span>{{sc "Author"}}</span>
         </div>
         <div class="side-info-link">
-            <a href="mailto:seeindo@163.com" target="_blank"><i class="fa fa-envelope-o" aria-hidden="true">&nbsp; </i></a>
-            <a href="https://cgons.com" target="_blank"><i class="fa fa-internet-explorer"
-                                                           aria-hidden="true">&nbsp; </i></a>
+            <a href="mailto:{{sc "UserEmail"}}" target="_blank"><i class="fa fa-envelope-o fa-fw"
+                                                            aria-hidden="true">&nbsp; </i></a>
+            <a href="{{sc "UserGithub"}}" target="_blank"><i class="fa fa-gitlab fa-fw"
+                                                             aria-hidden="true">&nbsp; </i></a>
         </div>
         <div class="side-info-con">
             <pre class="hitokoto">人不是靠做出来的 而是靠活出来的。</pre>
@@ -65,6 +66,17 @@
         </ul>
     </section>
 
+    <section class="widget paddingall">
+        <h5 class="widget-title">友情链接</h5>
+        <ul class="widget-list">
+        {{with $list := link}}
+        {{range $list}}
+            <li class="last"><a href="{{.Url}}" title="{{.Description}}">{{.Name}}</a></li>
+        {{end}}
+        {{end}}
+        </ul>
+    </section>
+
 </div>
 </div><!-- end .row -->
 </div>
@@ -73,7 +85,7 @@
 
 <footer id="footer" class="footer" role="contentinfo">
     <em>
-        &copy; year <a href="#">{{.config.WebTitle}}</a>.
+        &copy; {{ed "year"}} <a href="#">{{.config.WebTitle}}</a>.
         由 <a href="//xblogs.cn">GoMD</a> 强力驱动. Design By <a href="//www.1025.me">Cgons</a>.
     </em>
 </footer><!-- end #footer -->

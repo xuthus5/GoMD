@@ -92,34 +92,10 @@
                                         <select data-placeholder="请选择一个分类" name="Theme" class="chosen-select form-control"
                                                 tabindex="2">
                                             <option></option>
-                                            <option value="fantasy" selected>默认</option>
-                                            <option value="xianyan">闲言</option>
+                                            <option value="QuietV1" selected>默认</option>
                                         </select>
                                     </div>
                                 </div>
-                                {{/*<div class="hr-line-dashed"></div>*/}}
-                                {{/*<div class="form-group row"><label class="col-lg-2 col-form-label">选择markdown渲染样式</label>*/}}
-                                    {{/*<div class="col-lg-10">*/}}
-                                        {{/*<select data-placeholder="请选择一个样式" name="MarkdownTheme" class="chosen-select form-control"*/}}
-                                                {{/*tabindex="2">*/}}
-                                            {{/*<option></option>*/}}
-                                            {{/*<option value="jwsky" selected>jwsky</option>*/}}
-                                            {{/*<option value="github-markdown">github</option>*/}}
-                                            {{/*<option value="artui">artui</option>*/}}
-                                        {{/*</select>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</div>*/}}
-                                {{/*<div class="hr-line-dashed"></div>*/}}
-                                {{/*<div class="form-group row"><label class="col-lg-2 col-form-label">开启代码高亮</label>*/}}
-                                    {{/*<div class="col-lg-10">*/}}
-                                        {{/*<select data-placeholder="请选择一个样式" name="HighLight" class="chosen-select form-control"*/}}
-                                                {{/*tabindex="2">*/}}
-                                            {{/*<option></option>*/}}
-                                            {{/*<option value="jwsky" selected>jwsky</option>*/}}
-                                            {{/*<option value="github-markdown">github</option>*/}}
-                                        {{/*</select>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</div>*/}}
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
@@ -158,6 +134,18 @@
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">用户头像</label>
                             <div class="col-lg-10"><input type="text" placeholder="用户头像url地址" name="UserImageUrl" class="form-control" value="{{.config.UserImageUrl}}">
+                            </div>
+                        </div>
+                        <div class="form-group row"><label class="col-lg-2 col-form-label">用户邮箱</label>
+                            <div class="col-lg-10"><input type="text" placeholder="用户的邮箱地址" name="UserEmail" class="form-control" value="{{.config.UserEmail}}">
+                            </div>
+                        </div>
+                        <div class="form-group row"><label class="col-lg-2 col-form-label">用户Github</label>
+                            <div class="col-lg-10"><input type="text" placeholder="用户的Github地址" name="UserGithub" class="form-control" value="{{.config.UserGithub}}">
+                            </div>
+                        </div>
+                        <div class="form-group row"><label class="col-lg-2 col-form-label">联系QQ</label>
+                            <div class="col-lg-10"><input type="text" placeholder="用户的QQ" name="UserQQ" class="form-control" value="{{.config.UserQQ}}">
                             </div>
                         </div>
                         <div class="form-group row">

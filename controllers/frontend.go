@@ -60,6 +60,7 @@ func (this *FrontendController) Search() {
 	//查询页面
 	keywords := this.GetString("keywords")
 	list, _ := models.Search(keywords)
+	this.Data["keywords"] = keywords
 	this.Data["list"] = list
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout

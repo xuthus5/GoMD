@@ -24,6 +24,8 @@ func main() {
 	beego.AddFuncMap("newc", models.GetLimitNewComment) //获取上最新文章评论
 	beego.AddFuncMap("itu", IdToUuid)                   //根据id返回uuid
 	beego.AddFuncMap("cl", models.CategoryList)         //返回分类列表
+	beego.AddFuncMap("link", models.GetAllLink)         //返回链接列表
+	beego.AddFuncMap("ed", EnumerateDate)               //返回单独的年月日
 
 	//--------------------自定义页面
 	beego.ErrorHandler("404", PageNotFound)

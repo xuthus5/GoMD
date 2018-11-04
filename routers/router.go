@@ -24,6 +24,8 @@ func init() {
 	beego.Router("/admin/article/category/update", &controllers.BackendController{}, "get:CategoryUpdate") //修改标签
 	beego.Router("/admin/setting", &controllers.BackendController{}, "get:Setting")                        //配置界面
 	beego.Router("/admin/attachment", &controllers.BackendController{}, "get:Attachment")                  //附件管理界面
+	beego.Router("/admin/link", &controllers.BackendController{}, "get:Link")                              //链接管理界面
+	beego.Router("/admin/link/update", &controllers.BackendController{}, "get:LinkUpdate")                 //链接修改界面
 
 	//api接口
 	beego.Router("/api/article/list", &controllers.ApiController{}, "get:ArticleList")                //文章列表
@@ -41,7 +43,10 @@ func init() {
 	beego.Router("/api/file/list", &controllers.ApiController{}, "get:FileList")                      //文件上传
 	beego.Router("/api/file/delete", &controllers.ApiController{}, "get:FileDelete")                  //文件删除
 	beego.Router("/api/comment/add", &controllers.ApiController{}, "post:CommentAdd")                 //评论添加
-	//beego.Router("/api/comment/delete",&controllers.ApiController{},"get:CommentDelete") //评论删除
+	beego.Router("/api/link/delete", &controllers.ApiController{}, "get:LinkDelete")                  //链接删除
+	beego.Router("/api/link/add", &controllers.ApiController{}, "post:LinkAdd")                       //链接添加
+	beego.Router("/api/link/list", &controllers.ApiController{}, "get:LinkList")                      //链接列表
+	beego.Router("/api/link/update", &controllers.ApiController{}, "post:LinkUpdate")                  //链接修改
 
 	//其他
 	beego.Router("/login", &controllers.OtherController{}, "*:Login")   // 登陆

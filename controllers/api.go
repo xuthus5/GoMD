@@ -85,7 +85,12 @@ func (this *ApiController) ArticleDelete() {
 	if err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 	} else {
-		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+		err := models.DeleteCommentFromArticle(id)
+		if err == nil {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+		} else {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		}
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
@@ -160,7 +165,6 @@ func (this *ApiController) SiteConfig() {
 		data = &models.SiteConfigOption{}
 	}
 	if err := this.ParseForm(data); err != nil {
-		log.Println(data)
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
 		t := reflect.TypeOf(data).Elem()  //类型
@@ -268,6 +272,64 @@ func (this *ApiController) CommentAdd() {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
 			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！"}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 添加链接 路由 /api/link/add
+func (this *ApiController) LinkAdd() {
+	name := this.GetString("name")
+	url := this.GetString("url")
+	description := this.GetString("description")
+	info := &models.Link{Name: name, Url: url, Description: description}
+	err := models.AddLink(info)
+	var data *ResultData
+	if err != nil {
+		data = &ResultData{Error: 1, Title: "失败:", Msg: "添加失败！"}
+	} else {
+		data = &ResultData{Error: 0, Title: "成功:", Msg: "添加成功！"}
+	}
+	this.Data["json"] = data
+	this.ServeJSON()
+}
+
+// 添加链接 路由 /api/link/delete
+func (this *ApiController) LinkDelete() {
+	info := &ResultData{}
+
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.DeleteLink(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//返回后台分类列表 json数据类型返回 路由 /api/link/list
+func (this *ApiController) LinkList() {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllLink()}
+	this.ServeJSON()
+}
+// 链接修改 路由 /api/link/update
+func (this *ApiController) LinkUpdate() {
+	id := this.GetString("id")
+	data := &models.Link{}
+	info := &ResultData{}
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Id = tools.StringToInt(id)
+		err := models.UpdateLink(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
 		}
 	}
 	this.Data["json"] = info

@@ -1,4 +1,7 @@
-<div class="col-12 col-lg-8" id="main" role="main">
+<div class="col-sm-12 col-lg-8" id="main" role="main">
+    <div class="Card turned">
+        <h6>包含关键字 "<strong>{{.keywords}}</strong>" 的文章</h6>
+    </div>
 {{range .list}}
     <article class="post Card typo indexCard" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-box paddingall">
@@ -20,18 +23,13 @@
                         href="/category/{{category .Cid "key"}}">{{category .Cid "name"}}</a></li>
                 <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
                         itemprop="discussionUrl" href="/article/{{.Uuid}}#comments">{{comment .Id}} 条评论</a></li>
-                {{/*<li><i class="fa fa-hand-o-up" aria-hidden="true">&nbsp; </i><span>2744 次浏览</span></li>*/}}
+                <li><i class="fa fa-hand-o-up" aria-hidden="true">&nbsp; </i><span>2744 次浏览</span></li>
             </ul>
         </div>
     </article>
 {{end}}
 
-{{/*<?php*/}}
-{{/*$currentPage =  $this->_currentPage;*/}}
-{{/*$index = $this->options->index;*/}}
-{{/*pagex($this,$index,$currentPage,'&laquo; 前一页', '后一页 &raquo;');*/}}
-{{/*?>*/}}
-</div><!-- end #main-->
+{{/*<?php $this->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>*/}}
+</div><!-- end #main -->
 
 {{template "QuietV1/sidebar.html" .}}
-

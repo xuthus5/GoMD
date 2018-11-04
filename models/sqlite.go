@@ -41,13 +41,15 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "WebTitle", Value: "GoMD的博客"})
 	dbc.Insert(&Config{Option: "Author", Value: "admin"})
 	dbc.Insert(&Config{Option: "Password", Value: "admin"})
-	dbc.Insert(&Config{Option: "Theme", Value: "QuietV1cd "})
+	dbc.Insert(&Config{Option: "Theme", Value: "QuietV1"})
 	dbc.Insert(&Config{Option: "CopyRight", Value: "GoMD"})
 	dbc.Insert(&Config{Option: "PageSize", Value: "10"})
 	dbc.Insert(&Config{Option: "SecondaryTitle", Value: "金鳞岂是池中物，一遇风雨便化龙"})
 	dbc.Insert(&Config{Option: "UserImageUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	dbc.Insert(&Config{Option: "LogoUrl", Value: "/static/common/images/user-head-image.jpeg"})
-	//文章分类表初始化
+	dbc.Insert(&Config{Option: "UserEmail", Value: "admin@admin.com"})
+	dbc.Insert(&Config{Option: "UserGithub", Value: "http://github.com"})
+	//分类表初始化
 	dbc.Insert(&Category{
 		Name:        "默认",
 		Key:         "default",
@@ -83,5 +85,11 @@ func Initialization() {
 		Name:    "user-head-image.jpeg",
 		Path:    "file/user-head-image.jpeg",
 		Created: tools.Int64ToString(time.Now().Unix()),
+	})
+	//友情链接表初始化
+	dbc.Insert(&Link{
+		Name:"GoMD",
+		Url:"htps://gitee.com/xuthus5/GoMD",
+		Description:"GoMD源代码托管地址",
 	})
 }
