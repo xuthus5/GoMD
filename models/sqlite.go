@@ -41,7 +41,7 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "WebTitle", Value: "GoMD的博客"})
 	dbc.Insert(&Config{Option: "Author", Value: "admin"})
 	dbc.Insert(&Config{Option: "Password", Value: "admin"})
-	dbc.Insert(&Config{Option: "Theme", Value: "fantasy"})
+	dbc.Insert(&Config{Option: "Theme", Value: "QuietV1"})
 	dbc.Insert(&Config{Option: "CopyRight", Value: "GoMD"})
 	dbc.Insert(&Config{Option: "PageSize", Value: "10"})
 	dbc.Insert(&Config{Option: "SecondaryTitle", Value: "金鳞岂是池中物，一遇风雨便化龙"})
