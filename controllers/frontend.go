@@ -7,6 +7,12 @@ import (
 	"strconv"
 )
 
+/*
+	说明：
+		layout: comment 评论块
+				sidebar 用户以及其他的信息块
+*/
+
 type FrontendController struct {
 	beego.Controller
 }
@@ -28,6 +34,8 @@ func (this *FrontendController) Index() {
 	this.Data["page"] = page
 	this.Layout = layout
 	this.TplName = theme + "/index.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
 }
 
 func (this *FrontendController) Article() {
@@ -36,12 +44,16 @@ func (this *FrontendController) Article() {
 	article := models.GetOneArticle(id, "uuid")
 	temp := *article
 	label := models.SearchArticleCategory(temp[0].Cid)
+	this.Data["id"] = temp[0].Id
 	this.Data["article"] = article
 	this.Data["comments"] = models.GetArticleComments(temp[0].Id)
 	this.Data["label"] = label
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
-	this.TplName = theme + "/page.html"
+	this.TplName = theme + "/article.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
+	this.LayoutSections["Comment"] = theme + "/comment.html"
 }
 
 func (this *FrontendController) Search() {

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html class="no-js">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="{{.config.Description}}">
+    <meta name="keywords" content="{{.config.Keywords}}">
+    <title>{{.config.WebTitle}}</title>
+    <link rel="stylesheet" href="/static/index/QuietV1/css/normalize.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/css/typo.css">
+    <link rel="stylesheet" href="/static/index/QuietV1/css/style.css">
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header id="header" class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+            <a id="logo" class="logo" href="/">{{.config.WebTitle}}</a>
+
+            <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="/"><span>首页</span></a>
+                    </li>
+                </ul>
+                <div class="site-search kit-hidden-tb">
+                    <form id="search" class="form-inline" method="post" action="#"
+                          role="search">
+                        <label for="s" class="sr-only">搜索关键字</label>
+                        <input type="text" id="s" name="s" class="form-control" placeholder="输入关键字搜索"/>
+                        <button type="submit" class="search-btn"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<div class="hideheader"></div>
+
+<div id="body" class="body">
+    <div class="container">
+        <div class="row">
+
+        {{.LayoutContent}}
+
+</body>
+</html>

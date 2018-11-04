@@ -2,21 +2,12 @@ package models
 
 /* ---------------------------------
 
-功能： 文章处理模块 包含文章表，分类表的处理
-	  网站架构的处理中心
+功能： 网站架构的处理中心
 
 ------------------------------------*/
 
-/*
-	AllArticleList() 获取数据表所有文章
-	GetOneArticle()	 查看某一篇文章 需要提供ID
-	LimitArticleDisplay() 限制文章数量  用于文章分页
-	Search() 	搜索文章功能
-	DeleteArticle	删除
-	UpdateArticle	修改
-	AddArticle	添加
+// ---------------文章管理----------------------
 
-*/
 // 返回数据表所有文章
 func AllArticleList() (*[]Article, error) {
 	list := []Article{}
@@ -77,6 +68,13 @@ func LimitArticleDisplay(page, limit int64) (*[]Article, int64) {
 	return &list, count
 }
 
+// 返回指定条数最新文章
+func GetLimitNewArticle(num int64) *[]Article {
+	list := []Article{}
+	dbx.Select(&list, "select * from article order by renew desc limit 0,?", num)
+	return &list
+}
+
 // 文章搜索功能 返回搜索列表
 func Search(keywords string) (*[]Article, error) {
 	list := []Article{}
@@ -120,6 +118,7 @@ func SearchArticleCategory(id int) *[]Category {
 }
 
 // ---------------评论管理----------------------
+
 // 添加一条评论
 func AddComment(data *Comment) error {
 	_, err := dbc.Insert(data)
@@ -138,23 +137,24 @@ func GetArticleComments(id int) *[]Comment {
 
 // 得到一篇文章下的评论数量 传入文章id
 func GetCommentNumFromArticle(id int) (int64, error) {
-	qs := dbc.QueryTable("comment")
-	return qs.Filter("aid", id).Count()
+	return dbc.QueryTable("comment").Filter("aid", id).Count()
 }
 
 // 根据传递过来的id返回uuid
-func GetUuidById(id int) string {
-	qs := dbc.QueryTable("article")
-	var article *Article
-	qs.Filter("id", id).One(article, "uuid")
+func GetUuidById(id int64) string {
+	var article Article
+	dbc.QueryTable("article").Filter("id", id).One(&article, "uuid")
 	return article.Uuid
 }
 
+// 返回指定条数最新评论
+func GetLimitNewComment(num int64) *[]Comment {
+	list := []Comment{}
+	dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
+	return &list
+}
+
 // ---------------分类管理----------------------
-/*
-	AddCategory	添加一个分类
-	CategoryList	查询所有的分类
-*/
 
 // 添加分类
 func AddCategory(data *Category) error {

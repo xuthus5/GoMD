@@ -108,7 +108,8 @@ func PreOrNextAriticle(id int, method string) *map[string]string {
 
 /* 根据id返回uuid */
 func IdToUuid(id int) string {
-	return models.GetUuidById(id)
+	ids := int64(id)
+	return models.GetUuidById(ids)
 }
 
 //自定义404报错

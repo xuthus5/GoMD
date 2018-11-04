@@ -70,7 +70,7 @@ func (this *ApiController) ArticleUpdate() {
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！",Data: data.Uuid}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
 		}
 	}
 	this.Data["json"] = info

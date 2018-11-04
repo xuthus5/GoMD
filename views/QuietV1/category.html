@@ -1,0 +1,37 @@
+<div class="col-sm-12 col-lg-8" id="main" role="main">
+    <div class="Card turned">
+    {{range .info}}
+        <h6>分类 "{{.Name}}" 下的文章</h6>
+    {{end}}
+    </div>
+{{range .list}}
+    <article class="post Card typo indexCard" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-box paddingall">
+            <div class="post-title-box">
+                <h4 class="post-title" itemprop="name headline"><a itemprop="url"
+                                                                   href="/article/{{.Uuid}}">{{.Title}}</a>
+                </h4>
+            </div>
+            <div class="post-content" itemprop="articleBody">
+            {{.Summary}}
+            </div>
+        </div>
+        <div class="info">
+            <ul class="post-meta">
+                <li><i class="fa fa-calendar" aria-hidden="true">&nbsp; </i>
+                    <time datetime="{{time .Renew false}}" itemprop="datePublished">{{time .Renew false}}</time>
+                </li>
+                <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i><a
+                        href="/category/{{category .Cid "key"}}">{{category .Cid "name"}}</a></li>
+                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
+                        itemprop="discussionUrl" href="/article/{{.Uuid}}#comments">{{comment .Id}} 条评论</a></li>
+                <li><i class="fa fa-hand-o-up" aria-hidden="true">&nbsp; </i><span>2744 次浏览</span></li>
+            </ul>
+        </div>
+    </article>
+{{end}}
+
+{{/*<?php $this->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>*/}}
+</div><!-- end #main -->
+
+{{template "QuietV1/sidebar.html" .}}
