@@ -41,7 +41,7 @@ func Initialization() {
 	dbc.Insert(&Config{Option: "WebTitle", Value: "GoMD的博客"})
 	dbc.Insert(&Config{Option: "Author", Value: "admin"})
 	dbc.Insert(&Config{Option: "Password", Value: "admin"})
-	dbc.Insert(&Config{Option: "Theme", Value: "QuietV1"})
+	dbc.Insert(&Config{Option: "Theme", Value: "QuietV1cd "})
 	dbc.Insert(&Config{Option: "CopyRight", Value: "GoMD"})
 	dbc.Insert(&Config{Option: "PageSize", Value: "10"})
 	dbc.Insert(&Config{Option: "SecondaryTitle", Value: "金鳞岂是池中物，一遇风雨便化龙"})
@@ -71,6 +71,7 @@ func Initialization() {
 		Name:    "GoMD",
 		Link:    "/",
 		Email:   "1397190480@qq.com",
+		Date:    tools.Int64ToString(time.Now().Unix()),
 	})
 	//公告表初始化
 	dbc.Insert(&Notice{
