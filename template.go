@@ -36,7 +36,7 @@ func Calc(x, y int64, option string) int64 {
 
 /* markdown转换 */
 func MarkDown(content string) string {
-	output := blackfriday.Run([]byte(content))
+	output := blackfriday.Run([]byte(content),blackfriday.WithExtensions(blackfriday.NoEmptyLineBeforeBlock))
 	return string(output)
 }
 
