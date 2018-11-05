@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="{{.config.Description}}">
+    <meta name="keywords" content="{{.config.Keywords}}">
+    <title>{{.config.WebTitle}}</title>
+    <link data-n-head="true" rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/index/fantasy/style.css">
+    <script src="/static/index/fantasy/jquery.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <a href="/" class="logo"><img src="{{.config.LogoUrl}}" alt="{{.config.WebTitle}}"/></a>
+        <div class="description">
+            <h1>{{.config.WebTitle}}</h1>
+            <h2>{{.config.SecondaryTitle}}</h2>
+            <nav>
+                <div class="bitcron_nav_container">
+                    <div class="bitcron_nav">
+                        <div class="mixed_site_nav_wrap site_nav_wrap">
+                            <ul class="mixed_site_nav site_nav sm sm-base">
+                                <li><a href="/" class="selected active current nav__item">首页</a>
+                                </li>
+                                <li><a href="/archive" class=" nav__item">归档</a></li>
+                                <li><a href="/admin" class=" nav__item">管理</a></li>
+                            </ul>
+                            <div class="clear clear_nav_inline_end">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear clear_nav_end">
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+{{.LayoutContent}}
+
+    <footer>
+        <span>© 2018 {{.config.CopyRight}} - Posts crafted</span><span> ♥ Theme By <a href="https://www.xde.io">Xingr</a></span>
+        <div class="powered_by">
+            <span>Proudly published with</span>
+            <a href="/" target="_blank">GoMD</a>
+        </div>
+        <div class="footer_slogan">
+        </div>
+    </footer>
+    <link rel="stylesheet" href="/static/index/fantasy/fonts.css">
+    <script src="https://cdn.staticfile.org/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style type="text/css">
+        a.back_to_top {
+            text-decoration: none;
+            position: fixed;
+            bottom: 40px;
+            right: 30px;
+            background: #f0f0f0;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            line-height: 36px;
+            font-size: 18px;
+            text-align: center;
+            transition-duration: .5s;
+            transition-propety: background-color;
+            display: none
+        }
+
+        a.back_to_top span {
+            color: #888
+        }
+
+        a.back_to_top:hover {
+            cursor: pointer;
+            background: #dfdfdf
+        }
+
+        a.back_to_top:hover span {
+            color: #555
+        }
+
+        @media print, screen and (max-width: 580px) {
+            .back_to_top {
+                display: none !important
+            }
+        }
+    </style>
+    <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+    <script>
+        $(document).ready((function (_this) {
+            return function () {
+                var bt;
+                bt = $('#back_to_top');
+                if ($(document).width() > 480) {
+                    $(window).scroll(function () {
+                        var st;
+                        st = $(window).scrollTop();
+                        if (st > 30) {
+                            return bt.css('display', 'block')
+                        } else {
+                            return bt.css('display', 'none')
+                        }
+                    });
+                    return bt.click(function () {
+                        $('body,html').animate({scrollTop: 0}, 800);
+                        return false
+                    })
+                }
+            }
+        })(this));
+        $(function () {
+            $('a[href*=#]:not([href=#])').click(function () {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({scrollTop: target.offset().top}, 500);
+                        return false
+                    }
+                }
+            })
+        });
+    </script>
+</body>
+</html>
