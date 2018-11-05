@@ -8,7 +8,9 @@
                 </h4>
             </div>
             <div class="post-content" itemprop="articleBody">
-            {{.Summary}}
+            {{with $summary := markdown .Summary}}
+            {{str2html $summary }}
+            {{end}}
             </div>
         </div>
         <div class="info">
