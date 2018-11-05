@@ -34,8 +34,10 @@ func (this *FrontendController) Index() {
 	this.Data["page"] = page
 	this.Layout = layout
 	this.TplName = theme + "/index.html"
-	this.LayoutSections = make(map[string]string)
-	this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
+	if theme == "QuietV1"{
+		this.LayoutSections = make(map[string]string)
+		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
+	}
 }
 
 func (this *FrontendController) Article() {
@@ -51,9 +53,11 @@ func (this *FrontendController) Article() {
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
 	this.TplName = theme + "/article.html"
-	this.LayoutSections = make(map[string]string)
-	this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
-	this.LayoutSections["Comment"] = theme + "/comment.html"
+	if theme == "QuietV1"{
+		this.LayoutSections = make(map[string]string)
+		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
+		this.LayoutSections["Comment"] = theme + "/comment.html"
+	}
 }
 
 func (this *FrontendController) Search() {

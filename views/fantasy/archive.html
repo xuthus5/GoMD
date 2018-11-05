@@ -1,0 +1,30 @@
+<main>
+    <section class="content">
+        <h1>文章归档</h1>
+        <div class="meta">本博客共有{{tableNum "article"}}篇文章</div>
+        <h2>2018 - </h2>
+        <ul class="archived-posts">
+        {{range .list}}
+            <li>
+                <time>{{time .Renew false}}</time>
+                <a href="/article/{{.Uuid}}">{{.Title}}</a> <span>{{category .Cid "name"}}</span>
+            </li>
+        {{end}}
+        </ul>
+        <h2>分类 </h2>
+        <ul class="archived-posts">
+        {{range .category}}
+            <li>
+                <a href="/category/{{.Id}}">{{.Name}}</a> <span>共{{cn .Id}}篇</span>
+            </li>
+        {{end}}
+        </ul>
+    </section>
+    <section class="pager">
+        <div class="paginator pager pagination no_pages">
+            <div class="paginator_container pagination_container">
+            </div>
+        </div>
+    </section>
+</main>
+</div>

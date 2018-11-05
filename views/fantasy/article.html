@@ -1,0 +1,169 @@
+<main>
+<article class="content">
+{{range .article}}
+    <h1>{{.Title}}</h1>
+    <div class="meta">
+            <span class="item"><i class="icon iconfont icon-calendar"></i><time
+                    datetime="{{time .Renew false}}">{{time .Renew false}}</time></span>
+        <span class="item"><i class="iconfont icon-tag"></i><a href="/category/{{category .Cid "key"}}"
+                                                               class="">{{category .Cid "name"}}</a></span>
+        <span class="item"><i class="icon iconfont icon-message"></i><a
+                href="#comments">{{comment .Id}} 评</a></span>
+    </div>
+    <div class="post">
+        <div class="md_block" id="markdown">
+
+        </div>
+    </div>
+</article>
+    <script src="/static/admin/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/common/bootstrap.js"></script>
+    <script src="/static/common/strapdown/strapdown.js"></script>
+    <script>
+        $("#markdown").text("{{.Content}}");
+        markdown("markdown");
+    </script>
+{{end}}
+    <section class="pager">
+    {{with $elem := pna .id "pre"}}
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="pre">{{$elem.title}}</a>
+    {{end}}
+    {{end}}
+    {{with $elem := pna .id "next"}}
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="next">{{$elem.title}}</a>
+    {{end}}
+    {{end}}
+    </section>
+    <section id="comments">
+        <link href="/static/index/fantasy/comment.css" type="text/css" rel="stylesheet"/>
+        <div class="doc_comments">
+            <div class="doc_comments_wrapper">
+                <div class="comments_block_title">发表评论</div>
+                <div class="new_comment_form_container">
+                    <form id="new_comment_form">
+                        <div class="comment_trigger">
+                            <div class="avatar">
+                                <img src="/static/index/fantasy/visitor.png"/>
+                            </div>
+                            <div class="trigger_title">撰写评论</div>
+                        </div>
+                        <div class="new_comment">
+                            <textarea name="content" cols="50" rows="2" class="textarea_box" required
+                                      id="textarea"></textarea>
+                            <span class="comment_error"></span>
+                        </div>
+                        <div class="comment_triggered">
+                            <div class="input_body">
+                                <ul class="ident">
+                                    <li>
+                                        <input type="hidden" name="aid" value="{{.id}}">
+                                        <input type="text" name="name" value="" required placeholder="昵称"/>
+                                    </li>
+                                    <li>
+                                        <input type="text" name="email" value="" placeholder="邮箱"/>
+                                    </li>
+                                    <li>
+                                        <input type="text" name="link" value="" placeholder="网站(非必填)"/>
+                                    </li>
+                                </ul>
+                                <input type="button" id="submit" value="提交评论" class="comment_submit_button c_button"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ul class="comments">
+                    <ol class="comment-list">
+                    {{range .comments}}
+                        <li id="1" class="comment">
+                            <div class="comment_wrapper">
+                                <div class="author">
+                                    <div class="avatar"><img src="{{gavatar .Email}}">
+                                    </div>
+                                    <div class="author-name">
+                                        <b><a href="{{.Link}}" rel="external nofollow">{{.Name}}</a></b>
+                                        <a href="javascript:void(0)" onclick="reply_comment('{{.Name}}', '{{.Id}}')"
+                                           class="reply">reply</a>
+                                    </div>
+                                    <div class="author-date">
+                                        <small>{{time .Date true}}</small>
+                                    </div>
+                                </div>
+                                <div class="comment_content">
+                                    <div class="p_part"><p>{{.Content}}</p></div>
+                                </div>
+                            </div>
+                        </li>
+                    {{end}}
+                    </ol>
+                </ul>
+                <script type="text/javascript" src="/static/index/fantasy/script.js"></script>
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    // 验证规则
+    function ValidateForm() {
+        var content = $("#textarea").val();
+        var name = $(" input[ name='name' ] ").val();
+        var email = $(" input[ name='email' ] ").val();
+        var link = $(" input[ name='link' ] ").val();
+        // 验证规则开始
+        if (content.length < 1) {
+            layer.msg("内容太少了哦！", {time: 2000});
+            return false;
+        }
+        if (name.length === 0) {
+            layer.msg("名称项不能为空！", {time: 2000});
+            return false;
+        }
+        if (email.length === 0) {
+            layer.msg("邮箱项不能为空！", {time: 2000});
+            return false;
+        } else {
+            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+            if (!reg.test(email)) {
+                layer.msg("邮箱格式不正确哦！", {time: 2000});
+                return false;
+            }
+        }
+        if (link.length > 0) {
+            var regWeb = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+            if (!regWeb.test(link)) {
+                layer.msg("网址格式不正确,请加上http(s)://", {time: 2000});
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function wait(timeout) {
+        if (timeout === 0) {
+            location.reload();
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
+
+    $("#submit").click(function () {
+        if (ValidateForm()) {
+            const postData = $("#new_comment_form").serialize();
+            $.post("/api/comment/add", postData, function (res) {
+                if (res.Error === 0) {
+                    layer.msg("发表成功！", {time: 2000});
+                    wait(1);
+                } else {
+                    layer.msg(res.Title + res.Msg, {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            }, "json");
+            return false;
+        }
+    });
+</script>

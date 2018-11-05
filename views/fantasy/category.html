@@ -1,0 +1,23 @@
+<main>
+    <section class="content">
+    {{range .info}}
+        <h1>{{.Name}}</h1>
+        <div class="meta">{{.Description}}</div>
+    {{end}}
+        <div class="info"></div>
+        <ul>
+        {{range .list}}
+            <li>
+                <time datetime="{{time .Renew false}}">{{time .Renew false}}</time>
+                <a href="/article/{{.Uuid}}">{{.Title}}</a>
+            </li>
+        {{end}}
+        </ul>
+    </section>
+    <section class="pager">
+        <div class="paginator pager pagination no_pages">
+            <div class="paginator_container pagination_container"></div>
+        </div>
+    </section>
+</main>
+</div>
