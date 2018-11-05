@@ -29,7 +29,6 @@ cd GoMD
 ## 关于数据库与配置文件
 
 数据库使用sqlite3，无需配置，编译运行程序即可使用，项目运行起来后，访问 http://domain/admin 为后台地址 默认账号密码 admin/admin
-配置文件位于 conf/app.conf `runmode = prod` 为可修改项，prod对应程序使用80端口，dev使用8080端口
 
 > 编译运行，两种方法 建议使用方法二
 
@@ -39,3 +38,20 @@ go run main.go
 #运行方法二
 bee run
 ```
+
+## 内置两套主题
+
+1. QuietV1 [1025](https://1025.me/)
+
+![首页](http://dl.xuthus.cc/q-i.png)
+![内容](http://dl.xuthus.cc/q-a.png)
+
+2. fantasy [Seevil](https://github.com/Seevil/fantasy)
+
+![首页](http://dl.xuthus.cc/f-i.png)
+![内容](http://dl.xuthus.cc/f-a.png)
+
+## 后台
+
+![首页](http://dl.xuthus.cc/admin.png)
+![内容](http://dl.xuthus.cc/admin-a.png)
