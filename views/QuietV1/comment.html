@@ -83,8 +83,8 @@
                                 <div class="comment-show-con-list clearfix">
                                     <div class="pl-text clearfix">
 											<span class="comment-author">
-												<a href="http://{{.Link}}" rel="external nofollow">{{.Name}}</a>											</span>
-                                        <a href="http://{{.Link}}" target="_blank"><i
+												<a href="{{.Link}}" rel="external nofollow">{{.Name}}</a>											</span>
+                                        <a href="{{.Link}}" target="_blank"><i
                                                 class="fa fa-internet-explorer"></i></a> <span>:</span>
                                         <span class="zface-box">
                                         {{.Content}}
@@ -95,9 +95,7 @@
                             <div class="row comment-row date-dz">
                                 <div class="col order-last comment-col comment-reply">
                                     <a href="#">{{time .Date true}}&nbsp;</a>|
-                                    <a href="#1"
-                                       rel="nofollow"
-                                       onclick='Comment({{.Name}},{{.Email}})'>回复</a></div>
+                                    <a rel="nofollow" onclick='Comment({{.Name}},{{.Email}})'>回复</a></div>
                             </div>
                         </div>
                     </div>
@@ -109,9 +107,10 @@
 
     <script src="/static/admin/layer/layer.js"></script>
     <script>
-        function Comment(name,email) {
-            $("#textarea").html("@"+name+", ");
+        function Comment(name, email) {
+            $("#textarea").html("@" + name + ", ");
         }
+
         function ValidateForm() {
             var content = $("#textarea").val();
             var name = $(" input[ name='name' ] ").val();
@@ -136,9 +135,9 @@
                     return false;
                 }
             }
-            if(link.length>0){
-                var regWeb=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-                if(!regWeb.test(link)){
+            if (link.length > 0) {
+                var regWeb = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+                if (!regWeb.test(link)) {
                     layer.msg("网址格式不正确,请加上http(s)://", {time: 2000});
                     return false;
                 }
