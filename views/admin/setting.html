@@ -190,6 +190,7 @@
         $.post("/api/site/config?submit=user", postData, function (res) {
             if (res.Error === 0) {
                 layer.open({
+                    skin: 'layer-class',
                     title: res.Title
                     , content: res.Msg,
                     yes: function (index) {
