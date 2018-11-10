@@ -2,8 +2,8 @@
 
 > GoMD是一款基于golang的beego框架开发的简洁markdown内容管理程序
 
-+ [前台演示](http://xblogs.cn)
-+ [后台演示](http://xblogs.cn/admin)
++ [前台演示](http://xblogs.cn:8081)
++ [后台演示](http://xblogs.cn:8081/admin)
 + 账号密码 admin/admin(请勿修改账户信息)
 
 ## 如何使用

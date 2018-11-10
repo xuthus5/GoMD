@@ -14,7 +14,7 @@
         </div>
         <div class="tags-box paddingall">
             <span itemprop="keywords" class="tags">{{range $tag := tags .Tags}}
-                <a href="#">{{$tag}}</a>&nbsp;&nbsp;{{end}}</span>
+                <a href="/search?keywords={{$tag}}">{{$tag}}</a>&nbsp;&nbsp;{{end}}</span>
         </div>
         <div class="info">
             <ul class="post-meta">

@@ -78,7 +78,7 @@ func GetLimitNewArticle(num int64) *[]Article {
 // 文章搜索功能 返回搜索列表
 func Search(keywords string) (*[]Article, error) {
 	list := []Article{}
-	err := dbx.Select(&list, "select * from article where `title`||`content` like '%"+keywords+"%'")
+	err := dbx.Select(&list, "select * from article where `title`||`content`||`tags` like '%"+keywords+"%'")
 	return &list, err
 }
 
