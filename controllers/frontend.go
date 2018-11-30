@@ -34,7 +34,7 @@ func (this *FrontendController) Index() {
 	this.Data["page"] = page
 	this.Layout = layout
 	this.TplName = theme + "/index.html"
-	if theme == "QuietV1"{
+	if theme == "QuietV1" {
 		this.LayoutSections = make(map[string]string)
 		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
 	}
@@ -53,7 +53,7 @@ func (this *FrontendController) Article() {
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
 	this.TplName = theme + "/article.html"
-	if theme == "QuietV1"{
+	if theme == "QuietV1" {
 		this.LayoutSections = make(map[string]string)
 		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
 		this.LayoutSections["Comment"] = theme + "/comment.html"

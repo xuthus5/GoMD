@@ -36,7 +36,7 @@ func Calc(x, y int64, option string) int64 {
 
 /* markdown转换 */
 func MarkDown(content string) string {
-	output := blackfriday.Run([]byte(content),blackfriday.WithExtensions(blackfriday.NoEmptyLineBeforeBlock))
+	output := blackfriday.Run([]byte(content), blackfriday.WithExtensions(blackfriday.NoEmptyLineBeforeBlock))
 	return string(output)
 }
 
@@ -51,13 +51,13 @@ func YMD(timestamp string, exact bool) string {
 }
 
 /* 得到单独的年月日 */
-func EnumerateDate(method string) string{
-	year,mouth,day := tools.EnumerateDate()
+func EnumerateDate(method string) string {
+	year, mouth, day := tools.EnumerateDate()
 	if method == "year" {
 		return year
-	}else if method == "mouth" {
+	} else if method == "mouth" {
 		return string(mouth)
-	}else {
+	} else {
 		return day
 	}
 }

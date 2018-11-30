@@ -316,6 +316,7 @@ func (this *ApiController) LinkList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllLink()}
 	this.ServeJSON()
 }
+
 // 链接修改 路由 /api/link/update
 func (this *ApiController) LinkUpdate() {
 	id := this.GetString("id")
