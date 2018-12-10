@@ -1,17 +1,21 @@
 <main>
     <section class="content">
-    {{range .info}}
-        <h1>{{.Name}}</h1>
-        <div class="meta">{{.Description}}</div>
-    {{end}}
+        {{if eq .isNil 1}}
+        <h1>{{.list}}</h1>
+        {{else}}
+        {{range .info}}
+            <h1>{{.Name}}</h1>
+            <div class="meta">{{.Description}}</div>
+        {{end}}
         <div class="info"></div>
         <ul>
-        {{range .list}}
-            <li>
-                <time datetime="{{time .Renew false}}">{{time .Renew false}}</time>
-                <a href="/article/{{.Uuid}}">{{.Title}}</a>
-            </li>
-        {{end}}
+            {{range .list}}
+                <li>
+                    <time datetime="{{time .Renew false}}">{{time .Renew false}}</time>
+                    <a href="/article/{{.Uuid}}">{{.Title}}</a>
+                </li>
+            {{end}}
+            {{end}}
         </ul>
     </section>
     <section class="pager">

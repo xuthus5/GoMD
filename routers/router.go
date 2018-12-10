@@ -46,7 +46,7 @@ func init() {
 	beego.Router("/api/link/delete", &controllers.ApiController{}, "get:LinkDelete")                  //链接删除
 	beego.Router("/api/link/add", &controllers.ApiController{}, "post:LinkAdd")                       //链接添加
 	beego.Router("/api/link/list", &controllers.ApiController{}, "get:LinkList")                      //链接列表
-	beego.Router("/api/link/update", &controllers.ApiController{}, "post:LinkUpdate")                  //链接修改
+	beego.Router("/api/link/update", &controllers.ApiController{}, "post:LinkUpdate")                 //链接修改
 
 	//其他
 	beego.Router("/login", &controllers.OtherController{}, "*:Login")   // 登陆

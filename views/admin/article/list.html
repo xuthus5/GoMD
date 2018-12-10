@@ -46,6 +46,7 @@
     </div>
 </div>
 <script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/admin/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 <script src="/static/admin/layer/layer.js"></script>
 <script>
     $('#table').bootstrapTable({
@@ -76,6 +77,8 @@
             formatter: operateFormatter,
             events: "operateEvents",
         }],
+        pagination: true,   //开启分页功能
+        pageSize: 10,        //每页显示条数
     });
     function responseHandler(res) {
         return res.data;

@@ -18,14 +18,15 @@ type ApiController struct {
 // 返回json列表 数据格式
 type JsonData struct {
 	Code  int         `json:"code"`  //错误代码
-	Count int         `json:"count"` // 数据数量
 	Msg   string      `json:"msg"`   //输出信息
+	Count int         `json:"total"` // 数据数量
 	Data  interface{} `json:"data"`  //数据
 }
 
 //返回后台文章列表 json数据类型返回 路由 /api/article/list
 func (this *ApiController) ArticleList() {
-	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetArticleJson()}
+	data := models.GetArticleJson()
+	this.Data["json"] = &JsonData{Code: 0, Count: len(*data), Msg: "", Data: data}
 	this.ServeJSON()
 }
 
@@ -316,6 +317,7 @@ func (this *ApiController) LinkList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllLink()}
 	this.ServeJSON()
 }
+
 // 链接修改 路由 /api/link/update
 func (this *ApiController) LinkUpdate() {
 	id := this.GetString("id")

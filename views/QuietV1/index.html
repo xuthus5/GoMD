@@ -22,18 +22,25 @@
                         href="/category/{{category .Cid "key"}}">{{category .Cid "name"}}</a></li>
                 <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
                         itemprop="discussionUrl" href="/article/{{.Uuid}}#comments">{{comment .Id}} 条评论</a></li>
-                {{/*<li><i class="fa fa-hand-o-up" aria-hidden="true">&nbsp; </i><span>2744 次浏览</span></li>*/}}
             </ul>
         </div>
     </article>
 {{end}}
 
-{{/*<?php*/}}
-{{/*$currentPage =  $this->_currentPage;*/}}
-{{/*$index = $this->options->index;*/}}
-{{/*pagex($this,$index,$currentPage,'&laquo; 前一页', '后一页 &raquo;');*/}}
-{{/*?>*/}}
-</div><!-- end #main-->
+    <ol class="page-navigator">
+
+    {{if gt .paging.PageCount 1}}
+    {{if eq $.page 1}}
+        <li class="next"><a href="?page={{calc $.page 1 "+"}}" class="next">下一页 »</a></li>
+    {{else if eq $.page $.paging.PageCount}}
+        <li class="prev"><a href="?page={{calc $.page 1 "-"}}" class="prev">« 上一页</a></li>
+    {{else}}
+        <li class="prev"><a href="?page={{calc $.page 1 "-"}}" class="prev">« 上一页</a></li>
+        <li class="next"><a href="?page={{calc $.page 1 "+"}}" class="next">下一页 »</a></li>
+    {{end}}
+    {{end}}
+    </ol>
+</div>
 
 {{template "QuietV1/sidebar.html" .}}
 

@@ -34,7 +34,7 @@ func (this *FrontendController) Index() {
 	this.Data["page"] = page
 	this.Layout = layout
 	this.TplName = theme + "/index.html"
-	if theme == "QuietV1"{
+	if theme == "QuietV1" {
 		this.LayoutSections = make(map[string]string)
 		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
 	}
@@ -53,7 +53,7 @@ func (this *FrontendController) Article() {
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
 	this.TplName = theme + "/article.html"
-	if theme == "QuietV1"{
+	if theme == "QuietV1" {
 		this.LayoutSections = make(map[string]string)
 		this.LayoutSections["Sidebar"] = theme + "/sidebar.html"
 		this.LayoutSections["Comment"] = theme + "/comment.html"
@@ -94,8 +94,14 @@ func (this *FrontendController) Category() {
 	this.Data["config"] = models.ConfigList()
 	info := models.GetOneCategoryInfo(key, "key")
 	temp := *info
-	list, _ := models.GetCategoryArticle(strconv.Itoa(temp[0].Id))
-	this.Data["list"] = list
+	if len(temp) == 0 {
+		this.Data["isNil"] = 1
+		this.Data["list"] = "没有找到该分类!"
+	} else {
+		this.Data["isNil"] = 0
+		list, _ := models.GetCategoryArticle(strconv.Itoa(temp[0].Id))
+		this.Data["list"] = list
+	}
 	// 输出该分类的信息
 	this.Data["info"] = info
 	this.Layout = layout

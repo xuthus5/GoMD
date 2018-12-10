@@ -128,6 +128,7 @@ func (this *BackendController) Link() {
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/link.html"
 }
+
 //修改链接页面
 func (this *BackendController) LinkUpdate() {
 	master := this.GetSession("master")
