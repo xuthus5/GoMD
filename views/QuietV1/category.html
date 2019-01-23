@@ -1,17 +1,17 @@
 <div class="col-sm-12 col-lg-8" id="main" role="main">
     <div class="Card turned">
-        {{if eq .isNil 1}}
-            <h6>分类不存在</h6>
+        {{if eq .data.IsNil true}}
+            <h6>{{.data.Msg}}</h6>
         {{else}}
-            {{range .info}}
+            {{range .data.Info}}
                 <h6>分类 "{{.Name}}" 下的文章</h6>
             {{end}}
         {{end}}
     </div>
-    {{if eq .isNil 1}}
-        {{.list}}
+    {{if eq .data.IsNil true}}
+        {{.data.Msg}}
     {{else}}
-        {{range .list}}
+        {{range .data.List}}
             <article class="post Card typo indexCard" itemscope itemtype="http://schema.org/BlogPosting">
                 <div class="post-box paddingall">
                     <div class="post-title-box">

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	//--------------------自定义 模板方法
+	//--------------------自定义 模板方法--------------------------
 	beego.AddFuncMap("tags", Tags)                      //拆分标签
 	beego.AddFuncMap("calc", Calc)                      //加减计算
 	beego.AddFuncMap("markdown", MarkDown)              //将markdown输出为html

@@ -3,8 +3,8 @@ package controllers
 import (
 	"GoMD/models"
 	"GoMD/tools"
+	"github.com/Lofanmi/pinyin-golang/pinyin"
 	"github.com/astaxie/beego"
-	"github.com/satori/go.uuid"
 	"log"
 	"reflect"
 	"strconv"
@@ -40,11 +40,12 @@ func (this *ApiController) CategoryList() {
 func (this *ApiController) ArticleAdd() {
 	data := &models.Article{}
 	info := &ResultData{}
+	dict := pinyin.NewDict()
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = uuid.Must(uuid.NewV4()).String()
+		data.Uuid = dict.Convert(data.Title, "-").None()
 		idstr, err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -61,12 +62,13 @@ func (this *ApiController) ArticleUpdate() {
 	id := this.GetString("id")
 	data := &models.Article{}
 	info := &ResultData{}
+	dict := pinyin.NewDict()
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = uuid.Must(uuid.NewV4()).String()
+		data.Uuid = dict.Convert(data.Title, "-").None()
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}

@@ -25,7 +25,7 @@ type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
 	Count    int    `form:"-"`
-	Type     int    `form:"-"` //类型 markdown输出markdown类型 其他自定义
+	Type     int    `form:"-"` //类型自定义 文章/页面	默认0为文章 1为页面
 	Uuid     string `form:"-"`
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
@@ -90,6 +90,12 @@ type Category struct {
 	Parent      string //所属父分类方法ID
 }
 
+type CategoryData struct {
+	IsNil 	bool	//check this category is null ?
+	Msg 	string
+	Info 	[]Category
+	List    []Article 	//the article include in this category content
+}
 // 附件资源记录表
 type Attachment struct {
 	Id      int    //id

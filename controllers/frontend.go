@@ -4,13 +4,11 @@ import (
 	"GoMD/models"
 	"GoMD/tools"
 	"github.com/astaxie/beego"
-	"strconv"
 )
 
 /*
-	说明：
-		layout: comment 评论块
-				sidebar 用户以及其他的信息块
+	comment 评论块
+	sidebar 用户以及其他的信息块
 */
 
 type FrontendController struct {
@@ -90,20 +88,8 @@ func (this *FrontendController) Archive() {
 
 func (this *FrontendController) Category() {
 	// 输出分类下的所有文章
-	key := this.GetString(":key")
 	this.Data["config"] = models.ConfigList()
-	info := models.GetOneCategoryInfo(key, "key")
-	temp := *info
-	if len(temp) == 0 {
-		this.Data["isNil"] = 1
-		this.Data["list"] = "没有找到该分类!"
-	} else {
-		this.Data["isNil"] = 0
-		list, _ := models.GetCategoryArticle(strconv.Itoa(temp[0].Id))
-		this.Data["list"] = list
-	}
-	// 输出该分类的信息
-	this.Data["info"] = info
+	this.Data["data"] = models.CategoryInformation(this.GetString(":key"))
 	this.Layout = layout
 	this.TplName = theme + "/category.html"
 }
