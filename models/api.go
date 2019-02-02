@@ -1,6 +1,9 @@
 package models
 
-import "GoMD/tools"
+import (
+	"GoMD/tools"
+	"log"
+)
 
 /* ---------------------------
 
@@ -13,7 +16,7 @@ func GetArticleJson() *[]DisplayArticle {
 	list := []DisplayArticle{}
 	err := dbx.Select(&list, "select article.id,article.title,article.author,category.name,article.tags,article.renew from article,category where article.cid=category.id order by article.renew desc")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	for i, v := range list {
 		list[i].Renew = tools.UnixTimeToString(v.Renew)
@@ -26,7 +29,7 @@ func GetCategoryJson() *[]Category {
 	list := []Category{}
 	err := dbx.Select(&list, "select * from category order by id desc")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &list
 }
@@ -36,7 +39,7 @@ func GetNoticeJson() *[]Notice {
 	list := []Notice{}
 	err := dbx.Select(&list, "select * from notice order by data desc")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	for i, v := range list {
 		list[i].Date = tools.UnixTimeToString(v.Date)
@@ -49,7 +52,7 @@ func GetFileJson() *[]Attachment {
 	list := []Attachment{}
 	err := dbx.Select(&list, "select * from attachment order by id desc")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	for i, v := range list {
 		list[i].Created = tools.UnixTimeToString(v.Created)

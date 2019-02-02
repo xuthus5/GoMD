@@ -1,5 +1,7 @@
 package models
 
+import "log"
+
 /* ---------------------------------
 
 功能： 公共操作函数
@@ -14,7 +16,7 @@ func ConfigList() map[string]string {
 	list := []Config{}
 	err := dbx.Select(&list, "select * from config")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	var data = make(map[string]string)
 	for _, v := range list {
@@ -67,7 +69,7 @@ func GetOneConfig(info string) string {
 	data := []Config{}
 	err := dbx.Select(&data, "select * from config where Option=?", info)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return data[0].Value
 }
@@ -83,7 +85,7 @@ func GetOneNotice() string {
 	data := []Notice{}
 	err := dbx.Select(&data, "select * from notice order by date desc limit 0,1")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return data[0].Content
 }

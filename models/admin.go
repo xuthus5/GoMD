@@ -1,5 +1,7 @@
 package models
 
+import "qiniupkg.com/x/log.v7"
+
 /* ---------------------------------
 
 功能： 网站架构的处理中心
@@ -62,7 +64,7 @@ func LimitArticleDisplay(page, limit int64) (*[]Article, int64) {
 	page = limit * (page - 1)
 	err := dbx.Select(&list, "select * from article order by id desc limit ?,?", page, limit)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	count, _ := dbc.QueryTable("article").Count()
 	return &list, count
@@ -112,7 +114,7 @@ func SearchArticleCategory(id int) *[]Category {
 	data := []Category{}
 	err := dbx.Select(&data, "select * from category where id=?", id)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &data
 }
@@ -130,7 +132,7 @@ func GetArticleComments(id int) *[]Comment {
 	data := []Comment{}
 	err := dbx.Select(&data, "select * from comment where aid=?", id)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &data
 }
@@ -200,7 +202,7 @@ func CategoryList() *[]Category {
 	list := []Category{}
 	err := dbx.Select(&list, "select * from category")
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &list
 }
@@ -249,7 +251,7 @@ func FileInfo(id int64) *[]Attachment {
 	data := []Attachment{}
 	err := dbx.Select(&data, "select * from attachment where id=?", id)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &data
 }
@@ -282,7 +284,7 @@ func GetOneLinkInfo(id string) *[]Link {
 	data := []Link{}
 	err := dbx.Select(&data, "select * from link where id=?", id)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
 	}
 	return &data
 }
