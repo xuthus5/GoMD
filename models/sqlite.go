@@ -89,7 +89,7 @@ func Initialization() {
 	//友情链接表初始化
 	dbc.Insert(&Link{
 		Name:        "GoMD",
-		Url:         "htps://gitee.com/xuthus5/GoMD",
+		Url:         "https://gitee.com/xuthus5/GoMD",
 		Description: "GoMD源代码托管地址",
 	})
 }

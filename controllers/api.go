@@ -217,7 +217,7 @@ func (this *ApiController) FileUpload() {
 	year, month, _ := tools.EnumerateDate()
 	savePath := "file/" + year + "/" + month + "/"
 	//创建存储目录
-	tools.DirCreate(savePath)
+	tools.CheckAndDirCreate(savePath)
 	//重命名文件名称
 	tempFileName := tools.StringToMd5(h.Filename, 5)
 	suffix := tools.GetFileSuffix(h.Filename)
