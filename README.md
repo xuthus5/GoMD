@@ -16,7 +16,7 @@ go get github.com/beego/bee
 go get github.com/jmoiron/sqlx
 go get github.com/mattn/go-sqlite3
 go get gopkg.in/russross/blackfriday.v2
-github.com/Lofanmi/pinyin-golang/pinyin
+go get github.com/Lofanmi/pinyin-golang/pinyin
 ```
 
 > 安装完以上库，克隆仓库到机器上

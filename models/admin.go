@@ -1,6 +1,6 @@
 package models
 
-import "qiniupkg.com/x/log.v7"
+import "log"
 
 /* ---------------------------------
 
