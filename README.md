@@ -2,10 +2,6 @@
 
 > GoMD是一款基于golang的beego框架开发的简洁markdown内容管理程序
 
-+ [前台演示](http://xblogs.cn:8081)
-+ [后台演示](http://xblogs.cn:8081/admin)
-+ 账号密码 admin/admin(请勿修改账户信息)
-
 ## 如何使用
 
 > 本应用基于golang语言的[beego框架](https://beego.me/)开发,在确保安装了golang环境的条件下，执行如下命令
@@ -29,7 +25,7 @@ cd GoMD
 
 ## 关于数据库与配置文件
 
-数据库使用sqlite3，无需配置，编译运行程序即可使用，项目运行起来后，访问 http://domain/admin 为后台地址 默认账号密码 admin/admin
+数据库使用sqlite3，无需配置，编译运行程序即可使用，项目运行起来后，访问 /admin 为后台地址 默认账号密码 admin/admin
 
 > 编译运行，两种方法 建议使用方法二
 
@@ -48,9 +44,6 @@ bee run
 ![内容](http://dl.xuthus.cc/q-a.png)
 
 2. fantasy [Seevil](https://github.com/Seevil/fantasy)
-
-![首页](http://dl.xuthus.cc/f-i.png)
-![内容](http://dl.xuthus.cc/f-a.png)
 
 ## 后台
 
