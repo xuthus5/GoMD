@@ -19,10 +19,28 @@ type LoggerConfig struct {
 	Rotate              bool     `json:"rotate"`   // 是否开启 logrotate，默认是 true
 	Perm                string   `json:"perm"`     // 日志文件权限
 	RotatePerm          string   `json:"rotateperm"`
-	EnableFuncCallDepth bool     `json:"-"` // 输出文件名和行号
-	LogFuncCallDepth    int      `json:"-"` // 函数调用层级
-	Separate            []string `json:"separate"`	//需要单独写入文件的日志级别,设置后命名类似 test.error.log
+	EnableFuncCallDepth bool     `json:"-"`        // 输出文件名和行号
+	LogFuncCallDepth    int      `json:"-"`        // 函数调用层级
+	Separate            []string `json:"separate"` //需要单独写入文件的日志级别,设置后命名类似 test.error.log
 }
+
+//
+type ChangeLogData struct {
+	Email   string `json:"Email"`
+	Name    string `json:"Name"`
+	Version []struct {
+		Commit    string `json:"Commit"`
+		Committer string `json:"Committer"`
+		Date      string `json:"Date"`
+		Tag       string `json:"Tag"`
+		Title     string `json:"Title"`
+		Type      string `json:"Type"`
+		Level	  string `json:"Level"`
+		Version   string `json:"Version"`
+	} `json:"Version"`
+	Website string `json:"Website"`
+}
+
 
 //日志运行级别检测变量
 func logSetting() {
@@ -34,19 +52,19 @@ func logSetting() {
 		logname := beego.AppConfig.String("prod::logname")
 		separate := []string{"notice", "error"}
 		var logCfg = LoggerConfig{
-			FileName:            "logs/"+logname,
+			FileName:            "logs/" + logname,
 			Level:               7,
 			EnableFuncCallDepth: true,
 			LogFuncCallDepth:    3,
 			RotatePerm:          "777",
 			Perm:                "777",
-			Separate:			 separate,
+			Separate:            separate,
 		}
 		if logtype == "file" {
 			err := tools.CheckAndDirCreate("logs")
 			if err == nil {
-				cfg,_ := json.Marshal(&logCfg)
-				beego.SetLogger(logs.AdapterMultiFile,string(cfg))
+				cfg, _ := json.Marshal(&logCfg)
+				_ = beego.SetLogger(logs.AdapterMultiFile, string(cfg))
 			}
 		}
 	}
@@ -54,24 +72,36 @@ func logSetting() {
 
 //自定义模板函数
 func customTemplateFunction() {
-	beego.AddFuncMap("tags", Tags)                      //拆分标签
-	beego.AddFuncMap("calc", Calc)                      //加减计算
-	beego.AddFuncMap("markdown", MarkDown)              //将markdown输出为html
-	beego.AddFuncMap("time", YMD)                       //将时间戳转成正常时间
-	beego.AddFuncMap("sc", SiteConfig)                  //调取网站配置 直接抽调数据库配置字段
-	beego.AddFuncMap("tableNum", TableNumber)           //获取表中的数据
-	beego.AddFuncMap("notice", GetNotice)               //网站的公告
-	beego.AddFuncMap("category", GetCategory)           //文章的分类信息
-	beego.AddFuncMap("cn", GetAOfCategoryNumber)        //获取分类下的文章数量
-	beego.AddFuncMap("comment", GetCommentNumber)       //获取分类下的评论数量
-	beego.AddFuncMap("gavatar", GetGravatar)            //获取评论者gavatar头像
-	beego.AddFuncMap("pna", PreOrNextAriticle)          //获取上一篇或者下一篇文章
-	beego.AddFuncMap("newa", models.GetLimitNewArticle) //获取上最新文章列表
-	beego.AddFuncMap("newc", models.GetLimitNewComment) //获取上最新文章评论
-	beego.AddFuncMap("itu", IdToUuid)                   //根据id返回uuid
-	beego.AddFuncMap("cl", models.CategoryList)         //返回分类列表
-	beego.AddFuncMap("link", models.GetAllLink)         //返回链接列表
-	beego.AddFuncMap("ed", EnumerateDate)               //返回单独的年月日
+	//时间处理相关
+	_ = beego.AddFuncMap("tsc", TimeStampConversion) //将时间戳转成正常时间
+	_ = beego.AddFuncMap("ed", EnumerateDate)        //返回单独的年月日
+	_ = beego.AddFuncMap("dt", DivisionTime)         //切割时间为 ymd : hms
+
+	//运算相关
+	_ = beego.AddFuncMap("calc", Calc) //加减计算
+
+	//数据处理输出
+	_ = beego.AddFuncMap("tags", Tags)         //拆分标签
+	_ = beego.AddFuncMap("markdown", MarkDown) //将markdown输出为html
+
+	//数据关系处理
+	_ = beego.AddFuncMap("gafc",GetArticleFromCommentID)
+	_ = beego.AddFuncMap("changelog",ChangeLog)
+
+	//数据获取
+	_ = beego.AddFuncMap("sc", SiteConfig)                //调取网站配置 直接抽调数据库配置字段
+	_ = beego.AddFuncMap("tn", TableNumber)               //获取表中的数据，用于统计数据表中数据的条数
+	_ = beego.AddFuncMap("na", models.GetLimitNewArticle) //获取指定条数的最近更新的文章
+	_ = beego.AddFuncMap("nc", models.GetLimitNewComment) //获取指定条数的最近的评论
+	_ = beego.AddFuncMap("notice", GetNotice)             //网站的公告
+	_ = beego.AddFuncMap("category", GetCategory)         //文章的分类信息
+	_ = beego.AddFuncMap("cn", GetAOfCategoryNumber)      //获取分类下的文章数量
+	_ = beego.AddFuncMap("comment", GetCommentNumber)     //获取分类下的评论数量
+	_ = beego.AddFuncMap("gavatar", GetGravatar)          //获取评论者gavatar头像
+	_ = beego.AddFuncMap("pna", PreOrNextAriticle)        //获取上一篇或者下一篇文章
+	_ = beego.AddFuncMap("itu", IdToUuid)                 //根据id返回uuid
+	_ = beego.AddFuncMap("cl", models.CategoryList)       //返回分类列表
+	_ = beego.AddFuncMap("link", models.GetAllLink)       //返回链接列表
 }
 
 //自定义状态页面

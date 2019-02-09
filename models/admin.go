@@ -28,7 +28,7 @@ func GetOneArticle(id, method string) *[]Article {
 	return &data
 }
 
-// 查看某一篇文章 提供ID 查询文章
+// 查看某一篇文章的上下文 提供ID
 func GetPreOrNextArticle(id int, method string) *map[string]string {
 	data := []Article{}
 	res := make(map[string]string)

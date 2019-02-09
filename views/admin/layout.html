@@ -39,34 +39,48 @@
                         GoMD
                     </div>
                 </li>
-                <li class="active">
-                    <a href="/admin"><i class="fa fa-diamond"></i> <span class="nav-label">仪表盘</span></a>
+                <li>
+                    <a href="#"><i class="fa fa-diamond"></i> <span class="nav-label">仪表盘</span><span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/">概要</a></li>
+                        <li><a href="/admin/">个人设置</a></li>
+                        <li><a href="/admin/">外观</a></li>
+                        <li><a href="/admin/">备份</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">文章管理</span><span
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">撰写</span><span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/article">撰写文章</a></li>
+                        <li><a href="/admin/article/add">创建页面</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="/admin/article">文章列表</a></li>
-                        <li><a href="/admin/article/add">添加文章</a></li>
-                        <li><a href="/admin/article/category">分类管理</a></li>
+                        <li><a href="/admin/article">文章</a></li>
+                        <li><a href="/admin/article/add">页面</a></li>
+                        <li><a href="/admin/article/category">评论</a></li>
+                        <li><a href="/admin/article/category">分类</a></li>
+                        <li><a href="/admin/article/category">标签</a></li>
+                        <li><a href="/admin/article/category">文件</a></li>
+                        <li><a href="/admin/article/category">用户</a></li>
+                        <li><a href="/admin/article/category">链接</a></li>
                         {{/*<li><a href="#">标签管理</a></li>*/}}
                     </ul>
                 </li>
-                {{/*<li>*/}}
-                    {{/*<a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">评论管理 </span><span*/}}
-                            {{/*class="float-right label label-primary">15</span></a>*/}}
-                {{/*</li>*/}}
-                {{/*<li>*/}}
-                    {{/*<a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">公告管理</span> </a>*/}}
-                {{/*</li>*/}}
                 <li>
-                    <a href="/admin/link"><i class="fa fa-flask"></i> <span class="nav-label">链接管理</span></a>
-                </li>
-                <li>
-                    <a href="/admin/attachment"><i class="fa fa-edit"></i> <span class="nav-label">附件中心</span></a>
-                </li>
-                <li>
-                    <a href="/admin/setting"><i class="fa fa-desktop"></i> <span class="nav-label">网站配置</span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">设置</span><span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/article">网站设置</a></li>
+                        <li><a href="/admin/article/add">评论</a></li>
+                        <li><a href="/admin/article/add">阅读</a></li>
+                        <li><a href="/admin/article/add">永久链接</a></li>
+                    </ul>
                 </li>
                 <li class="special_link">
                     <a href="/"><i class="fa fa-home"></i> <span class="nav-label">回首页</span></a>
