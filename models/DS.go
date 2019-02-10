@@ -26,7 +26,7 @@ type Article struct {
 	Cid      int    `form:"cid"`
 	Count    int    `form:"-"`
 	Type     int    `form:"-"` //类型自定义 文章/页面	默认0为文章 1为页面
-	Uuid     string `form:"-"`
+	Uuid     string `form:"uuid"`
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`

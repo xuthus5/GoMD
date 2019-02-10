@@ -10,7 +10,7 @@ import "GoMD/models"
 *********************/
 func (this *FrontendController) Page() {
 	//文章查看页面
-	id := this.GetString(":title")
+	id := this.GetString(":uuid")
 	article := models.GetOneArticle(id, "uuid")
 	temp := *article
 	label := models.SearchArticleCategory(temp[0].Cid)

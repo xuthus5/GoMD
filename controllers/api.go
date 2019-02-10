@@ -23,6 +23,12 @@ type JsonData struct {
 	Data  interface{} `json:"data"`  //数据
 }
 
+/************************
+
+有关文章的API
+
+*************************/
+
 //返回后台文章列表 json数据类型返回 路由 /api/article/list
 func (this *ApiController) ArticleList() {
 	data := models.GetArticleJson()
@@ -99,6 +105,49 @@ func (this *ApiController) ArticleDelete() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关页面的API
+
+*************************/
+
+//添加页面 路由 /api/page/add
+//添加文章 数据校验  路由 /api/article/add
+func (this *ApiController) PageAdd() {
+	data := &models.Article{}
+	info := &ResultData{}
+	dict := pinyin.NewDict()
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Renew = tools.Int64ToString(time.Now().Unix())
+		data.Type = 1
+		if data.Uuid == "" {
+			data.Uuid = dict.Convert(data.Title, "-").None()
+		}
+		idstr, err := models.AddArticle(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！", Data: idstr}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//返回后台页面列表 json数据类型返回 路由 /api/page/list
+func (this *ApiController) PageList() {
+	data := models.GetPageJson()
+	this.Data["json"] = &JsonData{Code: 0, Count: len(*data), Msg: "", Data: data}
+	this.ServeJSON()
+}
+/************************
+
+有关分类的API
+
+*************************/
+
 // 添加分类 路由 /api/article/category/add
 func (this *ApiController) CategoryAdd() {
 	name := this.GetString("name")
@@ -156,6 +205,12 @@ func (this *ApiController) CategoryUpdate() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关网站配置的API
+
+*************************/
+
 // 网站设置页面  路由  /api/site/config
 func (this *ApiController) SiteConfig() {
 	// 判断提交类型 user为用户信息表单  site为网站配置表单
@@ -186,6 +241,12 @@ func (this *ApiController) SiteConfig() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关公告的API
+
+*************************/
+
 // 公告数据接受 路由 /api/notice
 func (this *ApiController) Notice() {
 	notice := &models.Notice{Content: this.GetString("content"), Url: this.GetString("url"), Date: tools.Int64ToString(time.Now().Unix())}
@@ -204,6 +265,12 @@ func (this *ApiController) NoticeList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetNoticeJson()}
 	this.ServeJSON()
 }
+
+/************************
+
+有关文件处理的API
+
+*************************/
 
 // 文件上传api 路由 /api/file/upload 返回一个包含文件存储信息的json数据
 func (this *ApiController) FileUpload() {
@@ -262,6 +329,12 @@ func (this *ApiController) FileDelete() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关评论的API
+
+*************************/
+
 // 发布评论 路由 /api/comment/add
 func (this *ApiController) CommentAdd() {
 	data := &models.Comment{}
@@ -280,6 +353,12 @@ func (this *ApiController) CommentAdd() {
 	this.Data["json"] = info
 	this.ServeJSON()
 }
+
+/************************
+
+有关链接的API
+
+*************************/
 
 // 添加链接 路由 /api/link/add
 func (this *ApiController) LinkAdd() {
@@ -314,7 +393,7 @@ func (this *ApiController) LinkDelete() {
 	this.ServeJSON()
 }
 
-//返回后台分类列表 json数据类型返回 路由 /api/link/list
+//返回后台链接列表 json数据类型返回 路由 /api/link/list
 func (this *ApiController) LinkList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllLink()}
 	this.ServeJSON()

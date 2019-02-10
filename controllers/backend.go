@@ -9,7 +9,9 @@ type BackendController struct {
 	beego.Controller
 }
 
-//仪表盘 首页
+//*******************控制台*************************
+
+//仪表盘 首页~概要		路由：/admin
 func (this *BackendController) Index() {
 	master := this.GetSession("master")
 	if master == nil {
@@ -18,6 +20,64 @@ func (this *BackendController) Index() {
 	this.Data["master"] = master
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/index.html"
+}
+
+//外观设置			路由： /admin/style
+func (this *BackendController) Style() {
+
+}
+
+//网站数据备份			路由： /admin/backup
+func (this *BackendController) Backup() {
+
+}
+
+//*******************撰写*************************
+
+//文章添加页面				路由： /admin/article/add
+func (this *BackendController) ArticleAdd() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["list"] = models.CategoryList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/article/add.html"
+}
+
+//页面添加				路由： /admin/page/add
+func (this *BackendController) PageAdd() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/page/add.html"
+}
+
+//*******************管理*************************
+//文章管理列表
+func (this *BackendController) Article() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/article/list.html"
+}
+
+//页面管理列表
+func (this *BackendController) Page() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/page/list.html"
 }
 
 // 公告管理
@@ -31,28 +91,44 @@ func (this *BackendController) Notice() {
 	this.TplName = "admin/notice.html"
 }
 
-//文章管理列表
-func (this *BackendController) Article() {
+// 附件管理
+func (this *BackendController) Attachment() {
 	master := this.GetSession("master")
 	if master == nil {
 		this.Redirect("/login", 302)
 	}
 	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/article/list.html"
+	this.TplName = "admin/attachment.html"
 }
 
-//文章添加页面
-func (this *BackendController) ArticleAdd() {
+// 链接管理
+func (this *BackendController) Link() {
 	master := this.GetSession("master")
 	if master == nil {
 		this.Redirect("/login", 302)
 	}
 	this.Data["master"] = master
-	this.Data["list"] = models.CategoryList()
+	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/article/add.html"
+	this.TplName = "admin/link.html"
 }
+
+//*******************设置*************************
+//全局设置
+func (this *BackendController) Setting() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/setting.html"
+}
+
+//*******************其他必要的页面*************************
 
 //文章更新页面
 func (this *BackendController) ArticleUpdate() {
@@ -91,42 +167,6 @@ func (this *BackendController) CategoryUpdate() {
 	this.Data["category"] = models.GetOneCategoryInfo(this.GetString("id"), "id")
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/article/category-update.html"
-}
-
-//全局设置
-func (this *BackendController) Setting() {
-	master := this.GetSession("master")
-	if master == nil {
-		this.Redirect("/login", 302)
-	}
-	this.Data["master"] = master
-	this.Data["config"] = models.ConfigList()
-	this.Layout = "admin/layout.html"
-	this.TplName = "admin/setting.html"
-}
-
-// 附件管理
-func (this *BackendController) Attachment() {
-	master := this.GetSession("master")
-	if master == nil {
-		this.Redirect("/login", 302)
-	}
-	this.Data["master"] = master
-	this.Data["config"] = models.ConfigList()
-	this.Layout = "admin/layout.html"
-	this.TplName = "admin/attachment.html"
-}
-
-// 链接管理
-func (this *BackendController) Link() {
-	master := this.GetSession("master")
-	if master == nil {
-		this.Redirect("/login", 302)
-	}
-	this.Data["master"] = master
-	this.Data["config"] = models.ConfigList()
-	this.Layout = "admin/layout.html"
-	this.TplName = "admin/link.html"
 }
 
 //修改链接页面

@@ -49,9 +49,6 @@ bee run
 
 2. fantasy [Seevil](https://github.com/Seevil/fantasy)
 
-![首页](http://dl.xuthus.cc/f-i.png)
-![内容](http://dl.xuthus.cc/f-a.png)
-
 ## 后台
 
 ![首页](http://dl.xuthus.cc/admin.png)

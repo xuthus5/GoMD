@@ -112,8 +112,7 @@ func GetNotice() string {
 
 /* 根据分类cid 返回对应的分类名称 */
 func GetCategory(id int, method string) (value string) {
-	ids := strconv.Itoa(id)
-	temp := models.GetOneCategoryInfo(ids, "id")
+	temp := models.GetOneCategoryInfo(strconv.Itoa(id), "id")
 	category := *temp
 	if method == "name" {
 		value = category[0].Name
@@ -156,7 +155,7 @@ func PageNotFound(rw http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["code"] = "404"
 	data["title"] = "页面被吃掉了！"
-	t.Execute(rw, data)
+	_ = t.Execute(rw, data)
 }
 
 /* 切割时间为 ymd : hms */
@@ -181,6 +180,5 @@ func ChangeLog() ChangeLogData{
 	if err != nil {
 		beego.Error("解析json数据失败")
 	}
-	beego.Notice(data.Version[0].Title)
 	return data
 }

@@ -13,7 +13,7 @@ import "log"
 // 返回数据表所有文章
 func AllArticleList() (*[]Article, error) {
 	list := []Article{}
-	err := dbx.Select(&list, "select * from article order by id desc")
+	err := dbx.Select(&list, "select * from article where type=0 order by id desc")
 	return &list, err
 }
 
@@ -21,9 +21,9 @@ func AllArticleList() (*[]Article, error) {
 func GetOneArticle(id, method string) *[]Article {
 	data := []Article{}
 	if method == "uuid" {
-		dbx.Select(&data, "select * from article where uuid=?", id)
+		_ = dbx.Select(&data, "select * from article where uuid=?", id)
 	} else {
-		dbx.Select(&data, "select * from article where id=?", id)
+		_ = dbx.Select(&data, "select * from article where id=?", id)
 	}
 	return &data
 }
@@ -33,7 +33,7 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 	data := []Article{}
 	res := make(map[string]string)
 	if method == "pre" {
-		dbx.Select(&data, "select * from article where id = (select id from article where id < ? order by id desc limit 1);", id)
+		_ = dbx.Select(&data, "select * from article where id = (select id from article where id < ? order by id desc limit 1);", id)
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
@@ -44,7 +44,7 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 			res["uuid"] = data[0].Uuid
 		}
 	} else {
-		dbx.Select(&data, "select * from article where id = (select id from article where id > ? order by id asc limit 1);", id)
+		_ = dbx.Select(&data, "select * from article where id = (select id from article where id > ? order by id asc limit 1);", id)
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
@@ -62,7 +62,7 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 func LimitArticleDisplay(page, limit int64) (*[]Article, int64) {
 	list := []Article{}
 	page = limit * (page - 1)
-	err := dbx.Select(&list, "select * from article order by id desc limit ?,?", page, limit)
+	err := dbx.Select(&list, "select * from article where type=0 order by id desc limit ?,?", page, limit)
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -73,14 +73,14 @@ func LimitArticleDisplay(page, limit int64) (*[]Article, int64) {
 // 返回指定条数最新文章
 func GetLimitNewArticle(num int64) *[]Article {
 	list := []Article{}
-	dbx.Select(&list, "select * from article order by renew desc limit 0,?", num)
+	_ = dbx.Select(&list, "select * from article where type=0 order by renew desc limit 0,?", num)
 	return &list
 }
 
 // 文章搜索功能 返回搜索列表
 func Search(keywords string) (*[]Article, error) {
 	list := []Article{}
-	err := dbx.Select(&list, "select * from article where `title`||`content`||`tags` like '%"+keywords+"%'")
+	err := dbx.Select(&list, "select * from article where type=0 and `title`||`content`||`tags` like '%"+keywords+"%'")
 	return &list, err
 }
 
@@ -98,7 +98,7 @@ func UpdateArticle(data *Article) error {
 func AddArticle(data *Article) (string, error) {
 	id, err := dbc.Insert(data)
 	article := &Article{Id: int(id)}
-	dbc.Read(article)
+	_ = dbc.Read(article)
 	return article.Uuid, err
 }
 
@@ -145,14 +145,14 @@ func GetCommentNumFromArticle(id int) (int64, error) {
 // 根据传递过来的id返回uuid
 func GetUuidById(id int64) string {
 	var article Article
-	dbc.QueryTable("article").Filter("id", id).One(&article, "uuid")
+	_ = dbc.QueryTable("article").Filter("id", id).One(&article, "uuid")
 	return article.Uuid
 }
 
 // 返回指定条数最新评论
 func GetLimitNewComment(num int64) *[]Comment {
 	list := []Comment{}
-	dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
+	_ = dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
 	return &list
 }
 
@@ -211,9 +211,9 @@ func CategoryList() *[]Category {
 func GetOneCategoryInfo(key, method string) *[]Category {
 	list := []Category{}
 	if method == "id" {
-		dbx.Select(&list, "select * from category where id=?", key)
+		_ = dbx.Select(&list, "select * from category where id=?", key)
 	} else {
-		dbx.Select(&list, "select * from category where key=?", key)
+		_ = dbx.Select(&list, "select * from category where key=?", key)
 	}
 	return &list
 }
@@ -241,7 +241,7 @@ func FileSave(info *Attachment) (int64, error) {
 // 文件删除
 func FileDelete(id int) (string, error) {
 	data := &Attachment{Id: id}
-	dbc.Read(data)
+	_ = dbc.Read(data)
 	_, err := dbc.Delete(data)
 	return data.Path, err
 }
@@ -267,7 +267,7 @@ func AddLink(info *Link) error {
 //删除链接
 func DeleteLink(id int) error {
 	data := &Link{Id: id}
-	dbc.Read(data)
+	_ = dbc.Read(data)
 	_, err := dbc.Delete(data)
 	return err
 }
@@ -275,7 +275,7 @@ func DeleteLink(id int) error {
 //获取所有链接list
 func GetAllLink() *[]Link {
 	list := []Link{}
-	dbx.Select(&list, "select * from link order by id desc")
+	_ = dbx.Select(&list, "select * from link order by id desc")
 	return &list
 }
 

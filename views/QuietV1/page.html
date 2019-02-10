@@ -12,16 +12,11 @@
                 </div>
             </div>
         </div>
-        <div class="tags-box paddingall">
-            <span itemprop="keywords" class="tags">{{range $tag := tags .Tags}}
-                <a href="#">{{$tag}}</a>&nbsp;&nbsp;{{end}}</span>
-        </div>
         <div class="info">
             <ul class="post-meta">
                 <li><i class="fa fa-calendar" aria-hidden="true">&nbsp; </i>
                     <time datetime="{{tsc .Renew false}}" itemprop="datePublished">{{tsc .Renew false}}</time>
                 </li>
-                <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i>{{category .Cid "name"}}</li>
                 <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
                         itemprop="discussionUrl" href="#comments">{{comment .Id}}</a></li>
             </ul>

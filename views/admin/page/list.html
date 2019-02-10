@@ -1,0 +1,120 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>页面管理</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>页面管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="/static/admin/bootstrap-table/bootstrap-table.css">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>页面管理 </h5>
+                    <div class="ibox-tools">
+                        <div class="input-group">
+                            <input placeholder="Search" type="text" class="form-control form-control-sm">
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-primary">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="table"></table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/admin/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    $('#table').bootstrapTable({
+        url: '/api/page/list',
+        responseHandler:responseHandler,
+        columns: [{
+            field: 'Id',
+            title: 'ID'
+        }, {
+            field: 'Title',
+            title: '标题'
+        }, {
+            field: 'Author',
+            title: '作者'
+        },{
+            field: 'Renew',
+            title: '更新时间'
+        },{
+            field: 'Option',
+            title: '操作',
+            align: 'center',
+            formatter: operateFormatter,
+            events: "operateEvents",
+        }],
+        pagination: true,   //开启分页功能
+        pageSize: 10,        //每页显示条数
+    });
+    function responseHandler(res) {
+        return res.data;
+    }
+    function operateFormatter(value, row, index) {
+        return [
+            '<div class="operate-group">',
+            '<a class="update layui-layer-btn0" href="#">修改</a>',
+            '<a class="delete layui-layer-btn0" href="#">删除</a>',
+            '</div>'
+        ].join('');
+    }
+    // 定义layer主题名称
+    layer.config({
+        skin: 'layer-class'
+    });
+    window.operateEvents = {
+        'click .update': function (e, value, row, index) {
+            self.location = '/admin/article/update?id=' + row.Id;
+        },
+        'click .delete': function (e, value, row, index) {
+            layer.confirm('确定删除？', function (index) {
+                $.get("/api/article/delete?id=" + row.Id, function (res) {
+                    if (res.Error === 0) {
+                        layer.open({
+                            title: res.Title
+                            , content: res.Msg,
+                            yes: function (index) {
+                                window.location.href = "/admin/article";
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        }
+    };
+</script>
