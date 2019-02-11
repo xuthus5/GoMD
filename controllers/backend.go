@@ -115,6 +115,18 @@ func (this *BackendController) Link() {
 	this.TplName = "admin/link.html"
 }
 
+//菜单页面
+func (this *BackendController) Menu() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/menu.html"
+}
+
 //*******************设置*************************
 //全局设置
 func (this *BackendController) Setting() {
@@ -145,6 +157,21 @@ func (this *BackendController) ArticleUpdate() {
 	this.TplName = "admin/article/update.html"
 }
 
+//页面更新页面
+func (this *BackendController) PageUpdate() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	id := this.GetString("id")
+	article := models.GetOneArticle(id, "id")
+	this.Data["article"] = article
+	this.Data["category"] = models.CategoryList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/page/update.html"
+}
+
 //添加分类页面
 func (this *BackendController) CategoryAdd() {
 	master := this.GetSession("master")
@@ -171,6 +198,18 @@ func (this *BackendController) CategoryUpdate() {
 
 //修改链接页面
 func (this *BackendController) LinkUpdate() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["link"] = models.GetOneLinkInfo(this.GetString("id"))
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/link-update.html"
+}
+
+//修改菜单节点页面
+func (this *BackendController) MenuNodeUpdate() {
 	master := this.GetSession("master")
 	if master == nil {
 		this.Redirect("/login", 302)

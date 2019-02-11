@@ -275,7 +275,7 @@ func DeleteLink(id int) error {
 //获取所有链接list
 func GetAllLink() *[]Link {
 	list := []Link{}
-	_ = dbx.Select(&list, "select * from link order by id desc")
+	_ = dbx.Select(&list, "select * from link where type=0 order by id desc")
 	return &list
 }
 
@@ -289,8 +289,50 @@ func GetOneLinkInfo(id string) *[]Link {
 	return &data
 }
 
-// 分类修改
+// 修改链接信息
 func UpdateLink(data *Link) error {
+	_, err := dbc.Update(data)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
+}
+
+//--------------------菜单栏管理-------------------
+//添加链接
+func AddMenuNode(info *Link) error {
+	_, err := dbc.Insert(info)
+	return err
+}
+
+//删除链接
+func DeleteMenuNode(id int) error {
+	data := &Link{Id: id}
+	_ = dbc.Read(data)
+	_, err := dbc.Delete(data)
+	return err
+}
+
+//获取所有链接list
+func GetAllMenu() *[]Link {
+	list := []Link{}
+	_ = dbx.Select(&list, "select * from link where type=1 order by id desc")
+	return &list
+}
+
+// 获取一个link 信息
+func GetOneMenuNodeInfo(id string) *[]Link {
+	data := []Link{}
+	err := dbx.Select(&data, "select * from link where id=?", id)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return &data
+}
+
+// 修改链接信息
+func UpdateMenuNode(data *Link) error {
 	_, err := dbc.Update(data)
 	if err != nil {
 		return err

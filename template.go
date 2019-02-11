@@ -182,3 +182,8 @@ func ChangeLog() ChangeLogData{
 	}
 	return data
 }
+
+//获取菜单栏
+func MenuList() *[]models.Link{
+	return models.GetAllMenu()
+}

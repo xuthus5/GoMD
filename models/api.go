@@ -27,7 +27,7 @@ func GetArticleJson() *[]DisplayArticle {
 //获取后台页面列表  后台文章页面调用该方法 返回一个json数据
 func GetPageJson() *[]DisplayArticle {
 	list := []DisplayArticle{}
-	err := dbx.Select(&list, "select article.id,article.title,article.author,article.renew from article where type=1 order by article.renew desc")
+	err := dbx.Select(&list, "select id,title,author,renew,uuid from article where type=1 order by article.renew desc")
 	if err != nil {
 		log.Println(err.Error())
 	}

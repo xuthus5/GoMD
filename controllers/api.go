@@ -112,7 +112,6 @@ func (this *ApiController) ArticleDelete() {
 *************************/
 
 //添加页面 路由 /api/page/add
-//添加文章 数据校验  路由 /api/article/add
 func (this *ApiController) PageAdd() {
 	data := &models.Article{}
 	info := &ResultData{}
@@ -130,6 +129,51 @@ func (this *ApiController) PageAdd() {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
 			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！", Data: idstr}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 页面更新 数据校验  路由 /api/page/update
+func (this *ApiController) PageUpdate() {
+	id := this.GetString("id")
+	data := &models.Article{}
+	info := &ResultData{}
+	dict := pinyin.NewDict()
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Id = tools.StringToInt(id)
+		data.Type = 1
+		data.Renew = tools.Int64ToString(time.Now().Unix())
+		if data.Uuid == "" {
+			data.Uuid = dict.Convert(data.Title, "-").None()
+		}
+		err = models.UpdateArticle(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//页面删除  路由 /api/page/delete
+func (this *ApiController) PageDelete() {
+	info := &ResultData{}
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.DeleteArticle(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		err := models.DeleteCommentFromArticle(id)
+		if err == nil {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+		} else {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		}
 	}
 	this.Data["json"] = info
@@ -377,7 +421,7 @@ func (this *ApiController) LinkAdd() {
 	this.ServeJSON()
 }
 
-// 添加链接 路由 /api/link/delete
+// 删除链接 路由 /api/link/delete
 func (this *ApiController) LinkDelete() {
 	info := &ResultData{}
 
@@ -418,3 +462,69 @@ func (this *ApiController) LinkUpdate() {
 	this.Data["json"] = info
 	this.ServeJSON()
 }
+
+/************************
+
+有关菜单的API
+
+*************************/
+
+// 添加菜单栏节点 路由 /api/menu/add
+func (this *ApiController) MenuNodeAdd() {
+	name := this.GetString("name")
+	url := this.GetString("url")
+	description := this.GetString("description")
+	info := &models.Link{Name: name, Url: url, Description: description, Type:1}
+	err := models.AddLink(info)
+	var data *ResultData
+	if err != nil {
+		data = &ResultData{Error: 1, Title: "失败:", Msg: "添加失败！"}
+	} else {
+		data = &ResultData{Error: 0, Title: "成功:", Msg: "添加成功！"}
+	}
+	this.Data["json"] = data
+	this.ServeJSON()
+}
+
+// 删除菜单栏节点 路由 /api/menu/delete
+func (this *ApiController) MenuNodeDelete() {
+	info := &ResultData{}
+
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.DeleteLink(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//返回给后台一个菜单栏的列表 json数据类型返回 路由 /api/menu/list
+func (this *ApiController) MenuList() {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllMenu()}
+	this.ServeJSON()
+}
+
+// 菜单栏节点修改 路由 /api/menu/update
+func (this *ApiController) MenuNodeUpdate() {
+	id := this.GetString("id")
+	data := &models.Link{}
+	info := &ResultData{}
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Id = tools.StringToInt(id)
+		err := models.UpdateLink(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+

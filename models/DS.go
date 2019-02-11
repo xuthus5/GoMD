@@ -60,6 +60,8 @@ type Link struct {
 	Target      string //链接打开方式
 	Description string //链接描述
 	Visible     string //是否可见（Y/N）
+	Type        int    //链接类型，普通友情链接 0/菜单栏链接1
+	Sort        int    //链接排序
 }
 
 //公告表
@@ -91,17 +93,18 @@ type Category struct {
 }
 
 type CategoryData struct {
-	IsNil 	bool	//check this category is null ?
-	Msg 	string
-	Info 	[]Category
-	List    []Article 	//the article include in this category content
+	IsNil bool //check this category is null ?
+	Msg   string
+	Info  []Category
+	List  []Article //the article include in this category content
 }
+
 // 附件资源记录表
 type Attachment struct {
-	Id      int    //id
-	Name    string //名称
+	Id      int                     //id
+	Name    string                  //名称
 	Type    string `orm:"size(64)"` //分类 独立的文件 属于article的文章
-	Path    string //路径
+	Path    string                  //路径
 	Created string `orm:"size(10)"` //创建时间
 }
 
@@ -119,6 +122,7 @@ type DisplayArticle struct {
 	Name   string
 	Tags   string
 	Renew  string
+	Uuid   string
 }
 
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加

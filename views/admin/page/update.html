@@ -59,10 +59,14 @@
                 <form>
                 {{range .article}}
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <label for="inputEmail4">标题</label>
                             <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
                                    value="{{.Title}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">标识</label>
+                            <input type="text" name="uuid" class="form-control" placeholder="默认标题拼音、作为页面链接,自定义譬如 about">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">作者</label>
@@ -184,7 +188,7 @@
     $("#submit").click(function () {
         $(document).ready(function () {
             const postData = $("form").serialize();
-            $.post("/api/article/update?id=" + GetQueryString("id"), postData, function (res) {
+            $.post("/api/page/update?id=" + GetQueryString("id"), postData, function (res) {
                 console.log(res);
                 if (res.Error === 0) {
                     layer.open({
@@ -193,10 +197,10 @@
                         , content: res.Msg,
                         btn: ['浏览', '列表'],
                         yes: function (index) {
-                            window.location.href = "/article/" + res.data;
+                            window.location.href = "/" + res.data;
                         }
                         , btn2: function (index) {
-                            window.location.href = "/admin/article";
+                            window.location.href = "/admin/page";
                         }
                     });
                 } else {

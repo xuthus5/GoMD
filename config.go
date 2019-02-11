@@ -102,6 +102,7 @@ func customTemplateFunction() {
 	_ = beego.AddFuncMap("itu", IdToUuid)                 //根据id返回uuid
 	_ = beego.AddFuncMap("cl", models.CategoryList)       //返回分类列表
 	_ = beego.AddFuncMap("link", models.GetAllLink)       //返回链接列表
+	_ = beego.AddFuncMap("menu", models.GetAllMenu)       //返回菜单栏
 }
 
 //自定义状态页面

@@ -51,7 +51,7 @@
 <script>
     $('#table').bootstrapTable({
         url: '/api/page/list',
-        responseHandler:responseHandler,
+        responseHandler: responseHandler,
         columns: [{
             field: 'Id',
             title: 'ID'
@@ -59,12 +59,15 @@
             field: 'Title',
             title: '标题'
         }, {
+            field: 'Uuid',
+            title: '标识'
+        }, {
             field: 'Author',
             title: '作者'
-        },{
+        }, {
             field: 'Renew',
             title: '更新时间'
-        },{
+        }, {
             field: 'Option',
             title: '操作',
             align: 'center',
@@ -74,9 +77,11 @@
         pagination: true,   //开启分页功能
         pageSize: 10,        //每页显示条数
     });
+
     function responseHandler(res) {
         return res.data;
     }
+
     function operateFormatter(value, row, index) {
         return [
             '<div class="operate-group">',
@@ -85,23 +90,24 @@
             '</div>'
         ].join('');
     }
+
     // 定义layer主题名称
     layer.config({
         skin: 'layer-class'
     });
     window.operateEvents = {
         'click .update': function (e, value, row, index) {
-            self.location = '/admin/article/update?id=' + row.Id;
+            self.location = '/admin/page/update?id=' + row.Id;
         },
         'click .delete': function (e, value, row, index) {
             layer.confirm('确定删除？', function (index) {
-                $.get("/api/article/delete?id=" + row.Id, function (res) {
+                $.get("/api/page/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
                             title: res.Title
                             , content: res.Msg,
                             yes: function (index) {
-                                window.location.href = "/admin/article";
+                                window.location.href = "/admin/page";
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                             }
                         });
