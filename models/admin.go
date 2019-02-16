@@ -1,6 +1,9 @@
 package models
 
-import "log"
+import (
+	"GoMD/tools"
+	"log"
+)
 
 /* ---------------------------------
 
@@ -26,6 +29,16 @@ func GetOneArticle(id, method string) *[]Article {
 		_ = dbx.Select(&data, "select * from article where id=?", id)
 	}
 	return &data
+}
+
+// 提供ID 查看文章的属性
+func GetPropertyByID(id int,Property string) string {
+	data := []Article{}
+	_ = dbx.Select(&data, "select * from article where id=?", id)
+	if Property == "title" {
+		return data[0].Title
+	}
+	return ""
 }
 
 // 查看某一篇文章的上下文 提供ID
@@ -334,6 +347,52 @@ func GetOneMenuNodeInfo(id string) *[]Link {
 // 修改链接信息
 func UpdateMenuNode(data *Link) error {
 	_, err := dbc.Update(data)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
+}
+
+//--------------------评论管理-------------------
+
+// 待审核评论列表
+func ReviewComment() *[]DisplayComment {
+	list := []DisplayComment{}
+	err := dbx.Select(&list, "select comment.content,comment.date,comment.name,comment.id,article.title from comment,article where article.id=comment.aid and comment.status=0")
+	if err != nil {
+		log.Println(err.Error())
+	}
+	for i, v := range list {
+		list[i].Date = tools.UnixTimeToString(v.Date)
+	}
+	return &list
+}
+
+// 已审核评论列表
+func AdoptComment() *[]DisplayComment {
+	list := []DisplayComment{}
+	err := dbx.Select(&list, "select comment.content,comment.date,comment.name,comment.id,article.title from comment,article where article.id=comment.aid and comment.status=1")
+	if err != nil {
+		log.Println(err.Error())
+	}
+	for i, v := range list {
+		list[i].Date = tools.UnixTimeToString(v.Date)
+	}
+	return &list
+}
+
+// 评论删除
+func CommentDelete(id int) error {
+	data := &Comment{Id: id}
+	_ = dbc.Read(data)
+	_, err := dbc.Delete(data)
+	return err
+}
+
+//修改评论状态
+func CommentUpdate(data *Comment) error{
+	_, err := dbc.Update(data,"Status")
 	if err != nil {
 		return err
 	} else {

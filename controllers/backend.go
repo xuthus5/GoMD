@@ -127,6 +127,18 @@ func (this *BackendController) Menu() {
 	this.TplName = "admin/menu.html"
 }
 
+//评论页面
+func (this *BackendController) Comment() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/comment.html"
+}
+
 //*******************设置*************************
 //全局设置
 func (this *BackendController) Setting() {

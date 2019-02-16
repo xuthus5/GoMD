@@ -13,11 +13,9 @@ func (this *FrontendController) Page() {
 	id := this.GetString(":uuid")
 	article := models.GetOneArticle(id, "uuid")
 	temp := *article
-	label := models.SearchArticleCategory(temp[0].Cid)
 	this.Data["id"] = temp[0].Id
 	this.Data["article"] = article
 	this.Data["comments"] = models.GetArticleComments(temp[0].Id)
-	this.Data["label"] = label
 	this.Data["config"] = models.ConfigList()
 	this.Layout = layout
 	this.TplName = theme + "/page.html"

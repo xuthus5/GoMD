@@ -22,4 +22,5 @@ func BackendRouter() {
 	beego.Router("/admin/page", &controllers.BackendController{}, "get:Page")                              //页面列表管理
 	beego.Router("/admin/menu", &controllers.BackendController{}, "get:Menu")                              //菜单管理
 	beego.Router("/admin/menu/update", &controllers.BackendController{}, "get:MenuNodeUpdate")             //菜单节点修改                     //菜单管理
+	beego.Router("/admin/comment", &controllers.BackendController{}, "get:Comment")                        //评论页面                   //菜单管理
 }

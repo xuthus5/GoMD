@@ -103,6 +103,7 @@ func customTemplateFunction() {
 	_ = beego.AddFuncMap("cl", models.CategoryList)       //返回分类列表
 	_ = beego.AddFuncMap("link", models.GetAllLink)       //返回链接列表
 	_ = beego.AddFuncMap("menu", models.GetAllMenu)       //返回菜单栏
+	_ = beego.AddFuncMap("gpb",models.GetPropertyByID)		//通过提供ID和属性字段,返回字段内容
 }
 
 //自定义状态页面

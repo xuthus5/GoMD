@@ -41,4 +41,9 @@ func ApiRouter() {
 	beego.Router("/api/menu/add", &controllers.ApiController{}, "post:MenuNodeAdd")       //菜单节点添加
 	beego.Router("/api/menu/list", &controllers.ApiController{}, "get:MenuList")          //菜单节点列表
 	beego.Router("/api/menu/update", &controllers.ApiController{}, "post:MenuNodeUpdate") //菜单节点修改
+
+	beego.Router("/api/comment/review", &controllers.ApiController{}, "get:ReviewComment") //待审核评论列表
+	beego.Router("/api/comment/adopt", &controllers.ApiController{}, "get:AdoptComment")   //通过审核的评论列表
+	beego.Router("/api/comment/delete", &controllers.ApiController{}, "get:DeleteComment") //删除评论
+	beego.Router("/api/comment/update", &controllers.ApiController{}, "get:UpdateComment") //通过评论操作
 }

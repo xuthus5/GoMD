@@ -43,6 +43,7 @@ type Article struct {
 type Comment struct {
 	Id      int    `form:"-"`       //id
 	Aid     int    `form:"aid"`     //所属文章id
+	Status  int    `form:"-"`       //评论的状态 0:no 1:yes
 	Reply   int    `form:"-"`       //对评论的回复
 	Content string `form:"content"` //内容
 	Date    string `form:"-"`       //时间
@@ -123,6 +124,15 @@ type DisplayArticle struct {
 	Tags   string
 	Renew  string
 	Uuid   string
+}
+
+// 在后台显示的评论列表
+type DisplayComment struct {
+	Id      int
+	Name    string
+	Content string
+	Title string
+	Date   string
 }
 
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加

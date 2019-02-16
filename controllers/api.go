@@ -528,3 +528,51 @@ func (this *ApiController) MenuNodeUpdate() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关评论的API
+
+*************************/
+
+// 待审核评论列表 路由 /api/comment/review
+func (this *ApiController) ReviewComment()  {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.ReviewComment()}
+	this.ServeJSON()
+}
+
+// 通过的评论 路由 /api/comment/adopt
+func (this *ApiController) AdoptComment()  {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.AdoptComment()}
+	this.ServeJSON()
+}
+
+// 删除评论 路由 /api/comment/delete
+func (this *ApiController) DeleteComment() {
+	info := &ResultData{}
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.CommentDelete(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 通过评论 路由 /api/comment/update
+func (this *ApiController) UpdateComment() {
+	id := this.GetString("id")
+	data := &models.Comment{}
+	info := &ResultData{}
+	data.Id = tools.StringToInt(id)
+	data.Status = 1
+	err := models.CommentUpdate(data)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}

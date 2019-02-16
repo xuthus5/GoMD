@@ -33,13 +33,17 @@ func TimeStampConversion(timestamp string, exact bool) string {
 }
 
 /* 得到单独的年月日 */
-func EnumerateDate(method string) map[string]string {
+func EnumerateDate(method string) string {
 	year, mouth, day := tools.EnumerateDate()
-	dt := make(map[string]string)
-	dt["year"] = year
-	dt["mouth"] = mouth
-	dt["day"] = day
-	return dt
+	if method == "year"{
+		return year
+	}else if method == "mouth" {
+		return mouth
+	}else if method == "day" {
+		return day
+	}else {
+		return ""
+	}
 }
 
 /*******************
