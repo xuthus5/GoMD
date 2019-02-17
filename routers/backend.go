@@ -21,6 +21,8 @@ func BackendRouter() {
 	beego.Router("/admin/page/update", &controllers.BackendController{}, "get:PageUpdate")                 //修改页面
 	beego.Router("/admin/page", &controllers.BackendController{}, "get:Page")                              //页面列表管理
 	beego.Router("/admin/menu", &controllers.BackendController{}, "get:Menu")                              //菜单管理
-	beego.Router("/admin/menu/update", &controllers.BackendController{}, "get:MenuNodeUpdate")             //菜单节点修改                     //菜单管理
-	beego.Router("/admin/comment", &controllers.BackendController{}, "get:Comment")                        //评论页面                   //菜单管理
+	beego.Router("/admin/menu/update", &controllers.BackendController{}, "get:MenuNodeUpdate")             //菜单节点修改
+	beego.Router("/admin/comment", &controllers.BackendController{}, "get:Comment")                        //评论页面
+	beego.Router("/admin/style", &controllers.BackendController{}, "get:Style")                            //主题样式配置页面
+	beego.Router("/admin/backup", &controllers.BackendController{}, "get:Backup")                          //备份页面
 }

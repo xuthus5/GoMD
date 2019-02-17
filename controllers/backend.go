@@ -24,12 +24,24 @@ func (this *BackendController) Index() {
 
 //外观设置			路由： /admin/style
 func (this *BackendController) Style() {
-
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/index.html"
 }
 
 //网站数据备份			路由： /admin/backup
 func (this *BackendController) Backup() {
-
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/index.html"
 }
 
 //*******************撰写*************************

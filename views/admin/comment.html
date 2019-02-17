@@ -155,10 +155,6 @@
         ].join('');
     }
 
-    // 定义layer主题名称
-    layer.config({
-        skin: 'layer-class'
-    });
     window.operateEvents = {
         'click .update': function (e, value, row, index) {
             $.get('/api/comment/update?id=' + row.Id, function (res) {
@@ -179,8 +175,9 @@
                 $.get("/api/comment/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
-                            title: res.Title
-                            , content: res.Msg,
+                            skin: 'layer-class',
+                            title: res.Title,
+                            content: res.Msg,
                             yes: function (index) {
                                 window.location.href = "/admin/comment";
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
@@ -200,12 +197,13 @@
     };
     window.deleteComment = {
         'click .delete': function (e, value, row, index) {
-            layer.confirm('确定删除？', function (index) {
-                $.get("/api/comment/delete?id=" + row.Id, function (res) {
+            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
+                    $.get("/api/comment/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
-                            title: res.Title
-                            , content: res.Msg,
+                            skin: 'layer-class',
+                            title: res.Title,
+                            content: res.Msg,
                             yes: function (index) {
                                 window.location.href = "/admin/comment";
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭

@@ -3,6 +3,7 @@ package models
 import (
 	"GoMD/tools"
 	"log"
+	"strconv"
 )
 
 /* ---------------------------------
@@ -143,7 +144,7 @@ func AddComment(data *Comment) error {
 // 得到一篇文章下的所有评论
 func GetArticleComments(id int) *[]Comment {
 	data := []Comment{}
-	err := dbx.Select(&data, "select * from comment where aid=?", id)
+	err := dbx.Select(&data, "select * from comment where status=1 and aid=?", id)
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -152,7 +153,7 @@ func GetArticleComments(id int) *[]Comment {
 
 // 得到一篇文章下的评论数量 传入文章id
 func GetCommentNumFromArticle(id int) (int64, error) {
-	return dbc.QueryTable("comment").Filter("aid", id).Count()
+	return dbc.QueryTable("comment").Filter("aid", id).Filter("status",1).Count()
 }
 
 // 根据传递过来的id返回uuid
@@ -208,6 +209,24 @@ func UpdateCategory(data *Category) error {
 	} else {
 		return nil
 	}
+}
+
+
+// 返回分类的信息
+func CategoryInformation(fields string) *CategoryData{
+	info := []Category{}
+	data := CategoryData{}
+	_ = dbx.Select(&info, "select * from category where key=?", fields)
+	if len(info)==0{
+		data.IsNil = true
+		data.Msg = "分类不存在!"
+	}else{
+		data.IsNil = false
+		data.Info = info
+		list,_ := GetCategoryArticle(strconv.Itoa(info[0].Id))
+		data.List = *list
+	}
+	return &data
 }
 
 // 查询分类列表  用于后台展示所有分类
