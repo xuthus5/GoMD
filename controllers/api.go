@@ -5,7 +5,9 @@ import (
 	"GoMD/tools"
 	"github.com/Lofanmi/pinyin-golang/pinyin"
 	"github.com/astaxie/beego"
+	"io/ioutil"
 	"log"
+	"os"
 	"reflect"
 	"strconv"
 	"time"
@@ -22,6 +24,12 @@ type JsonData struct {
 	Count int         `json:"total"` // 数据数量
 	Data  interface{} `json:"data"`  //数据
 }
+
+/************************
+
+有关文章的API
+
+*************************/
 
 //返回后台文章列表 json数据类型返回 路由 /api/article/list
 func (this *ApiController) ArticleList() {
@@ -99,6 +107,93 @@ func (this *ApiController) ArticleDelete() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关页面的API
+
+*************************/
+
+//添加页面 路由 /api/page/add
+func (this *ApiController) PageAdd() {
+	data := &models.Article{}
+	info := &ResultData{}
+	dict := pinyin.NewDict()
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Renew = tools.Int64ToString(time.Now().Unix())
+		data.Type = 1
+		if data.Uuid == "" {
+			data.Uuid = dict.Convert(data.Title, "-").None()
+		}
+		idstr, err := models.AddArticle(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！", Data: idstr}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 页面更新 数据校验  路由 /api/page/update
+func (this *ApiController) PageUpdate() {
+	id := this.GetString("id")
+	data := &models.Article{}
+	info := &ResultData{}
+	dict := pinyin.NewDict()
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Id = tools.StringToInt(id)
+		data.Type = 1
+		data.Renew = tools.Int64ToString(time.Now().Unix())
+		if data.Uuid == "" {
+			data.Uuid = dict.Convert(data.Title, "-").None()
+		}
+		err = models.UpdateArticle(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//页面删除  路由 /api/page/delete
+func (this *ApiController) PageDelete() {
+	info := &ResultData{}
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.DeleteArticle(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		err := models.DeleteCommentFromArticle(id)
+		if err == nil {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+		} else {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//返回后台页面列表 json数据类型返回 路由 /api/page/list
+func (this *ApiController) PageList() {
+	data := models.GetPageJson()
+	this.Data["json"] = &JsonData{Code: 0, Count: len(*data), Msg: "", Data: data}
+	this.ServeJSON()
+}
+/************************
+
+有关分类的API
+
+*************************/
+
 // 添加分类 路由 /api/article/category/add
 func (this *ApiController) CategoryAdd() {
 	name := this.GetString("name")
@@ -156,6 +251,12 @@ func (this *ApiController) CategoryUpdate() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关网站配置的API
+
+*************************/
+
 // 网站设置页面  路由  /api/site/config
 func (this *ApiController) SiteConfig() {
 	// 判断提交类型 user为用户信息表单  site为网站配置表单
@@ -186,6 +287,12 @@ func (this *ApiController) SiteConfig() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关公告的API
+
+*************************/
+
 // 公告数据接受 路由 /api/notice
 func (this *ApiController) Notice() {
 	notice := &models.Notice{Content: this.GetString("content"), Url: this.GetString("url"), Date: tools.Int64ToString(time.Now().Unix())}
@@ -204,6 +311,12 @@ func (this *ApiController) NoticeList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetNoticeJson()}
 	this.ServeJSON()
 }
+
+/************************
+
+有关文件处理的API
+
+*************************/
 
 // 文件上传api 路由 /api/file/upload 返回一个包含文件存储信息的json数据
 func (this *ApiController) FileUpload() {
@@ -262,6 +375,12 @@ func (this *ApiController) FileDelete() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关评论的API
+
+*************************/
+
 // 发布评论 路由 /api/comment/add
 func (this *ApiController) CommentAdd() {
 	data := &models.Comment{}
@@ -281,6 +400,12 @@ func (this *ApiController) CommentAdd() {
 	this.ServeJSON()
 }
 
+/************************
+
+有关链接的API
+
+*************************/
+
 // 添加链接 路由 /api/link/add
 func (this *ApiController) LinkAdd() {
 	name := this.GetString("name")
@@ -298,7 +423,7 @@ func (this *ApiController) LinkAdd() {
 	this.ServeJSON()
 }
 
-// 添加链接 路由 /api/link/delete
+// 删除链接 路由 /api/link/delete
 func (this *ApiController) LinkDelete() {
 	info := &ResultData{}
 
@@ -314,7 +439,7 @@ func (this *ApiController) LinkDelete() {
 	this.ServeJSON()
 }
 
-//返回后台分类列表 json数据类型返回 路由 /api/link/list
+//返回后台链接列表 json数据类型返回 路由 /api/link/list
 func (this *ApiController) LinkList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllLink()}
 	this.ServeJSON()
@@ -335,6 +460,175 @@ func (this *ApiController) LinkUpdate() {
 		} else {
 			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
 		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+/************************
+
+有关菜单的API
+
+*************************/
+
+// 添加菜单栏节点 路由 /api/menu/add
+func (this *ApiController) MenuNodeAdd() {
+	name := this.GetString("name")
+	url := this.GetString("url")
+	description := this.GetString("description")
+	info := &models.Link{Name: name, Url: url, Description: description, Type:1}
+	err := models.AddLink(info)
+	var data *ResultData
+	if err != nil {
+		data = &ResultData{Error: 1, Title: "失败:", Msg: "添加失败！"}
+	} else {
+		data = &ResultData{Error: 0, Title: "成功:", Msg: "添加成功！"}
+	}
+	this.Data["json"] = data
+	this.ServeJSON()
+}
+
+// 删除菜单栏节点 路由 /api/menu/delete
+func (this *ApiController) MenuNodeDelete() {
+	info := &ResultData{}
+
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.DeleteLink(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//返回给后台一个菜单栏的列表 json数据类型返回 路由 /api/menu/list
+func (this *ApiController) MenuList() {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.GetAllMenu()}
+	this.ServeJSON()
+}
+
+// 菜单栏节点修改 路由 /api/menu/update
+func (this *ApiController) MenuNodeUpdate() {
+	id := this.GetString("id")
+	data := &models.Link{}
+	info := &ResultData{}
+	if err := this.ParseForm(data); err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+	} else {
+		data.Id = tools.StringToInt(id)
+		err := models.UpdateLink(data)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+		}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+/************************
+
+有关评论的API
+
+*************************/
+
+// 待审核评论列表 路由 /api/comment/review
+func (this *ApiController) ReviewComment()  {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.ReviewComment()}
+	this.ServeJSON()
+}
+
+// 通过的评论 路由 /api/comment/adopt
+func (this *ApiController) AdoptComment()  {
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.AdoptComment()}
+	this.ServeJSON()
+}
+
+// 删除评论 路由 /api/comment/delete
+func (this *ApiController) DeleteComment() {
+	info := &ResultData{}
+	id, _ := strconv.Atoi(this.GetString("id"))
+	err := models.CommentDelete(id)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+// 通过评论 路由 /api/comment/update
+func (this *ApiController) UpdateComment() {
+	id := this.GetString("id")
+	data := &models.Comment{}
+	info := &ResultData{}
+	data.Id = tools.StringToInt(id)
+	data.Status = 1
+	err := models.CommentUpdate(data)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+/************************
+
+有关备份的API
+
+*************************/
+
+//备份数据 路由： /api/backup/backup
+func (this *ApiController) Backup() {
+	info := &ResultData{}
+	_ = tools.CheckAndDirCreate("backup")
+	f, _ := os.Open("../GoMD")
+	defer f.Close()
+	var files = []*os.File{f}
+	dir,_ := os.Getwd()
+	err := tools.Compress(files,dir+".zip")
+	if err != nil {
+		beego.Error("压缩文件失败！")
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "创建备份失败！"}
+	}else {
+		_ = tools.FileMove(dir+".zip","./backup/"+tools.TimeToString(false)+".zip")
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "备份成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//备份数据列表 路由： /api/backup/list
+func (this *ApiController) BackupList() {
+	type FileList struct {
+		Date string `json:"date"`
+		Name string `json:"name"`
+	}
+	var fl = []FileList{}
+	files, _ := ioutil.ReadDir("backup/")
+	for _, f := range files {
+		fl = append(fl, FileList{Date:f.ModTime().Format("2006-01-02 15:04:05"),Name:f.Name()})
+	}
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: fl}
+	this.ServeJSON()
+}
+
+//备份数据删除 路由： /api/backup/delete
+func (this *ApiController) BackupDelete() {
+	info := &ResultData{}
+	name := this.GetString("name")
+	err := tools.FileRemove("./backup/"+name)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "删除备份失败！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
 	}
 	this.Data["json"] = info
 	this.ServeJSON()

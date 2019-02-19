@@ -1,0 +1,213 @@
+<link href="/static/admin/css/plugins/dropzone/basic.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/dropzone/dropzone.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+<link href="/static/admin/css/style.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/bootstrap-markdown/bootstrap-markdown.min.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>新建页面</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/article">页面管理</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>添加页面</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>添加页面
+                        <small>请使用markdown语法</small>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#" class="dropdown-item">Config option 1</a>
+                            </li>
+                            <li><a href="#" class="dropdown-item">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                <form>
+                {{range .article}}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">标题</label>
+                            <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
+                                   value="{{.Title}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">标识</label>
+                            <input type="text" name="uuid" class="form-control" placeholder="默认标题拼音、作为页面链接,自定义譬如 about">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">作者</label>
+                            <input type="text" name="author" class="form-control" value="{{.Author}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="content" data-provide="markdown" rows="10" id="content">{{.Content}}</textarea>
+                    </div>
+                    <button type="button" id="submit" class="btn btn-primary">发表</button>
+                </form>
+                {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showDropZone" style="display: none;">
+    <form action="#" class="dropzone" id="dropzoneForm">
+        <div class="fallback">
+            <input name="file" type="file" multiple/>
+        </div>
+    </form>
+</div>
+<!-- Chosen -->
+<script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+<!-- Tags Input -->
+<script src="/static/admin/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<!-- Bootstrap markdown -->
+<script src="/static/admin/js/plugins/bootstrap-markdown/bootstrap-markdown.js"></script>
+<script src="/static/admin/js/plugins/bootstrap-markdown/markdown.js"></script>
+<!-- Jasny -->
+<script src="/static/admin/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<!-- DROPZONE -->
+<script src="/static/admin/js/plugins/dropzone/dropzone.js"></script>
+<script>
+    // 存储链接
+    var bucket = "";
+
+    // 剪切控制
+    function toClipboard(text) {
+        var domain = window.location.host;
+        var url = "http://" + domain + "/" + text;
+        var tag = document.createElement('input');
+        tag.setAttribute('id', 'cp_path_input');
+        tag.value = url;
+        document.getElementsByTagName('body')[0].appendChild(tag);
+        document.getElementById('cp_path_input').select();
+        document.execCommand('copy');
+        document.getElementById('cp_path_input').remove();
+        layer.msg("附件路径已被复制！", {time: 2000});
+    }
+
+    // markdown 控制
+    $("#content").markdown({
+        iconlibrary: 'fa',
+        additionalButtons: [
+            [{
+                name: "groupUpload",
+                data: [{
+                    name: "Upload",
+                    toggle: true,
+                    title: "Upload",
+                    icon: {
+                        fa: 'fa fa-upload',
+                    },
+                    callback: function (e) {
+                        //弹出页面层
+                        layer.open({
+                            type: 1,
+                            title: "上传文件(成功后关闭窗口复制资源链接)",
+                            skin: 'layui-layer-rim', //加上边框
+                            area: ['420px', '250px'], //宽高
+                            content: $('#showDropZone'),
+                            cancel: function (index, layero) {
+                                if (bucket !== "") {
+                                    toClipboard(bucket);
+                                }
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            }
+                        });
+                    }
+                }]
+            }]
+        ]
+    });
+    //上传控制
+    Dropzone.autoDiscover = false;
+    $("#dropzoneForm").dropzone({
+        url: "/api/file/upload",
+        maxFilesize: 20,
+        dictDefaultMessage: "<strong>拖拽文件到此处或者点击此处选择文件进行上传. </strong></br>",
+        init: function () {
+            this.on("success", function (file) {
+                var data = JSON.parse(file.xhr.response);
+                //上传成功 将结果复制给bucket
+                bucket = data.data[0].Path;
+            });
+        }
+    });
+
+    $('.chosen-select').chosen({width: "100%"});
+
+    $(document).ready(function () {
+        $('.tagsinput').tagsinput({
+            tagClass: 'label label-primary'
+        });
+    });
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    $("#submit").click(function () {
+        $(document).ready(function () {
+            const postData = $("form").serialize();
+            $.post("/api/page/update?id=" + GetQueryString("id"), postData, function (res) {
+                console.log(res);
+                if (res.Error === 0) {
+                    layer.open({
+                        skin: 'layer-class',
+                        title: res.Title
+                        , content: res.Msg,
+                        btn: ['浏览', '列表'],
+                        yes: function (index) {
+                            window.location.href = "/" + res.data;
+                        }
+                        , btn2: function (index) {
+                            window.location.href = "/admin/page";
+                        }
+                    });
+                } else {
+                    layer.msg("附件路径已被复制", {time: 2000});
+                }
+            }, "json");
+            return false;
+        });
+    });
+</script>

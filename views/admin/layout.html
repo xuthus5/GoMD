@@ -39,34 +39,45 @@
                         GoMD
                     </div>
                 </li>
-                <li class="active">
-                    <a href="/admin"><i class="fa fa-diamond"></i> <span class="nav-label">仪表盘</span></a>
-                </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">文章管理</span><span
-                            class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-diamond"></i> <span class="nav-label">仪表盘</span><span
+                                class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="/admin/article">文章列表</a></li>
-                        <li><a href="/admin/article/add">添加文章</a></li>
-                        <li><a href="/admin/article/category">分类管理</a></li>
-                        {{/*<li><a href="#">标签管理</a></li>*/}}
+                        <li><a href="/admin/">概要</a></li>
+                        <li><a href="/admin/style">外观</a></li>
+                        <li><a href="/admin/backup">备份</a></li>
                     </ul>
                 </li>
-                {{/*<li>*/}}
-                    {{/*<a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">评论管理 </span><span*/}}
-                            {{/*class="float-right label label-primary">15</span></a>*/}}
-                {{/*</li>*/}}
-                {{/*<li>*/}}
-                    {{/*<a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">公告管理</span> </a>*/}}
-                {{/*</li>*/}}
                 <li>
-                    <a href="/admin/link"><i class="fa fa-flask"></i> <span class="nav-label">链接管理</span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">撰写</span><span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/article/add">撰写文章</a></li>
+                        <li><a href="/admin/page/add">创建页面</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="/admin/attachment"><i class="fa fa-edit"></i> <span class="nav-label">附件中心</span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/article">文章</a></li>
+                        <li><a href="/admin/page">页面</a></li>
+                        <li><a href="/admin/comment">评论</a></li>
+                        <li><a href="/admin/article/category">分类</a></li>
+                        <li><a href="/admin/menu">菜单</a></li>
+                        <li><a href="/admin/file">文件</a></li>
+                        <li><a href="/admin/link">链接</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="/admin/setting"><i class="fa fa-desktop"></i> <span class="nav-label">网站配置</span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">设置</span><span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/admin/setting/website">网站设置</a></li>
+                        <li><a href="/admin/setting/comment">评论</a></li>
+                        <li><a href="/admin/setting/read">阅读</a></li>
+                        <li><a href="/admin/setting/path">永久链接</a></li>
+                    </ul>
                 </li>
                 <li class="special_link">
                     <a href="/"><i class="fa fa-home"></i> <span class="nav-label">回首页</span></a>
@@ -88,103 +99,6 @@
                     <li>
                         <span class="m-r-sm text-muted welcome-message">欢迎使用GoMD博客系统.</span>
                     </li>
-                    {{/*<li class="dropdown">*/}}
-                        {{/*<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">*/}}
-                            {{/*<i class="fa fa-envelope"></i> <span class="label label-warning">16</span>*/}}
-                        {{/*</a>*/}}
-                        {{/*<ul class="dropdown-menu dropdown-messages">*/}}
-                            {{/*<li>*/}}
-                                {{/*<div class="dropdown-messages-box">*/}}
-                                    {{/*<a class="dropdown-item float-left" href="profile.html">*/}}
-                                        {{/*<img alt="image" class="rounded-circle" src="/static/admin/img/a7.jpg">*/}}
-                                    {{/*</a>*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<small class="float-right">46h ago</small>*/}}
-                                        {{/*<strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>.*/}}
-                                        {{/*<br>*/}}
-                                        {{/*<small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</div>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<div class="dropdown-messages-box">*/}}
-                                    {{/*<a class="dropdown-item float-left" href="profile.html">*/}}
-                                        {{/*<img alt="image" class="rounded-circle" src="/static/admin/img/a4.jpg">*/}}
-                                    {{/*</a>*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<small class="float-right text-navy">5h ago</small>*/}}
-                                        {{/*<strong>Chris Johnatan Overtunk</strong> started following <strong>Monica*/}}
-                                        {{/*Smith</strong>. <br>*/}}
-                                        {{/*<small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</div>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<div class="dropdown-messages-box">*/}}
-                                    {{/*<a class="dropdown-item float-left" href="profile.html">*/}}
-                                        {{/*<img alt="image" class="rounded-circle" src="/static/admin/img/profile.jpg">*/}}
-                                    {{/*</a>*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<small class="float-right">23h ago</small>*/}}
-                                        {{/*<strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>*/}}
-                                        {{/*<small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</div>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<div class="text-center link-block">*/}}
-                                    {{/*<a href="mailbox.html" class="dropdown-item">*/}}
-                                        {{/*<i class="fa fa-envelope"></i> <strong>Read All Messages</strong>*/}}
-                                    {{/*</a>*/}}
-                                {{/*</div>*/}}
-                            {{/*</li>*/}}
-                        {{/*</ul>*/}}
-                    {{/*</li>*/}}
-                    {{/*<li class="dropdown">*/}}
-                        {{/*<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">*/}}
-                            {{/*<i class="fa fa-bell"></i> <span class="label label-primary">8</span>*/}}
-                        {{/*</a>*/}}
-                        {{/*<ul class="dropdown-menu dropdown-alerts">*/}}
-                            {{/*<li>*/}}
-                                {{/*<a href="mailbox.html" class="dropdown-item">*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<i class="fa fa-envelope fa-fw"></i> You have 16 messages*/}}
-                                        {{/*<span class="float-right text-muted small">4 minutes ago</span>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</a>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<a href="profile.html" class="dropdown-item">*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<i class="fa fa-twitter fa-fw"></i> 3 New Followers*/}}
-                                        {{/*<span class="float-right text-muted small">12 minutes ago</span>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</a>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<a href="grid_options.html" class="dropdown-item">*/}}
-                                    {{/*<div>*/}}
-                                        {{/*<i class="fa fa-upload fa-fw"></i> Server Rebooted*/}}
-                                        {{/*<span class="float-right text-muted small">4 minutes ago</span>*/}}
-                                    {{/*</div>*/}}
-                                {{/*</a>*/}}
-                            {{/*</li>*/}}
-                            {{/*<li class="dropdown-divider"></li>*/}}
-                            {{/*<li>*/}}
-                                {{/*<div class="text-center link-block">*/}}
-                                    {{/*<a href="notifications.html" class="dropdown-item">*/}}
-                                        {{/*<strong>See All Alerts</strong>*/}}
-                                        {{/*<i class="fa fa-angle-right"></i>*/}}
-                                    {{/*</a>*/}}
-                                {{/*</div>*/}}
-                            {{/*</li>*/}}
-                        {{/*</ul>*/}}
-                    {{/*</li>*/}}
                     <li>
                         <a href="/logout">
                             <i class="fa fa-sign-out"></i> 注销
@@ -202,7 +116,7 @@
                 Made by <strong>GoMD</strong> .
             </div>
             <div>
-                © 2018 <strong>{{sc "CopyRight"}}</strong>  All Rights Reserved.
+                © {{ed "year"}} <strong>{{sc "CopyRight"}}</strong>  All Rights Reserved.
             </div>
         </div>
     </div>

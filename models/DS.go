@@ -26,7 +26,7 @@ type Article struct {
 	Cid      int    `form:"cid"`
 	Count    int    `form:"-"`
 	Type     int    `form:"-"` //类型自定义 文章/页面	默认0为文章 1为页面
-	Uuid     string `form:"-"`
+	Uuid     string `form:"uuid"`
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`
@@ -43,6 +43,7 @@ type Article struct {
 type Comment struct {
 	Id      int    `form:"-"`       //id
 	Aid     int    `form:"aid"`     //所属文章id
+	Status  int    `form:"-"`       //评论的状态 0:no 1:yes
 	Reply   int    `form:"-"`       //对评论的回复
 	Content string `form:"content"` //内容
 	Date    string `form:"-"`       //时间
@@ -60,6 +61,8 @@ type Link struct {
 	Target      string //链接打开方式
 	Description string //链接描述
 	Visible     string //是否可见（Y/N）
+	Type        int    //链接类型，普通友情链接 0/菜单栏链接1
+	Sort        int    //链接排序
 }
 
 //公告表
@@ -91,17 +94,18 @@ type Category struct {
 }
 
 type CategoryData struct {
-	IsNil 	bool	//check this category is null ?
-	Msg 	string
-	Info 	[]Category
-	List    []Article 	//the article include in this category content
+	IsNil bool //check this category is null ?
+	Msg   string
+	Info  []Category
+	List  []Article //the article include in this category content
 }
+
 // 附件资源记录表
 type Attachment struct {
-	Id      int    //id
-	Name    string //名称
+	Id      int                     //id
+	Name    string                  //名称
 	Type    string `orm:"size(64)"` //分类 独立的文件 属于article的文章
-	Path    string //路径
+	Path    string                  //路径
 	Created string `orm:"size(10)"` //创建时间
 }
 
@@ -119,6 +123,16 @@ type DisplayArticle struct {
 	Name   string
 	Tags   string
 	Renew  string
+	Uuid   string
+}
+
+// 在后台显示的评论列表
+type DisplayComment struct {
+	Id      int
+	Name    string
+	Content string
+	Title string
+	Date   string
 }
 
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加

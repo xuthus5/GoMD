@@ -38,3 +38,14 @@ func EnumerateDate() (year, month, day string) {
 	day = strconv.Itoa(time.Now().Day())
 	return
 }
+
+/* 分割指定字符串时间的 年月日：时分秒 */
+func DivisionTime(stamp string) (ymd,hms string) {
+	stamp = stamp[:10]
+	base, _ := strconv.ParseInt(stamp, 10, 64)
+	YMDLayout := "2006-01-02"
+	HMSLayout := "15:04:05"
+	ymd = time.Unix(base, 0).Format(YMDLayout)
+	hms = time.Unix(base, 0).Format(HMSLayout)
+	return
+}

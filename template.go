@@ -3,9 +3,11 @@ package main
 import (
 	"GoMD/models"
 	"GoMD/tools"
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,12 +18,37 @@ import (
 功能： 模板函数文件
 ------------------------------------*/
 
-/* 文章页面标签显示 */
-func Tags(tags string) []string {
-	array := strings.Split(tags, ",")
-	return array
+/*******************
+时间处理相关
+********************/
+
+/* 时间转换 传入时间戳字符串 是否精准 */
+func TimeStampConversion(timestamp string, exact bool) string {
+	realTime, _ := strconv.ParseInt(timestamp, 10, 64)
+	if exact == false {
+		return time.Unix(realTime, 0).Format("2006-01-02")
+	} else {
+		return time.Unix(realTime, 0).Format("2006-01-02 15:04:05")
+	}
 }
 
+/* 得到单独的年月日 */
+func EnumerateDate(method string) string {
+	year, mouth, day := tools.EnumerateDate()
+	if method == "year"{
+		return year
+	}else if method == "mouth" {
+		return mouth
+	}else if method == "day" {
+		return day
+	}else {
+		return ""
+	}
+}
+
+/*******************
+运算相关
+********************/
 /* 分页处理 */
 func Calc(x, y int64, option string) int64 {
 	switch option {
@@ -34,34 +61,37 @@ func Calc(x, y int64, option string) int64 {
 	}
 }
 
+/*******************
+数据处理输出
+********************/
+/* 文章页面标签显示 */
+func Tags(tags string) []string {
+	array := strings.Split(tags, ",")
+	return array
+}
+
 /* markdown转换 */
 func MarkDown(content string) string {
 	output := blackfriday.Run([]byte(content), blackfriday.WithExtensions(blackfriday.NoEmptyLineBeforeBlock))
 	return string(output)
 }
 
-/* 时间转换 传入时间戳字符串 是否精准 */
-func YMD(timestamp string, exact bool) string {
-	realTime, _ := strconv.ParseInt(timestamp, 10, 64)
-	if exact == false {
-		return time.Unix(realTime, 0).Format("2006-01-02")
-	} else {
-		return time.Unix(realTime, 0).Format("2006-01-02 15:04:05")
+/*******************
+数据关系处理
+********************/
+/* 由评论ID得到文章信息 */
+func GetArticleFromCommentID(id int,fields string) string {
+	data := models.GetOneArticle(strconv.Itoa(id),"id")
+	article := *data
+	if fields == "title" {
+		return article[0].Title
 	}
+	return strconv.Itoa(id)
 }
 
-/* 得到单独的年月日 */
-func EnumerateDate(method string) string {
-	year, mouth, day := tools.EnumerateDate()
-	if method == "year" {
-		return year
-	} else if method == "mouth" {
-		return string(mouth)
-	} else {
-		return day
-	}
-}
-
+/*******************
+数据获取
+********************/
 /* 直接调取数据库配置表-网站基本信息 */
 func SiteConfig(info string) string {
 	return models.GetOneConfig(info)
@@ -86,8 +116,7 @@ func GetNotice() string {
 
 /* 根据分类cid 返回对应的分类名称 */
 func GetCategory(id int, method string) (value string) {
-	ids := strconv.Itoa(id)
-	temp := models.GetOneCategoryInfo(ids, "id")
+	temp := models.GetOneCategoryInfo(strconv.Itoa(id), "id")
 	category := *temp
 	if method == "name" {
 		value = category[0].Name
@@ -130,5 +159,35 @@ func PageNotFound(rw http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["code"] = "404"
 	data["title"] = "页面被吃掉了！"
-	t.Execute(rw, data)
+	_ = t.Execute(rw, data)
+}
+
+/* 切割时间为 ymd : hms */
+func DivisionTime(stamp string) map[string]string{
+	ymd,hms := tools.DivisionTime(stamp)
+	getTime := make(map[string]string)
+	getTime["ymd"] = ymd
+	getTime["hms"] = hms
+	return getTime
+}
+
+//官方最新日志获取
+func ChangeLog() ChangeLogData{
+	data := ChangeLogData{}
+	//ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
+	content, err := ioutil.ReadFile("CHANGELOG.json")
+	if err != nil {
+		beego.Error("读取文件失败！")
+	}
+	//读取的数据为json格式，需要进行解码
+	err = json.Unmarshal(content, &data)
+	if err != nil {
+		beego.Error("解析json数据失败")
+	}
+	return data
+}
+
+//获取菜单栏
+func MenuList() *[]models.Link{
+	return models.GetAllMenu()
 }

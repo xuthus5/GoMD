@@ -11,7 +11,7 @@
         <div class="side-info-link">
             <a href="mailto:{{sc "UserEmail"}}" target="_blank"><i class="fa fa-envelope-o fa-fw"
                                                             aria-hidden="true">&nbsp; </i></a>
-            <a href="{{sc "UserGithub"}}" target="_blank"><i class="fa fa-gitlab fa-fw"
+            <a href="{{sc "UserGithub"}}" target="_blank"><i class="fa fa-git fa-fw"
                                                              aria-hidden="true">&nbsp; </i></a>
         </div>
         <div class="side-info-con">
@@ -22,7 +22,7 @@
     <section class="widget paddingall">
         <h5 class="widget-title">最新文章</h5>
         <ul class="widget-list">
-        {{with $list := newa 3}}
+        {{with $list := na 3}}
         {{range $list}}
             <li><a href="/article/{{.Uuid}}"><i class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
             </li>
@@ -34,7 +34,7 @@
     <section class="widget paddingall">
         <h5 class="widget-title">最近回复</h5>
         <ul class="widget-list RecentReply zface-box">
-        {{with $list := newc 5}}
+        {{with $list := nc 5}}
         {{range $list}}
             <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
                                                                     src="{{gavatar .Email}}"

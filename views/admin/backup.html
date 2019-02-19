@@ -2,7 +2,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>友情链接管理</h2>
+        <h2>备份管理</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/">首页</a>
@@ -11,7 +11,7 @@
                 <a href="/admin">后台</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>友情链接管理</strong>
+                <strong>备份管理</strong>
             </li>
         </ol>
     </div>
@@ -24,8 +24,8 @@
         <div class="col-lg-4">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>添加链接
-                        <small>在这里添加一个友情链接</small>
+                    <h5>新建备份
+                        <small>备份将存储在 /backup 目录下</small>
                     </h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -39,22 +39,14 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-12 b-r">
-                            <form role="form">
-                                <div class="form-group"><label>名称</label> <input type="text"
-                                                                                 placeholder="例如 GitHub"
-                                                                                 class="form-control" name="name"></div>
-                                <div class="form-group"><label>网址</label> <input type="text"
-                                                                                 placeholder="例如 http://github.com"
-                                                                                 class="form-control" name="url"></div>
-                                <div class="form-group"><label for="inputPassword4">描述</label>
-                                    <textarea class="form-control" rows="3" name="description"
-                                              placeholder="简述这个链接的作用"></textarea></div>
-                                <div>
-                                    <button class="btn btn-sm btn-primary float-right m-t-n-xs" id="submit"
-                                            type="button">
-                                        <strong>提交</strong></button>
-                                </div>
-                            </form>
+                            <div class="jumbotron text-center">
+                                <h1>备份您的数据</h1>
+                                <p>此备份操作仅包含内容数据, 并不会涉及任何设置信息</p>
+                                <p>如果您的数据量过大, 为了避免操作超时, 建议您直接使用数据库提供的备份工具备份数据</p>
+                                <p>为了缩小备份文件体积, 建议您在备份前删除不必要的数据</p>
+                                <p><button class="btn btn-primary btn-lg" type="button" id="backup" role="button">开始备份</button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -63,8 +55,8 @@
         <div class="col-lg-8">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>链接列表管理
-                        <small>把没用的链接都删掉</small>
+                    <h5>备份列表
+                        <small>把没用的备份都删掉</small>
                     </h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -87,21 +79,23 @@
 <script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
 <script src="/static/admin/layer/layer.js"></script>
 <script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin/backup";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
+
     $('#table').bootstrapTable({
-        url: '/api/link/list',
+        url: '/api/backup/list',
         responseHandler: responseHandler,
         columns: [{
-            field: 'Id',
-            title: 'ID'
+            field: 'name',
+            title: '备份名'
         }, {
-            field: 'Name',
-            title: '名称'
-        }, {
-            field: 'Url',
-            title: '标识'
-        }, {
-            field: 'Description',
-            title: '描述'
+            field: 'date',
+            title: '时间'
         }, {
             field: 'Option',
             title: '操作',
@@ -118,37 +112,22 @@
     function operateFormatter(value, row, index) {
         return [
             '<div class="operate-group">',
-            '<a class="update layui-layer-btn0" href="#">修改</a>',
             '<a class="delete layui-layer-btn0" href="#">删除</a>',
             '</div>'
         ].join('');
     }
 
-    // 定义layer主题名称
-    layer.config({
-        skin: 'layer-class'
-    });
     window.operateEvents = {
-        'click .update': function (e, value, row, index) {
-            layer.open({
-                type: 2,
-                title: '修改分类信息',
-                shadeClose: true,
-                shade: 0.8,
-                area: ['380px', '90%'],
-                content: '/admin/link/update?id=' + row.Id //iframe的url
-            });
-        },
         'click .delete': function (e, value, row, index) {
-            layer.confirm('确定删除？', function (index) {
-                $.get("/api/link/delete?id=" + row.Id, function (res) {
+            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
+                $.get("/api/backup/delete?name=" + row.name, function (res) {
                     if (res.Error === 0) {
                         layer.open({
                             skin: 'layer-class',
                             title: res.Title
                             , content: res.Msg,
                             yes: function (index) {
-                                window.location.href = "/admin/link";
+                                window.location.href = "/admin/backup";
                             }
                         });
                     } else {
@@ -163,19 +142,12 @@
             });
         }
     };
-    $("#submit").click(function () {
+    $("#backup").click(function () {
         $(document).ready(function () {
-            const postData = $("form").serialize();
-            $.post("/api/link/add", postData, function (res) {
+            $.get("/api/backup/backup",function (res) {
                 if (res.Error === 0) {
-                    layer.open({
-                        title: res.Title
-                        , content: res.Msg,
-                        yes: function (index) {
-                            window.location.href = "/admin/link";
-                            layer.close(index); //如果设定了yes回调，需进行手工关闭
-                        }
-                    });
+                    layer.msg("备份成功", {time: 2000});
+                    wait(1);
                 } else {
                     layer.msg(res.Title + res.Msg, {
                         icon: 2,

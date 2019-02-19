@@ -69,13 +69,6 @@ func (this *FrontendController) Search() {
 	this.TplName = theme + "/search.html"
 }
 
-func (this *FrontendController) About() {
-	//关于 介绍页面
-	this.Data["config"] = models.ConfigList()
-	this.Layout = layout
-	this.TplName = theme + "/about.html"
-}
-
 func (this *FrontendController) Archive() {
 	//文章归档页面
 	this.Data["config"] = models.ConfigList()

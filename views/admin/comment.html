@@ -1,0 +1,224 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>评论管理</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>评论管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="/static/admin/bootstrap-table/bootstrap-table.css">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>评论管理 </h5>
+                    <div class="ibox-tools">
+                        <div class="input-group">
+                            <input placeholder="Search" type="text" class="form-control form-control-sm">
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-primary">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="review"></table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>评论管理 </h5>
+                    <div class="ibox-tools">
+                        <div class="input-group">
+                            <input placeholder="Search" type="text" class="form-control form-control-sm">
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-primary">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="adopt"></table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/admin/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin/comment";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
+    $('#review').bootstrapTable({
+        url: '/api/comment/review',
+        responseHandler: responseHandler,
+        columns: [{
+            field: 'Name',
+            title: '作者'
+        }, {
+            field: 'Content',
+            title: '内容'
+        }, {
+            field: 'Title',
+            title: '所属'
+        }, {
+            field: 'Date',
+            title: '更新时间'
+        }, {
+            field: 'Option',
+            title: '操作',
+            align: 'center',
+            formatter: operateFormatter,
+            events: "operateEvents",
+        }],
+        pagination: true,   //开启分页功能
+        pageSize: 10,        //每页显示条数
+    });
+
+    function responseHandler(res) {
+        return res.data;
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<div class="operate-group">',
+            '<a class="update layui-layer-btn0" href="#">通过</a>',
+            '<a class="delete layui-layer-btn0" href="#">删除</a>',
+            '</div>'
+        ].join('');
+    }
+
+    $('#adopt').bootstrapTable({
+        url: '/api/comment/adopt',
+        responseHandler: AdoptCommentList,
+        columns: [{
+            field: 'Name',
+            title: '作者'
+        }, {
+            field: 'Content',
+            title: '内容'
+        }, {
+            field: 'Title',
+            title: '所属'
+        }, {
+            field: 'Date',
+            title: '更新时间'
+        }, {
+            field: 'Option',
+            title: '操作',
+            align: 'center',
+            formatter: adoptCommentDeal,
+            events: "deleteComment",
+        }],
+        pagination: true,   //开启分页功能
+        pageSize: 10,        //每页显示条数
+    });
+
+    function AdoptCommentList(res) {
+        return res.data;
+    }
+
+    function adoptCommentDeal(value, row, index) {
+        return [
+            '<div class="operate-group">',
+            '<a class="delete layui-layer-btn0" href="#">删除</a>',
+            '</div>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .update': function (e, value, row, index) {
+            $.get('/api/comment/update?id=' + row.Id, function (res) {
+                if (res.Error === 0) {
+                    layer.msg("操作成功", {time: 2000});
+                    wait(1);
+                } else {
+                    layer.msg("操作失败", {
+                        icon: 2,
+                        shade: [0.8, '#393D49'], // 透明度  颜色
+                        time: 2000
+                    });
+                }
+            }, "json");
+        },
+        'click .delete': function (e, value, row, index) {
+            layer.confirm('确定删除？', function (index) {
+                $.get("/api/comment/delete?id=" + row.Id, function (res) {
+                    if (res.Error === 0) {
+                        layer.open({
+                            skin: 'layer-class',
+                            title: res.Title,
+                            content: res.Msg,
+                            yes: function (index) {
+                                window.location.href = "/admin/comment";
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        }
+    };
+    window.deleteComment = {
+        'click .delete': function (e, value, row, index) {
+            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
+                    $.get("/api/comment/delete?id=" + row.Id, function (res) {
+                    if (res.Error === 0) {
+                        layer.open({
+                            skin: 'layer-class',
+                            title: res.Title,
+                            content: res.Msg,
+                            yes: function (index) {
+                                window.location.href = "/admin/comment";
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        }
+    };
+</script>

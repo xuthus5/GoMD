@@ -8,6 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta content="telephone=no" name="format-detection"/>
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
     <meta name="renderer" content="webkit">
     <meta name="description" content="{{.config.Description}}">
     <meta name="keywords" content="{{.config.Keywords}}">
@@ -33,10 +34,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    {{with $menu := menu}}
+                    {{range $menu}}
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="/"><span>首页</span></a>
+                           href="{{.Url}}" title="{{.Description}}"><span>{{.Name}}</span></a>
                     </li>
+                    {{end}}
+                    {{end}}
                 </ul>
                 <div class="site-search kit-hidden-tb">
                     <form id="search" class="form-inline" action="/search"

@@ -10,50 +10,125 @@
                 <a href="/admin">后台</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>快速开始</strong>
+                <strong>网站概要</strong>
             </li>
         </ol>
     </div>
 </div>
 <div class="wrapper wrapper-content">
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>文章操作</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content text-center p-md">
+                        <h2 class="m-b-xxs"><span
+                                    class="text-navy">目前有 {{tn "article"}} 篇文章, 并有 {{tn "comment"}} 条关于你的评论在 {{tn "category"}} 个分类中.</span>
+                        </h2><br/>
+                        <p>点击下面的链接快速开始:</p>
+                        <span class="simple_tag"><a href="/admin/article/add">撰写新文章</a></span>
+                        <span class="simple_tag"><a href="/admin/page/add">撰写新页面</a></span>
+                        <span class="simple_tag"><a href="/admin/setting">系统设置</a></span>
+                        <span class="simple_tag"><a href="/admin/style">主题设置</a></span>
+                        <span class="simple_tag"><a href="/admin/comment">评论管理</a></span>
                     </div>
-                </div>
-                <div class="ibox-content">
-                    <div class="table-responsive">
-                        <table id="article-list"></table>
-                    </div>
-
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>分类操作</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>最近发布的文章</h5>
+                    </div>
+                    <div class="ibox-content inspinia-timeline no-padding">
+                        {{with $article := na 5}}
+                            {{range $article}}
+                                <div class="timeline-item">
+                                    <div class="row">
+                                        {{with $time := dt .Renew}}
+                                        <div class="col-3 date">
+                                            <i class="fa fa-file-text"></i>
+                                            {{$time.ymd}}
+                                            <br>
+                                            <small class="text-navy">{{$time.hms}}</small>
+                                        </div>
+                                            {{end}}
+                                        <div class="col-7 content">
+                                            <p class="m-b-xs"><strong><a itemprop="url"
+                                                                         href="/article/{{.Uuid}}">{{.Title}}</a></strong>
+                                            </p>
+                                            <p>
+                                                {{with $summary := markdown .Summary}}
+                                                    {{str2html $summary }}
+                                                {{end}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{end}}
+                        {{end}}
                     </div>
                 </div>
-                <div class="ibox-content">
-                    <div class="table-responsive">
-                        <table id="category-list"></table>
+            </div>
+            <div class="col-lg-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>最近得到的回复</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <ul class="list-group">
+                            {{with $comment := nc 8}}
+                            {{range $comment}}
+                            <li class="list-group-item">
+                                <p><a class="text-info" href="mailto:{{.Email}}">@{{.Name}}</a> : {{.Content}} - 《<a href="/article/{{itu .Aid}}#comment-{{.Id}}">{{gafc .Aid "title"}}</a>》</p>
+                                <small class="block text-muted"><i class="fa fa-clock-o"></i> {{tsc .Date false}}</small>
+                            </li>
+                            {{end}}
+                            {{end}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>官方最新日志</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="table-responsive">
+                            <table class="table table-hover issue-tracker">
+                                <tbody>
+                                {{with $changelog := changelog}}
+                                    {{range $changelog.Version}}
+                                <tr>
+                                    <td>
+                                        <span class="label {{.Level}}">{{.Type}}</span>
+                                    </td>
+                                    <td class="issue-info">
+                                        <a href="#">
+                                            {{.Title}}
+                                        </a>
+
+                                        <small>
+                                            {{.Commit}}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        {{.Committer}}
+                                    </td>
+                                    <td>
+                                        {{.Date}}
+                                    </td>
+
+                                    <td class="text-right">
+                                        <button class="btn btn-white btn-xs"><a href="{{.Tag}}">Tag</a></button>
+                                    </td>
+                                </tr>
+                                {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -173,7 +248,7 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['380px', '90%'],
-                content: '/admin/article/category/update?id='+row.Id //iframe的url
+                content: '/admin/article/category/update?id=' + row.Id //iframe的url
             });
         },
         'click .delete': function (e, value, row, index) {

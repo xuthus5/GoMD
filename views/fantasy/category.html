@@ -11,7 +11,7 @@
         <ul>
             {{range .list}}
                 <li>
-                    <time datetime="{{time .Renew false}}">{{time .Renew false}}</time>
+                    <time datetime="{{tsc .Renew false}}">{{tsc .Renew false}}</time>
                     <a href="/article/{{.Uuid}}">{{.Title}}</a>
                 </li>
             {{end}}
