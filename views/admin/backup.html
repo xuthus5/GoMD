@@ -1,0 +1,162 @@
+<link rel="stylesheet" href="/static/admin/bootstrap-table/bootstrap-table.css">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>备份管理</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>备份管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>新建备份
+                        <small>备份将存储在 /backup 目录下</small>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12 b-r">
+                            <div class="jumbotron text-center">
+                                <h1>备份您的数据</h1>
+                                <p>此备份操作仅包含内容数据, 并不会涉及任何设置信息</p>
+                                <p>如果您的数据量过大, 为了避免操作超时, 建议您直接使用数据库提供的备份工具备份数据</p>
+                                <p>为了缩小备份文件体积, 建议您在备份前删除不必要的数据</p>
+                                <p><button class="btn btn-primary btn-lg" type="button" id="backup" role="button">开始备份</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>备份列表
+                        <small>把没用的备份都删掉</small>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/admin/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin/backup";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
+
+    $('#table').bootstrapTable({
+        url: '/api/backup/list',
+        responseHandler: responseHandler,
+        columns: [{
+            field: 'name',
+            title: '备份名'
+        }, {
+            field: 'date',
+            title: '时间'
+        }, {
+            field: 'Option',
+            title: '操作',
+            align: 'center',
+            formatter: operateFormatter,
+            events: "operateEvents",
+        }],
+    });
+
+    function responseHandler(res) {
+        return res.data;
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<div class="operate-group">',
+            '<a class="delete layui-layer-btn0" href="#">删除</a>',
+            '</div>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .delete': function (e, value, row, index) {
+            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
+                $.get("/api/backup/delete?name=" + row.name, function (res) {
+                    if (res.Error === 0) {
+                        layer.open({
+                            skin: 'layer-class',
+                            title: res.Title
+                            , content: res.Msg,
+                            yes: function (index) {
+                                window.location.href = "/admin/backup";
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        }
+    };
+    $("#backup").click(function () {
+        $(document).ready(function () {
+            $.get("/api/backup/backup",function (res) {
+                if (res.Error === 0) {
+                    layer.msg("备份成功", {time: 2000});
+                    wait(1);
+                } else {
+                    layer.msg(res.Title + res.Msg, {
+                        icon: 2,
+                        shade: [0.8, '#393D49'], // 透明度  颜色
+                        time: 2000
+                    });
+                }
+            }, "json");
+            return false;
+        });
+    });
+</script>

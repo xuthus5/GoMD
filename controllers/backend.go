@@ -41,7 +41,7 @@ func (this *BackendController) Backup() {
 	}
 	this.Data["master"] = master
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/index.html"
+	this.TplName = "admin/backup.html"
 }
 
 //*******************撰写*************************

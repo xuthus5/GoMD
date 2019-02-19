@@ -46,4 +46,8 @@ func ApiRouter() {
 	beego.Router("/api/comment/adopt", &controllers.ApiController{}, "get:AdoptComment")   //通过审核的评论列表
 	beego.Router("/api/comment/delete", &controllers.ApiController{}, "get:DeleteComment") //删除评论
 	beego.Router("/api/comment/update", &controllers.ApiController{}, "get:UpdateComment") //通过评论操作
+
+	beego.Router("/api/backup/backup", &controllers.ApiController{}, "get:Backup")       //备份数据信号
+	beego.Router("/api/backup/list", &controllers.ApiController{}, "get:BackupList")     //备份数据列表
+	beego.Router("/api/backup/delete", &controllers.ApiController{}, "get:BackupDelete") //备份数据删除
 }

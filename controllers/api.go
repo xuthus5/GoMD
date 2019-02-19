@@ -5,7 +5,9 @@ import (
 	"GoMD/tools"
 	"github.com/Lofanmi/pinyin-golang/pinyin"
 	"github.com/astaxie/beego"
+	"io/ioutil"
 	"log"
+	"os"
 	"reflect"
 	"strconv"
 	"time"
@@ -572,6 +574,61 @@ func (this *ApiController) UpdateComment() {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 	} else {
 		info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+/************************
+
+有关备份的API
+
+*************************/
+
+//备份数据 路由： /api/backup/backup
+func (this *ApiController) Backup() {
+	info := &ResultData{}
+	_ = tools.CheckAndDirCreate("backup")
+	f, _ := os.Open("../GoMD")
+	defer f.Close()
+	var files = []*os.File{f}
+	dir,_ := os.Getwd()
+	err := tools.Compress(files,dir+".zip")
+	if err != nil {
+		beego.Error("压缩文件失败！")
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "创建备份失败！"}
+	}else {
+		_ = tools.FileMove(dir+".zip","./backup/"+tools.TimeToString(false)+".zip")
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "备份成功！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
+//备份数据列表 路由： /api/backup/list
+func (this *ApiController) BackupList() {
+	type FileList struct {
+		Date string `json:"date"`
+		Name string `json:"name"`
+	}
+	var fl = []FileList{}
+	files, _ := ioutil.ReadDir("backup/")
+	for _, f := range files {
+		fl = append(fl, FileList{Date:f.ModTime().Format("2006-01-02 15:04:05"),Name:f.Name()})
+	}
+	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: fl}
+	this.ServeJSON()
+}
+
+//备份数据删除 路由： /api/backup/delete
+func (this *ApiController) BackupDelete() {
+	info := &ResultData{}
+	name := this.GetString("name")
+	err := tools.FileRemove("./backup/"+name)
+	if err != nil {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "删除备份失败！"}
+	} else {
+		info = &ResultData{Error: 0, Title: "成功:", Msg: "删除成功！"}
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
