@@ -1,6 +1,6 @@
 # golang实现的博客程序
 
-> GoMD是一款基于golang的beego框架开发的简洁markdown内容管理程序
+> GoMD是一款基于golang的beego框架开发的简洁markdown内容管理程序.数据库基于SQLite,因此无需其他配置,下载即可运行.
 
 ## 如何使用
 
@@ -27,12 +27,12 @@ cd GoMD
 
 数据库使用sqlite3，无需配置，编译运行程序即可使用，项目运行起来后，访问 /admin 为后台地址 默认账号密码 admin/admin
 
-> 编译运行，两种方法 建议使用方法二
+> 编译运行,建议使用方法二
 
 ```
-#运行方法一
+#方法一
 go run main.go
-#运行方法二
+#方法二
 bee run
 ```
 
@@ -49,3 +49,5 @@ bee run
 
 ![首页](http://dl.xuthus.cc/admin.png)
 ![内容](http://dl.xuthus.cc/admin-a.png)
+
+注意:需要移植主题的可以提交issue
