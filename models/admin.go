@@ -169,7 +169,7 @@ func GetLimitNewComment(num int64,status bool) *[]Comment {
 	if status == true {
 		_ = dbx.Select(&list, "select * from comment where status = 1 order by date desc limit 0,?", num)
 	}else {
-		_ = dbx.Select(&list, "select * from comment where order by date desc limit 0,?", num)
+		_ = dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
 	}
 	return &list
 }
