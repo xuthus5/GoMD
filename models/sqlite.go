@@ -74,6 +74,7 @@ func Initialization() {
 		Link:    "/",
 		Email:   "1397190480@qq.com",
 		Date:    tools.Int64ToString(time.Now().Unix()),
+		Status:  1,
 	})
 	//公告表初始化
 	_, _ = dbc.Insert(&Notice{
