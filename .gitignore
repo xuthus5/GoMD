@@ -3,3 +3,4 @@ data.db
 !/file/user-head-image.jpeg
 /file/*
 /logs
+/backup
