@@ -5,9 +5,9 @@
   "Version": [
     {
       "Type": "Added",
-      "Commit": "新增页面管理功能",
-      "Version": "0.1.1.0209_beta_b1",
-      "Title": "Beta版0.1.1发布",
+      "Commit": "V0.2版本发布",
+      "Version": "0.2.0.0318_beta",
+      "Title": "Beta版0.2.0发布",
       "Committer": "xuthus",
       "Date": "2019-02-09",
       "Tag": "https://gitee.com/xuthus5/GoMD",

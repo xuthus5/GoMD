@@ -33,7 +33,7 @@ func GetOneArticle(id, method string) *[]Article {
 }
 
 // 提供ID 查看文章的属性
-func GetPropertyByID(id int,Property string) string {
+func GetPropertyByID(id int, Property string) string {
 	data := []Article{}
 	_ = dbx.Select(&data, "select * from article where id=?", id)
 	if Property == "title" {
@@ -153,7 +153,7 @@ func GetArticleComments(id int) *[]Comment {
 
 // 得到一篇文章下的评论数量 传入文章id
 func GetCommentNumFromArticle(id int) (int64, error) {
-	return dbc.QueryTable("comment").Filter("aid", id).Filter("status",1).Count()
+	return dbc.QueryTable("comment").Filter("aid", id).Filter("status", 1).Count()
 }
 
 // 根据传递过来的id返回uuid
@@ -166,7 +166,7 @@ func GetUuidById(id int64) string {
 // 返回指定条数最新评论
 func GetLimitNewComment(num int64) *[]Comment {
 	list := []Comment{}
-	_ = dbx.Select(&list, "select * from comment order by date desc limit 0,?", num)
+	_ = dbx.Select(&list, "select * from comment where status = 1 order by date desc limit 0,?", num)
 	return &list
 }
 
@@ -211,19 +211,18 @@ func UpdateCategory(data *Category) error {
 	}
 }
 
-
 // 返回分类的信息
-func CategoryInformation(fields string) *CategoryData{
+func CategoryInformation(fields string) *CategoryData {
 	info := []Category{}
 	data := CategoryData{}
 	_ = dbx.Select(&info, "select * from category where key=?", fields)
-	if len(info)==0{
+	if len(info) == 0 {
 		data.IsNil = true
 		data.Msg = "分类不存在!"
-	}else{
+	} else {
 		data.IsNil = false
 		data.Info = info
-		list,_ := GetCategoryArticle(strconv.Itoa(info[0].Id))
+		list, _ := GetCategoryArticle(strconv.Itoa(info[0].Id))
 		data.List = *list
 	}
 	return &data
@@ -410,8 +409,8 @@ func CommentDelete(id int) error {
 }
 
 //修改评论状态
-func CommentUpdate(data *Comment) error{
-	_, err := dbc.Update(data,"Status")
+func CommentUpdate(data *Comment) error {
+	_, err := dbc.Update(data, "Status")
 	if err != nil {
 		return err
 	} else {
