@@ -34,7 +34,7 @@
     <section class="widget paddingall">
         <h5 class="widget-title">最近回复</h5>
         <ul class="widget-list RecentReply zface-box">
-        {{with $list := nc 5}}
+        {{with $list := nc 5 true}}
         {{range $list}}
             <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
                                                                     src="{{gavatar .Email}}"

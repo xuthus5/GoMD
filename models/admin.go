@@ -164,9 +164,13 @@ func GetUuidById(id int64) string {
 }
 
 // 返回指定条数最新评论
-func GetLimitNewComment(num int64) *[]Comment {
+func GetLimitNewComment(num int64,status bool) *[]Comment {
 	list := []Comment{}
-	_ = dbx.Select(&list, "select * from comment where status = 1 order by date desc limit 0,?", num)
+	if status == true {
+		_ = dbx.Select(&list, "select * from comment where status = 1 order by date desc limit 0,?", num)
+	}else {
+		_ = dbx.Select(&list, "select * from comment where order by date desc limit 0,?", num)
+	}
 	return &list
 }
 

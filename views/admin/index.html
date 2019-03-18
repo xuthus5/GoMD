@@ -77,7 +77,7 @@
                     </div>
                     <div class="ibox-content no-padding">
                         <ul class="list-group">
-                            {{with $comment := nc 8}}
+                            {{with $comment := nc 8 false}}
                             {{range $comment}}
                             <li class="list-group-item">
                                 <p><a class="text-info" href="mailto:{{.Email}}">@{{.Name}}</a> : {{.Content}} - 《<a href="/article/{{itu .Aid}}#comment-{{.Id}}">{{gafc .Aid "title"}}</a>》</p>
