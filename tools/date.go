@@ -40,7 +40,7 @@ func EnumerateDate() (year, month, day string) {
 }
 
 /* 分割指定字符串时间的 年月日：时分秒 */
-func DivisionTime(stamp string) (ymd,hms string) {
+func DivisionTime(stamp string) (ymd, hms string) {
 	stamp = stamp[:10]
 	base, _ := strconv.ParseInt(stamp, 10, 64)
 	YMDLayout := "2006-01-02"

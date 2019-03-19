@@ -188,6 +188,7 @@ func (this *ApiController) PageList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: len(*data), Msg: "", Data: data}
 	this.ServeJSON()
 }
+
 /************************
 
 有关分类的API
@@ -476,7 +477,7 @@ func (this *ApiController) MenuNodeAdd() {
 	name := this.GetString("name")
 	url := this.GetString("url")
 	description := this.GetString("description")
-	info := &models.Link{Name: name, Url: url, Description: description, Type:1}
+	info := &models.Link{Name: name, Url: url, Description: description, Type: 1}
 	err := models.AddLink(info)
 	var data *ResultData
 	if err != nil {
@@ -537,13 +538,13 @@ func (this *ApiController) MenuNodeUpdate() {
 *************************/
 
 // 待审核评论列表 路由 /api/comment/review
-func (this *ApiController) ReviewComment()  {
+func (this *ApiController) ReviewComment() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.ReviewComment()}
 	this.ServeJSON()
 }
 
 // 通过的评论 路由 /api/comment/adopt
-func (this *ApiController) AdoptComment()  {
+func (this *ApiController) AdoptComment() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.AdoptComment()}
 	this.ServeJSON()
 }
@@ -592,13 +593,13 @@ func (this *ApiController) Backup() {
 	f, _ := os.Open("../GoMD")
 	defer f.Close()
 	var files = []*os.File{f}
-	dir,_ := os.Getwd()
-	err := tools.Compress(files,dir+".zip")
+	dir, _ := os.Getwd()
+	err := tools.Compress(files, dir+".zip")
 	if err != nil {
 		beego.Error("压缩文件失败！")
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "创建备份失败！"}
-	}else {
-		_ = tools.FileMove(dir+".zip","./backup/"+tools.TimeToString(false)+".zip")
+	} else {
+		_ = tools.FileMove(dir+".zip", "./backup/"+tools.TimeToString(false)+".zip")
 		info = &ResultData{Error: 0, Title: "成功:", Msg: "备份成功！"}
 	}
 	this.Data["json"] = info
@@ -614,7 +615,7 @@ func (this *ApiController) BackupList() {
 	var fl = []FileList{}
 	files, _ := ioutil.ReadDir("backup/")
 	for _, f := range files {
-		fl = append(fl, FileList{Date:f.ModTime().Format("2006-01-02 15:04:05"),Name:f.Name()})
+		fl = append(fl, FileList{Date: f.ModTime().Format("2006-01-02 15:04:05"), Name: f.Name()})
 	}
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: fl}
 	this.ServeJSON()
@@ -624,7 +625,7 @@ func (this *ApiController) BackupList() {
 func (this *ApiController) BackupDelete() {
 	info := &ResultData{}
 	name := this.GetString("name")
-	err := tools.FileRemove("./backup/"+name)
+	err := tools.FileRemove("./backup/" + name)
 	if err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "删除备份失败！"}
 	} else {

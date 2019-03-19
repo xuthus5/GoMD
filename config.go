@@ -35,12 +35,11 @@ type ChangeLogData struct {
 		Tag       string `json:"Tag"`
 		Title     string `json:"Title"`
 		Type      string `json:"Type"`
-		Level	  string `json:"Level"`
+		Level     string `json:"Level"`
 		Version   string `json:"Version"`
 	} `json:"Version"`
 	Website string `json:"Website"`
 }
-
 
 //日志运行级别检测变量
 func logSetting() {
@@ -85,8 +84,8 @@ func customTemplateFunction() {
 	_ = beego.AddFuncMap("markdown", MarkDown) //将markdown输出为html
 
 	//数据关系处理
-	_ = beego.AddFuncMap("gafc",GetArticleFromCommentID)
-	_ = beego.AddFuncMap("changelog",ChangeLog)
+	_ = beego.AddFuncMap("gafc", GetArticleFromCommentID)
+	_ = beego.AddFuncMap("changelog", ChangeLog)
 
 	//数据获取
 	_ = beego.AddFuncMap("sc", SiteConfig)                //调取网站配置 直接抽调数据库配置字段
@@ -103,7 +102,7 @@ func customTemplateFunction() {
 	_ = beego.AddFuncMap("cl", models.CategoryList)       //返回分类列表
 	_ = beego.AddFuncMap("link", models.GetAllLink)       //返回链接列表
 	_ = beego.AddFuncMap("menu", models.GetAllMenu)       //返回菜单栏
-	_ = beego.AddFuncMap("gpb",models.GetPropertyByID)		//通过提供ID和属性字段,返回字段内容
+	_ = beego.AddFuncMap("gpb", models.GetPropertyByID)   //通过提供ID和属性字段,返回字段内容
 }
 
 //自定义状态页面

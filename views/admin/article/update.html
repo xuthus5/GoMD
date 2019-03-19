@@ -56,53 +56,56 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                <form>
-                {{range .article}}
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">标题</label>
-                            <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
-                                   value="{{.Title}}">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="font-normal">分类</label>
-                            <div>
-                                <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"
-                                        tabindex="2">
-                                    <option></option>
-                                {{with $cid := .Cid}}
-                                {{range $.category}}
-                                {{if eq $cid .Id}}
-                                    <option value="{{.Id}}" selected>{{.Name}}</option>
-                                {{end}}
-                                {{end}}
-                                {{end}}
-                                </select>
+                    <form>
+                        {{range .article}}
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">标题</label>
+                                <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
+                                       value="{{.Title}}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label class="font-normal">分类</label>
+                                <div>
+                                    <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"
+                                            tabindex="2">
+                                        <option></option>
+                                        {{with $cid := .Cid}}
+                                            {{range $.category}}
+                                                {{if eq $cid .Id}}
+                                                    <option value="{{.Id}}" selected>{{.Name}}</option>
+                                                {{else}}
+                                                    <option value="{{.Id}}">{{.Name}}</option>
+                                                {{end}}
+                                            {{end}}
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">标签</label>
+                                <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车"
+                                       value="{{.Tags}}"/>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">作者</label>
+                                <input type="text" name="author" class="form-control" value="{{.Author}}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">标签</label>
-                            <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车"
-                                   value="{{.Tags}}"/>
+                        <div class="form-group">
+                            <label for="inputPassword4">摘要</label>
+                            <textarea class="form-control" rows="3" name="summary"
+                                      placeholder="markdown格式将被解析">{{.Summary}}</textarea>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">作者</label>
-                            <input type="text" name="author" class="form-control" value="{{.Author}}">
+
+                        <div class="form-group">
+                            <textarea name="content" data-provide="markdown" rows="10"
+                                      id="content">{{.Content}}</textarea>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword4">摘要</label>
-                        <textarea class="form-control" rows="3" name="summary"
-                                  placeholder="markdown格式将被解析">{{.Summary}}</textarea>
-                    </div>
 
-                    <div class="form-group">
-                        <textarea name="content" data-provide="markdown" rows="10" id="content">{{.Content}}</textarea>
-                    </div>
-
-                    <button type="button" id="submit" class="btn btn-primary">发表</button>
-                </form>
-                {{end}}
+                        <button type="button" id="submit" class="btn btn-primary">发表</button>
+                    </form>
+                    {{end}}
                 </div>
             </div>
         </div>

@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="/static/admin/bootstrap-table/bootstrap-table.css">
-
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>备份管理</h2>
@@ -16,7 +15,6 @@
         </ol>
     </div>
     <div class="col-lg-2">
-
     </div>
 </div>
 <div class="wrapper wrapper-content">
@@ -44,7 +42,10 @@
                                 <p>此备份操作仅包含内容数据, 并不会涉及任何设置信息</p>
                                 <p>如果您的数据量过大, 为了避免操作超时, 建议您直接使用数据库提供的备份工具备份数据</p>
                                 <p>为了缩小备份文件体积, 建议您在备份前删除不必要的数据</p>
-                                <p><button class="btn btn-primary btn-lg" type="button" id="backup" role="button">开始备份</button>
+                                <p>
+                                    <button class="btn btn-primary btn-lg" type="button" id="backup" role="button">
+                                        开始备份
+                                    </button>
                                 </p>
                             </div>
                         </div>
@@ -119,7 +120,7 @@
 
     window.operateEvents = {
         'click .delete': function (e, value, row, index) {
-            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
+            layer.confirm('确定删除？', {skin: 'layer-class'}, function (index) {
                 $.get("/api/backup/delete?name=" + row.name, function (res) {
                     if (res.Error === 0) {
                         layer.open({
@@ -144,7 +145,7 @@
     };
     $("#backup").click(function () {
         $(document).ready(function () {
-            $.get("/api/backup/backup",function (res) {
+            $.get("/api/backup/backup", function (res) {
                 if (res.Error === 0) {
                     layer.msg("备份成功", {time: 2000});
                     wait(1);

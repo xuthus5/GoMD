@@ -18,6 +18,7 @@ func BackendRouter() {
 	beego.Router("/admin/article/category/update", &controllers.BackendController{}, "get:CategoryUpdate") //修改标签
 
 	beego.Router("/admin/setting/website", &controllers.BackendController{}, "get:Setting") //设置界面
+	beego.Router("/admin/setting/path", &controllers.BackendController{}, "get:PathRewrite") //路径设置界面
 
 	beego.Router("/admin/file", &controllers.BackendController{}, "get:Attachment") //附件管理界面
 

@@ -38,7 +38,11 @@ go run main.go
 bee run
 ```
 
+## 设计
 
+后台设计有仿照 typecho 网站大致结构如下
+
+![网站架构](./GoMD.png)
 
 ## 功能
 

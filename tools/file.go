@@ -27,7 +27,7 @@ func CheckFilePath(path string) error {
 func DirCreate(path string) error {
 	err := os.MkdirAll(path, 0777)
 	if err != nil {
-		return err	//创建目录失败
+		return err //创建目录失败
 	}
 	return nil
 }

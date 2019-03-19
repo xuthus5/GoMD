@@ -46,13 +46,13 @@
                                 <div class="timeline-item">
                                     <div class="row">
                                         {{with $time := dt .Renew}}
-                                        <div class="col-3 date">
-                                            <i class="fa fa-file-text"></i>
-                                            {{$time.ymd}}
-                                            <br>
-                                            <small class="text-navy">{{$time.hms}}</small>
-                                        </div>
-                                            {{end}}
+                                            <div class="col-3 date">
+                                                <i class="fa fa-file-text"></i>
+                                                {{$time.ymd}}
+                                                <br>
+                                                <small class="text-navy">{{$time.hms}}</small>
+                                            </div>
+                                        {{end}}
                                         <div class="col-7 content">
                                             <p class="m-b-xs"><strong><a itemprop="url"
                                                                          href="/article/{{.Uuid}}">{{.Title}}</a></strong>
@@ -78,12 +78,15 @@
                     <div class="ibox-content no-padding">
                         <ul class="list-group">
                             {{with $comment := nc 8 false}}
-                            {{range $comment}}
-                            <li class="list-group-item">
-                                <p><a class="text-info" href="mailto:{{.Email}}">@{{.Name}}</a> : {{.Content}} - 《<a href="/article/{{itu .Aid}}#comment-{{.Id}}">{{gafc .Aid "title"}}</a>》</p>
-                                <small class="block text-muted"><i class="fa fa-clock-o"></i> {{tsc .Date false}}</small>
-                            </li>
-                            {{end}}
+                                {{range $comment}}
+                                    <li class="list-group-item">
+                                        <p><a class="text-info" href="mailto:{{.Email}}">@{{.Name}}</a> : {{.Content}} -
+                                            《<a href="/article/{{itu .Aid}}#comment-{{.Id}}">{{gafc .Aid "title"}}</a>》
+                                        </p>
+                                        <small class="block text-muted"><i
+                                                    class="fa fa-clock-o"></i> {{tsc .Date false}}</small>
+                                    </li>
+                                {{end}}
                             {{end}}
                         </ul>
                     </div>
@@ -100,31 +103,31 @@
                                 <tbody>
                                 {{with $changelog := changelog}}
                                     {{range $changelog.Version}}
-                                <tr>
-                                    <td>
-                                        <span class="label {{.Level}}">{{.Type}}</span>
-                                    </td>
-                                    <td class="issue-info">
-                                        <a href="#">
-                                            {{.Title}}
-                                        </a>
+                                        <tr>
+                                            <td>
+                                                <span class="label {{.Level}}">{{.Type}}</span>
+                                            </td>
+                                            <td class="issue-info">
+                                                <a href="#">
+                                                    {{.Title}}
+                                                </a>
 
-                                        <small>
-                                            {{.Commit}}
-                                        </small>
-                                    </td>
-                                    <td>
-                                        {{.Committer}}
-                                    </td>
-                                    <td>
-                                        {{.Date}}
-                                    </td>
+                                                <small>
+                                                    {{.Commit}}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                {{.Committer}}
+                                            </td>
+                                            <td>
+                                                {{.Date}}
+                                            </td>
 
-                                    <td class="text-right">
-                                        <button class="btn btn-white btn-xs"><a href="{{.Tag}}">Tag</a></button>
-                                    </td>
-                                </tr>
-                                {{end}}
+                                            <td class="text-right">
+                                                <button class="btn btn-white btn-xs"><a href="{{.Tag}}">Tag</a></button>
+                                            </td>
+                                        </tr>
+                                    {{end}}
                                 {{end}}
                                 </tbody>
                             </table>
