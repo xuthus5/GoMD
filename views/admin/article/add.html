@@ -63,21 +63,26 @@
                                 <input type="text" class="form-control" name="title" placeholder="请输入文章标题" required>
                             </div>
                             <div class="form-group col-md-3">
+                                <label for="inputEmail4">自定义标题</label>
+                                <input type="text" class="form-control" name="name"
+                                       placeholder="比如:this-is-my-first-article">
+                            </div>
+                            <div class="form-group col-md-1">
                                 <label class="font-normal">分类</label>
                                 <div>
-                                    <select data-placeholder="请选择一个分类" name="cid" class="chosen-select form-control"
+                                    <select data-placeholder="选择分类" name="cid" class="chosen-select form-control"
                                             tabindex="2">
                                         <option></option>
-                                    {{range .list}}
-                                        <option value="{{.Id}}">{{.Name}}</option>{{end}}
+                                        {{range .list}}
+                                            <option value="{{.Id}}">{{.Name}}</option>{{end}}
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <label for="inputPassword4">标签</label>
                                 <input class="tagsinput form-control" type="text" name="tags" placeholder="输入标签后回车"/>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-1">
                                 <label for="inputEmail4">作者</label>
                                 <input type="text" name="author" class="form-control" value="{{.master}}">
                             </div>

@@ -155,7 +155,7 @@ func IdToName(id int) string {
 
 //自定义404报错
 func PageNotFound(rw http.ResponseWriter, r *http.Request) {
-	t, _ := template.New("error.html").ParseFiles(beego.BConfig.WebConfig.ViewsPath + "/common/error.html")
+	t, _ := template.New("error.html").ParseFiles(beego.BConfig.WebConfig.ViewsPath + "/admin/error.html")
 	data := make(map[string]interface{})
 	data["code"] = "404"
 	data["title"] = "页面被吃掉了！"

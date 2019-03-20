@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"GoMD/models"
+	"GoMD/tools"
 	"github.com/astaxie/beego"
 )
 
@@ -160,12 +161,13 @@ func (this *BackendController) Setting() {
 	}
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
+	this.Data["theme"] = tools.ErgodicPathGetDir("views", true)
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/setting/website.html"
 }
 
 // 固定链接设置
-func (this *BackendController) PathRewrite()  {
+func (this *BackendController) PathRewrite() {
 	master := this.GetSession("master")
 	if master == nil {
 		this.Redirect("/login", 302)
@@ -175,6 +177,7 @@ func (this *BackendController) PathRewrite()  {
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/setting/path.html"
 }
+
 //*******************其他必要的页面*************************
 
 //文章更新页面
