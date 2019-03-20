@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>GoMD | Admin</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon"/>
     <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/admin/font-awesome/css/font-awesome.css" rel="stylesheet">
     <!-- Gritter -->
@@ -28,9 +29,6 @@
                             <span class="text-muted text-xs block">管理员 <b class="caret"></b></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            {{/*<li><a class="dropdown-item" href="#">个人信息</a></li>*/}}
-                            {{/*<li><a class="dropdown-item" href="#">好友</a></li>*/}}
-                            {{/*<li><a class="dropdown-item" href="#">信箱</a></li>*/}}
                             <li class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/logout">退出</a></li>
                         </ul>
@@ -58,7 +56,7 @@
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">管理</span><span
-                            class="fa arrow"></span></a>
+                                class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="/admin/article">文章</a></li>
                         <li><a href="/admin/page">页面</a></li>
@@ -74,9 +72,10 @@
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="/admin/setting/website">网站设置</a></li>
-                        <li><a href="/admin/setting/comment">评论</a></li>
-                        <li><a href="/admin/setting/read">阅读</a></li>
+                        {{/*<li><a href="/admin/setting/comment">评论</a></li>*/}}
+                        {{/*<li><a href="/admin/setting/read">阅读</a></li>*/}}
                         <li><a href="/admin/setting/path">永久链接</a></li>
+                        <li><a id="reload" class="text-danger">网站重启</a></li>
                     </ul>
                 </li>
                 <li class="special_link">
@@ -109,14 +108,14 @@
             </nav>
         </div>
 
-    {{.LayoutContent}}
+        {{.LayoutContent}}
 
         <div class="footer">
             <div class="float-right">
                 Made by <strong>GoMD</strong> .
             </div>
             <div>
-                © {{ed "year"}} <strong>{{sc "CopyRight"}}</strong>  All Rights Reserved.
+                © {{ed "year"}} <strong>{{sc "CopyRight"}}</strong> All Rights Reserved.
             </div>
         </div>
     </div>
@@ -133,6 +132,44 @@
 
 <!-- jQuery UI -->
 <script src="/static/admin/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
 
+    $("#reload").click(function () {
+        $(document).ready(function () {
+            //询问框
+            layer.confirm('重启只针对于bee启动的服务，操作可能导致服务短时间内不可用,确定这样做？', {
+                btn: ['是的', '放弃'],
+                skin: 'layer-class',
+            }, function () {
+                $.get("/api/site/rebuild", function (res) {
+                    if (res.Error === 0) {
+                        layer.msg("网站重启成功", {time: 2000});
+                        wait(1);
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+            }, function () {
+                layer.msg('操作取消', {
+                    time: 10000, //20s后自动关闭
+                });
+            });
+            return false;
+        });
+    });
+</script>
 </body>
 </html>

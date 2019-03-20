@@ -35,13 +35,13 @@ func TimeStampConversion(timestamp string, exact bool) string {
 /* 得到单独的年月日 */
 func EnumerateDate(method string) string {
 	year, mouth, day := tools.EnumerateDate()
-	if method == "year"{
+	if method == "year" {
 		return year
-	}else if method == "mouth" {
+	} else if method == "mouth" {
 		return mouth
-	}else if method == "day" {
+	} else if method == "day" {
 		return day
-	}else {
+	} else {
 		return ""
 	}
 }
@@ -80,8 +80,8 @@ func MarkDown(content string) string {
 数据关系处理
 ********************/
 /* 由评论ID得到文章信息 */
-func GetArticleFromCommentID(id int,fields string) string {
-	data := models.GetOneArticle(strconv.Itoa(id),"id")
+func GetArticleFromCommentID(id int, fields string) string {
+	data := models.GetOneArticle(strconv.Itoa(id), "id")
 	article := *data
 	if fields == "title" {
 		return article[0].Title
@@ -147,15 +147,15 @@ func PreOrNextAriticle(id int, method string) *map[string]string {
 	}
 }
 
-/* 根据id返回uuid */
-func IdToUuid(id int) string {
+/* 根据id返回name */
+func IdToName(id int) string {
 	ids := int64(id)
-	return models.GetUuidById(ids)
+	return models.GetNameById(ids)
 }
 
 //自定义404报错
 func PageNotFound(rw http.ResponseWriter, r *http.Request) {
-	t, _ := template.New("error.html").ParseFiles(beego.BConfig.WebConfig.ViewsPath + "/common/error.html")
+	t, _ := template.New("error.html").ParseFiles(beego.BConfig.WebConfig.ViewsPath + "/admin/error.html")
 	data := make(map[string]interface{})
 	data["code"] = "404"
 	data["title"] = "页面被吃掉了！"
@@ -163,8 +163,8 @@ func PageNotFound(rw http.ResponseWriter, r *http.Request) {
 }
 
 /* 切割时间为 ymd : hms */
-func DivisionTime(stamp string) map[string]string{
-	ymd,hms := tools.DivisionTime(stamp)
+func DivisionTime(stamp string) map[string]string {
+	ymd, hms := tools.DivisionTime(stamp)
 	getTime := make(map[string]string)
 	getTime["ymd"] = ymd
 	getTime["hms"] = hms
@@ -172,15 +172,15 @@ func DivisionTime(stamp string) map[string]string{
 }
 
 //官方最新日志获取
-func ChangeLog() ChangeLogData{
+func ChangeLog() ChangeLogData {
 	data := ChangeLogData{}
 	//ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
-	resp,err := http.Get("https://gitee.com/xuthus5/GoMD/raw/master/CHANGELOG.json")
+	resp, err := http.Get("https://gitee.com/xuthus5/GoMD/raw/master/CHANGELOG.json")
 	if err != nil {
 		beego.Error("获取更新信息失败")
 	}
 	defer resp.Body.Close()
-	body,err := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		beego.Error("读取更新信息失败！")
 	}
@@ -193,6 +193,6 @@ func ChangeLog() ChangeLogData{
 }
 
 //获取菜单栏
-func MenuList() *[]models.Link{
+func MenuList() *[]models.Link {
 	return models.GetAllMenu()
 }

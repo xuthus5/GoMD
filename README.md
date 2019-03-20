@@ -4,6 +4,8 @@
 
 + [演示](http://xblogs.cn)
 
++ 默认帐号密码: admin/admin
+
 ## 如何使用
 
 > 本应用基于golang语言的[beego框架](https://beego.me/)开发,在确保安装了golang环境的条件下，执行如下命令
@@ -38,7 +40,11 @@ go run main.go
 bee run
 ```
 
+## 设计
 
+后台设计有仿照 typecho 网站大致结构如下
+
+![网站架构](./GoMD.png)
 
 ## 功能
 

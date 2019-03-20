@@ -26,11 +26,11 @@
 {{end}}
     <section class="pager">
     {{with $elem := pna .id "pre"}}
-    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="pre">{{$elem.title}}</a>
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.name}}" class="pre">{{$elem.title}}</a>
     {{end}}
     {{end}}
     {{with $elem := pna .id "next"}}
-    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.uuid}}" class="next">{{$elem.title}}</a>
+    {{if ne $elem.isNull "true"}}<a href="/article/{{$elem.name}}" class="next">{{$elem.title}}</a>
     {{end}}
     {{end}}
     </section>

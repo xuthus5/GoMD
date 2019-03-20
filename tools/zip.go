@@ -119,5 +119,5 @@ func subString(str string, start, end int) string {
 func main() {
 	f, _ := os.Open("./GoMD")
 	var files = []*os.File{f}
-	Compress(files,"./bk.zip")
+	Compress(files, "./bk.zip")
 }

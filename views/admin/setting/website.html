@@ -47,54 +47,67 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-lg-2 col-form-label">网站二级标题</label>
-                                    <div class="col-lg-10"><input type="text" placeholder="请输入网站的二级标题" name="SecondaryTitle" class="form-control" value="{{.config.SecondaryTitle}}">
+                                    <div class="col-lg-10"><input type="text" placeholder="请输入网站的二级标题"
+                                                                  name="SecondaryTitle" class="form-control"
+                                                                  value="{{.config.SecondaryTitle}}">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-lg-2 col-form-label">网站LOGO</label>
-                                    <div class="col-lg-10"><input type="text" placeholder="网站LOGO的资源地址" name="LogoUrl" class="form-control" value="{{.config.LogoUrl}}">
+                                    <div class="col-lg-10"><input type="text" placeholder="网站LOGO的资源地址" name="LogoUrl"
+                                                                  class="form-control" value="{{.config.LogoUrl}}">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">网站关键字</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" name="Keywords" value="{{.config.Keywords}}"> <span
-                                            class="form-text m-b-none">.</span>
+                                    <div class="col-sm-10"><input type="text" class="form-control" name="Keywords"
+                                                                  value="{{.config.Keywords}}"> <span
+                                                class="form-text m-b-none">.</span>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">网站URL</label>
 
-                                    <div class="col-sm-10"><input type="text" class="form-control" value="{{.config.WebUrl}}" name="WebUrl">
+                                    <div class="col-sm-10"><input type="text" class="form-control"
+                                                                  value="{{.config.WebUrl}}" name="WebUrl">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">版权信息</label>
 
-                                    <div class="col-sm-10"><input type="text" class="form-control" value="{{.config.CopyRight}}" name="CopyRight">
+                                    <div class="col-sm-10"><input type="text" class="form-control"
+                                                                  value="{{.config.CopyRight}}" name="CopyRight">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">首页文章显示条目</label>
 
                                     <div class="col-sm-10"><input type="text" placeholder="placeholder" name="PageSize"
-                                                                  class="form-control" value="{{.config.PageSize}}"></div>
+                                                                  class="form-control" value="{{.config.PageSize}}">
+                                    </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-lg-2 col-form-label">网站描述</label>
 
-                                    <div class="col-lg-10"><textarea class="form-control" rows="3" name="Description">{{.config.Description}}</textarea>
-                                        </div>
+                                    <div class="col-lg-10"><textarea class="form-control" rows="3"
+                                                                     name="Description">{{.config.Description}}</textarea>
+                                    </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group row"><label class="col-lg-2 col-form-label">选择主题</label>
-
                                     <div class="col-lg-10">
-                                        <select data-placeholder="请选择一个分类" name="Theme" class="chosen-select form-control"
+                                        <select data-placeholder="请选择一个主题" name="Theme"
+                                                class="chosen-select form-control"
                                                 tabindex="2">
-                                            <option></option>
-                                            <option value="QuietV1" selected>QuietV1</option>
-                                            <option value="fantasy" selected>fantasy</option>
+                                            {{range $key,$value := .theme}}
+                                                {{if eq $value $.config.Theme}}
+                                                    <option value="{{$value}}" selected>{{$value}}</option>
+                                                {{else}}
+                                                    <option value="{{$value}}">{{$value}}</option>
+                                                {{end}}
+                                            {{end}}
                                         </select>
+                                        <span class="form-text m-b-none">重启服务生效</span>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -126,27 +139,33 @@
                     <form id="form-user">
                         <p>用户相关信息配置.</p>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">账号</label>
-                            <div class="col-lg-10"><input type="text" placeholder="用户登陆账号" name="Author" class="form-control" value="{{.config.Author}}">
+                            <div class="col-lg-10"><input type="text" placeholder="用户登陆账号" name="Author"
+                                                          class="form-control" value="{{.config.Author}}">
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">密码</label>
-                            <div class="col-lg-10"><input type="password" placeholder="用户登陆密码" name="Password" class="form-control" value="{{.config.Password}}">
+                            <div class="col-lg-10"><input type="password" placeholder="用户登陆密码" name="Password"
+                                                          class="form-control" value="{{.config.Password}}">
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">用户头像</label>
-                            <div class="col-lg-10"><input type="text" placeholder="用户头像url地址" name="UserImageUrl" class="form-control" value="{{.config.UserImageUrl}}">
+                            <div class="col-lg-10"><input type="text" placeholder="用户头像url地址" name="UserImageUrl"
+                                                          class="form-control" value="{{.config.UserImageUrl}}">
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">用户邮箱</label>
-                            <div class="col-lg-10"><input type="text" placeholder="用户的邮箱地址" name="UserEmail" class="form-control" value="{{.config.UserEmail}}">
+                            <div class="col-lg-10"><input type="text" placeholder="用户的邮箱地址" name="UserEmail"
+                                                          class="form-control" value="{{.config.UserEmail}}">
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">用户Github</label>
-                            <div class="col-lg-10"><input type="text" placeholder="用户的Github地址" name="UserGithub" class="form-control" value="{{.config.UserGithub}}">
+                            <div class="col-lg-10"><input type="text" placeholder="用户的Github地址" name="UserGithub"
+                                                          class="form-control" value="{{.config.UserGithub}}">
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-lg-2 col-form-label">联系QQ</label>
-                            <div class="col-lg-10"><input type="text" placeholder="用户的QQ" name="UserQQ" class="form-control" value="{{.config.UserQQ}}">
+                            <div class="col-lg-10"><input type="text" placeholder="用户的QQ" name="UserQQ"
+                                                          class="form-control" value="{{.config.UserQQ}}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -175,7 +194,7 @@
                     title: res.Title
                     , content: res.Msg,
                     yes: function (index) {
-                        window.location.href = "/admin/setting";
+                        window.location.href = "/admin/setting/website";
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
                 });
@@ -194,7 +213,7 @@
                     title: res.Title
                     , content: res.Msg,
                     yes: function (index) {
-                        window.location.href = "/admin/setting";
+                        window.location.href = "/admin/setting/website";
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
                 });

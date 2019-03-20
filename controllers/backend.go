@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"GoMD/models"
+	"GoMD/tools"
 	"github.com/astaxie/beego"
 )
 
@@ -100,7 +101,7 @@ func (this *BackendController) Notice() {
 	}
 	this.Data["master"] = master
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/notice.html"
+	this.TplName = "admin/manager/notice.html"
 }
 
 // 附件管理
@@ -112,7 +113,7 @@ func (this *BackendController) Attachment() {
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/attachment.html"
+	this.TplName = "admin/manager/attachment.html"
 }
 
 // 链接管理
@@ -124,7 +125,7 @@ func (this *BackendController) Link() {
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/link.html"
+	this.TplName = "admin/manager/link.html"
 }
 
 //菜单页面
@@ -136,7 +137,7 @@ func (this *BackendController) Menu() {
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/menu.html"
+	this.TplName = "admin/manager/menu.html"
 }
 
 //评论页面
@@ -148,7 +149,7 @@ func (this *BackendController) Comment() {
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/comment.html"
+	this.TplName = "admin/manager/comment.html"
 }
 
 //*******************设置*************************
@@ -160,8 +161,21 @@ func (this *BackendController) Setting() {
 	}
 	this.Data["master"] = master
 	this.Data["config"] = models.ConfigList()
+	this.Data["theme"] = tools.ErgodicPathGetDir("views", true)
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/setting.html"
+	this.TplName = "admin/setting/website.html"
+}
+
+// 固定链接设置
+func (this *BackendController) PathRewrite() {
+	master := this.GetSession("master")
+	if master == nil {
+		this.Redirect("/login", 302)
+	}
+	this.Data["master"] = master
+	this.Data["config"] = models.ConfigList()
+	this.Layout = "admin/layout.html"
+	this.TplName = "admin/setting/path.html"
 }
 
 //*******************其他必要的页面*************************
@@ -229,7 +243,7 @@ func (this *BackendController) LinkUpdate() {
 	this.Data["master"] = master
 	this.Data["link"] = models.GetOneLinkInfo(this.GetString("id"))
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/link-update.html"
+	this.TplName = "admin/manager/link-update.html"
 }
 
 //修改菜单节点页面
@@ -241,5 +255,5 @@ func (this *BackendController) MenuNodeUpdate() {
 	this.Data["master"] = master
 	this.Data["link"] = models.GetOneLinkInfo(this.GetString("id"))
 	this.Layout = "admin/layout.html"
-	this.TplName = "admin/link-update.html"
+	this.TplName = "admin/manager/menu-update.html"
 }

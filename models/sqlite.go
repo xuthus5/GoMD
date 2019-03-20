@@ -58,7 +58,7 @@ func Initialization() {
 	//文章表初始化
 	_, _ = dbc.Insert(&Article{
 		Title:   "你好！世界",
-		Uuid:    pinyin.NewDict().Convert("你好！世界", "-").None(),
+		Name:    pinyin.NewDict().Convert("你好！世界", "-").None(),
 		Cid:     1,
 		Tags:    "文章",
 		Summary: "你好！这是系统为你生成的第一篇文章！",

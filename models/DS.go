@@ -25,8 +25,8 @@ type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
 	Count    int    `form:"-"`
-	Type     int    `form:"-"` //类型自定义 文章/页面	默认0为文章 1为页面
-	Uuid     string `form:"uuid"`
+	Type     int    `form:"-"`    //类型自定义 文章/页面	默认0为文章 1为页面
+	Name     string `form:"name"` //自定义链接名称
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`
@@ -131,8 +131,8 @@ type DisplayComment struct {
 	Id      int
 	Name    string
 	Content string
-	Title string
-	Date   string
+	Title   string
+	Date    string
 }
 
 // 网站后台提交的表单字段 映射到此结构体 需要持续添加

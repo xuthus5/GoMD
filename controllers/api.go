@@ -52,8 +52,10 @@ func (this *ApiController) ArticleAdd() {
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
+		}
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = dict.Convert(data.Title, "-").None()
 		idstr, err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -74,14 +76,16 @@ func (this *ApiController) ArticleUpdate() {
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
+		}
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = dict.Convert(data.Title, "-").None()
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Name}
 		}
 	}
 	this.Data["json"] = info
@@ -123,8 +127,8 @@ func (this *ApiController) PageAdd() {
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
 		data.Type = 1
-		if data.Uuid == "" {
-			data.Uuid = dict.Convert(data.Title, "-").None()
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
 		}
 		idstr, err := models.AddArticle(data)
 		if err != nil {
@@ -149,14 +153,14 @@ func (this *ApiController) PageUpdate() {
 		data.Id = tools.StringToInt(id)
 		data.Type = 1
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		if data.Uuid == "" {
-			data.Uuid = dict.Convert(data.Title, "-").None()
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
 		}
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Name}
 		}
 	}
 	this.Data["json"] = info
@@ -188,6 +192,7 @@ func (this *ApiController) PageList() {
 	this.Data["json"] = &JsonData{Code: 0, Count: len(*data), Msg: "", Data: data}
 	this.ServeJSON()
 }
+
 /************************
 
 有关分类的API
@@ -285,6 +290,26 @@ func (this *ApiController) SiteConfig() {
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
+}
+
+//网站服务热更新 路由 /api/site/reload
+func (this *ApiController) Reload() {
+	err := tools.ReloadServer()
+	time.Sleep(5 * time.Second)
+	if err != nil {
+		this.Data["json"] = &ResultData{Error: 1, Title: "失败:", Msg: err.Error()}
+	} else {
+		this.Data["json"] = &ResultData{Error: 0, Title: "成功:", Msg: "网站重启成功！"}
+	}
+	this.ServeJSON()
+}
+
+//网站服务热编译 路由 /api/site/rebuild
+func (this *ApiController) Rebuild() {
+	//生成随机序列
+	id := tools.RandomString(16)
+	cryptostr := tools.StringToMd5(id, 32)
+	_ = tools.WriteFile(".rebuild", cryptostr)
 }
 
 /************************
@@ -476,7 +501,7 @@ func (this *ApiController) MenuNodeAdd() {
 	name := this.GetString("name")
 	url := this.GetString("url")
 	description := this.GetString("description")
-	info := &models.Link{Name: name, Url: url, Description: description, Type:1}
+	info := &models.Link{Name: name, Url: url, Description: description, Type: 1}
 	err := models.AddLink(info)
 	var data *ResultData
 	if err != nil {
@@ -537,13 +562,13 @@ func (this *ApiController) MenuNodeUpdate() {
 *************************/
 
 // 待审核评论列表 路由 /api/comment/review
-func (this *ApiController) ReviewComment()  {
+func (this *ApiController) ReviewComment() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.ReviewComment()}
 	this.ServeJSON()
 }
 
 // 通过的评论 路由 /api/comment/adopt
-func (this *ApiController) AdoptComment()  {
+func (this *ApiController) AdoptComment() {
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: models.AdoptComment()}
 	this.ServeJSON()
 }
@@ -592,13 +617,13 @@ func (this *ApiController) Backup() {
 	f, _ := os.Open("../GoMD")
 	defer f.Close()
 	var files = []*os.File{f}
-	dir,_ := os.Getwd()
-	err := tools.Compress(files,dir+".zip")
+	dir, _ := os.Getwd()
+	err := tools.Compress(files, dir+".zip")
 	if err != nil {
 		beego.Error("压缩文件失败！")
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "创建备份失败！"}
-	}else {
-		_ = tools.FileMove(dir+".zip","./backup/"+tools.TimeToString(false)+".zip")
+	} else {
+		_ = tools.FileMove(dir+".zip", "./backup/"+tools.TimeToString(false)+".zip")
 		info = &ResultData{Error: 0, Title: "成功:", Msg: "备份成功！"}
 	}
 	this.Data["json"] = info
@@ -614,7 +639,7 @@ func (this *ApiController) BackupList() {
 	var fl = []FileList{}
 	files, _ := ioutil.ReadDir("backup/")
 	for _, f := range files {
-		fl = append(fl, FileList{Date:f.ModTime().Format("2006-01-02 15:04:05"),Name:f.Name()})
+		fl = append(fl, FileList{Date: f.ModTime().Format("2006-01-02 15:04:05"), Name: f.Name()})
 	}
 	this.Data["json"] = &JsonData{Code: 0, Count: 100, Msg: "", Data: fl}
 	this.ServeJSON()
@@ -624,7 +649,7 @@ func (this *ApiController) BackupList() {
 func (this *ApiController) BackupDelete() {
 	info := &ResultData{}
 	name := this.GetString("name")
-	err := tools.FileRemove("./backup/"+name)
+	err := tools.FileRemove("./backup/" + name)
 	if err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "删除备份失败！"}
 	} else {

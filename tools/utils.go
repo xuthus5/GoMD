@@ -3,8 +3,10 @@ package tools
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"math/rand"
 	"path"
 	"strconv"
+	"time"
 )
 
 /* 字符串转md5 */
@@ -51,4 +53,16 @@ func IntToString(timeStamp int) string {
 /* 获得文件后缀 */
 func GetFileSuffix(tempname string) string {
 	return path.Ext(tempname)
+}
+
+/* 生成随机指定长度字符串 */
+func RandomString(leng int) string {
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < leng; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	return string(result)
 }

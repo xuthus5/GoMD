@@ -1,0 +1,193 @@
+<link href="/static/admin/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
+<link href="/static/admin/css/plugins/switchery/switchery.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>固定链接设置</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin">后台</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>固定链接设置</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>全局链接设置
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12 b-r">
+                            <p>网站全局链接配置.</p>
+                            <form role="form" id="form-site">
+                                <div class="form-group  row"><label class="col-sm-3 col-form-label">静态模拟</label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" class="js-switch" checked="" style="display: none;"
+                                               data-switchery="true">
+                                        <span class="form-text m-b-none">开启后下方配置生效.访问链接将带.html后缀.保存需重启服务以生效</span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-lg-3 col-form-label">系统默认链接样式</label>
+                                    <div class="col-lg-9">
+                                        <div><label> <input type="radio" checked="" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /article/{id}.html </label></div>
+                                        <div><label> <input type="radio" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /article/{utitle}.html </label></div>
+                                        <div><label> <input type="radio" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /{category}/{id}.html </label></div>
+                                        <div><label> <input type="radio" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /{category}/{utitle}.html </label>
+                                        </div>
+                                        <div><label> <input type="radio" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /year/month/day/{id}.html </label>
+                                        </div>
+                                        <div><label> <input type="radio" value="option1" id="optionsRadios1"
+                                                            name="optionsRadios"> /year/month/day/{utitle}.html </label>
+                                        </div>
+                                        <span class="form-text m-b-none">访问路径将按照选择格式重写</span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-primary btn-sm" type="button" id="siteInfo">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>自定义路径</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form id="form-user">
+                        <p>用户自定义路径.规则如下：</p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>占位符</th>
+                                <th>作用</th>
+                                <th>举例</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{id}</td>
+                                <td>显示文章对应id</td>
+                                <td>/article/{id}.html => /article/1.html</td>
+                            </tr>
+                            <tr>
+                                <td>{time}</td>
+                                <td>显示文章发表时间</td>
+                                <td>/{time}/{id}.html => /2019/03/20/1.html</td>
+                            </tr>
+                            <tr>
+                                <td>{category}</td>
+                                <td>显示文章对应分类</td>
+                                <td>/{category}/{id}.html => /php/1.html</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br><br>
+                        <div class="form-group row"><label class="col-lg-2 col-form-label">规则：</label>
+                            <div class="col-lg-10"><input type="text" placeholder="自定义路径规则,重启服务以生效" name="Author"
+                                                          class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button class="btn btn-sm btn-danger" type="button" id="userInfo">修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chosen -->
+<script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="/static/admin/js/plugins/switchery/switchery.js"></script>
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    $('.chosen-select').chosen({width: "100%"});
+    $("#siteInfo").click(function () {
+        const postData = $("#form-site").serialize();
+        $.post("/api/site/config?submit=site", postData, function (res) {
+            if (res.Error === 0) {
+                layer.open({
+                    skin: 'layer-class',
+                    title: res.Title
+                    , content: res.Msg,
+                    yes: function (index) {
+                        window.location.href = "/admin/setting/website";
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                });
+            } else {
+                layer.msg(res.Title + res.Msg, {time: 2000});
+            }
+        }, "json");
+        return false;
+    });
+    $("#userInfo").click(function () {
+        const postData = $("#form-user").serialize();
+        $.post("/api/site/config?submit=user", postData, function (res) {
+            if (res.Error === 0) {
+                layer.open({
+                    skin: 'layer-class',
+                    title: res.Title
+                    , content: res.Msg,
+                    yes: function (index) {
+                        window.location.href = "/admin/setting/website";
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                });
+            } else {
+                layer.msg(res.Title + res.Msg, {
+                    icon: 2,
+                    shade: [0.8, '#393D49'], // 透明度  颜色
+                    time: 2000
+                });
+            }
+        }, "json");
+        return false;
+    });
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, {color: '#1AB394'});
+</script>

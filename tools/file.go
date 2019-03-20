@@ -2,6 +2,7 @@ package tools
 
 import (
 	"io"
+	"io/ioutil"
 	"os"
 )
 
@@ -27,7 +28,7 @@ func CheckFilePath(path string) error {
 func DirCreate(path string) error {
 	err := os.MkdirAll(path, 0777)
 	if err != nil {
-		return err	//创建目录失败
+		return err //创建目录失败
 	}
 	return nil
 }
@@ -69,4 +70,34 @@ func FileMove(source, target string) error {
 	} else {
 		return nil
 	}
+}
+
+/* 遍历目录获取文件夹 */
+func ErgodicPathGetDir(path string, theme bool) []string {
+	//特殊要求 遍历视图目录 获取主题
+	rd, err := ioutil.ReadDir(path)
+	if err != nil {
+		return []string{}
+	}
+	dir := []string{}
+	for _, fi := range rd {
+		if fi.IsDir() && theme == true && fi.Name() != "admin" {
+			dir = append(dir, fi.Name())
+		}
+		if fi.IsDir() && theme == false {
+			dir = append(dir, fi.Name())
+		}
+	}
+	return dir
+}
+
+/* 写入文件 */
+func WriteFile(filePath, fileContent string) error {
+	var f *os.File
+	f, err := os.OpenFile(filePath, os.O_WRONLY, 0666)
+	if err != nil {
+		return err
+	}
+	_, err = io.WriteString(f, fileContent)
+	return err
 }

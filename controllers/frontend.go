@@ -40,8 +40,8 @@ func (this *FrontendController) Index() {
 
 func (this *FrontendController) Article() {
 	//文章查看页面
-	id := this.GetString(":uuid")
-	article := models.GetOneArticle(id, "uuid")
+	id := this.GetString(":name")
+	article := models.GetOneArticle(id, "name")
 	temp := *article
 	label := models.SearchArticleCategory(temp[0].Cid)
 	this.Data["id"] = temp[0].Id
