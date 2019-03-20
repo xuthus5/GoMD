@@ -52,8 +52,10 @@ func (this *ApiController) ArticleAdd() {
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
+		}
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Name = dict.Convert(data.Title, "-").None()
 		idstr, err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -74,9 +76,11 @@ func (this *ApiController) ArticleUpdate() {
 	if err := this.ParseForm(data); err != nil {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
+		}
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Name = dict.Convert(data.Title, "-").None()
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
