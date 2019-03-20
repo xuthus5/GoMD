@@ -147,10 +147,10 @@ func PreOrNextAriticle(id int, method string) *map[string]string {
 	}
 }
 
-/* 根据id返回uuid */
-func IdToUuid(id int) string {
+/* 根据id返回name */
+func IdToName(id int) string {
 	ids := int64(id)
-	return models.GetUuidById(ids)
+	return models.GetNameById(ids)
 }
 
 //自定义404报错

@@ -4,7 +4,7 @@
             <div class="post-box paddingall">
                 <div class="post-title-box">
                     <h4 class="post-title" itemprop="name headline"><a itemprop="url"
-                                                                       href="/article/{{.Uuid}}">{{.Title}}</a>
+                                                                       href="/article/{{.Name}}">{{.Title}}</a>
                     </h4>
                 </div>
                 <div class="post-content" itemprop="articleBody">
@@ -21,7 +21,7 @@
                     <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i><a
                                 href="/category/{{category .Cid "key"}}">{{category .Cid "name"}}</a></li>
                     <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
-                                itemprop="discussionUrl" href="/article/{{.Uuid}}#comments">{{comment .Id}} 条评论</a></li>
+                                itemprop="discussionUrl" href="/article/{{.Name}}#comments">{{comment .Id}} 条评论</a></li>
                 </ul>
             </div>
         </article>

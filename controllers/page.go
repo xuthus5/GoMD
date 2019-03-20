@@ -10,8 +10,8 @@ import "GoMD/models"
 *********************/
 func (this *FrontendController) Page() {
 	//文章查看页面
-	id := this.GetString(":uuid")
-	article := models.GetOneArticle(id, "uuid")
+	id := this.GetString(":name")
+	article := models.GetOneArticle(id, "name")
 	temp := *article
 	this.Data["id"] = temp[0].Id
 	this.Data["article"] = article

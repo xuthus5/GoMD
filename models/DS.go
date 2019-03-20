@@ -25,8 +25,8 @@ type Article struct {
 	Id       int    `form:"-"`
 	Cid      int    `form:"cid"`
 	Count    int    `form:"-"`
-	Type     int    `form:"-"` //类型自定义 文章/页面	默认0为文章 1为页面
-	Uuid     string `form:"uuid"`
+	Type     int    `form:"-"`    //类型自定义 文章/页面	默认0为文章 1为页面
+	Name     string `form:"name"` //自定义链接名称
 	Title    string `orm:"size(64)" form:"title"`
 	Author   string `form:"author"`
 	Image    string `form:"image"`
@@ -102,10 +102,10 @@ type CategoryData struct {
 
 // 附件资源记录表
 type Attachment struct {
-	Id      int    //id
-	Name    string //名称
+	Id      int                     //id
+	Name    string                  //名称
 	Type    string `orm:"size(64)"` //分类 独立的文件 属于article的文章
-	Path    string //路径
+	Path    string                  //路径
 	Created string `orm:"size(10)"` //创建时间
 }
 

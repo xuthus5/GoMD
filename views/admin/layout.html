@@ -74,6 +74,7 @@
                         {{/*<li><a href="/admin/setting/comment">评论</a></li>*/}}
                         {{/*<li><a href="/admin/setting/read">阅读</a></li>*/}}
                         <li><a href="/admin/setting/path">永久链接</a></li>
+                        <li><a id="reload" class="text-danger">网站重启</a></li>
                     </ul>
                 </li>
                 <li class="special_link">
@@ -130,6 +131,44 @@
 
 <!-- jQuery UI -->
 <script src="/static/admin/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- layer -->
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+    function wait(timeout) {
+        if (timeout === 0) {
+            window.location.href = "/admin";
+        } else {
+            setTimeout("wait(0)", 1000);
+        }
+    }
 
+    $("#reload").click(function () {
+        $(document).ready(function () {
+            //询问框
+            layer.confirm('重启只针对于bee启动的服务，操作可能导致服务短时间内不可用,确定这样做？', {
+                btn: ['是的', '放弃'],
+                skin: 'layer-class',
+            }, function () {
+                $.get("/api/site/rebuild", function (res) {
+                    if (res.Error === 0) {
+                        layer.msg("网站重启成功", {time: 2000});
+                        wait(1);
+                    } else {
+                        layer.msg(res.Title + res.Msg, {
+                            icon: 2,
+                            shade: [0.8, '#393D49'], // 透明度  颜色
+                            time: 2000
+                        });
+                    }
+                }, "json");
+            }, function () {
+                layer.msg('操作取消', {
+                    time: 10000, //20s后自动关闭
+                });
+            });
+            return false;
+        });
+    });
+</script>
 </body>
 </html>

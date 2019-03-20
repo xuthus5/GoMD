@@ -53,7 +53,7 @@ func (this *ApiController) ArticleAdd() {
 		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = dict.Convert(data.Title, "-").None()
+		data.Name = dict.Convert(data.Title, "-").None()
 		idstr, err := models.AddArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
@@ -76,12 +76,12 @@ func (this *ApiController) ArticleUpdate() {
 	} else {
 		data.Id = tools.StringToInt(id)
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		data.Uuid = dict.Convert(data.Title, "-").None()
+		data.Name = dict.Convert(data.Title, "-").None()
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Name}
 		}
 	}
 	this.Data["json"] = info
@@ -123,8 +123,8 @@ func (this *ApiController) PageAdd() {
 	} else {
 		data.Renew = tools.Int64ToString(time.Now().Unix())
 		data.Type = 1
-		if data.Uuid == "" {
-			data.Uuid = dict.Convert(data.Title, "-").None()
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
 		}
 		idstr, err := models.AddArticle(data)
 		if err != nil {
@@ -149,14 +149,14 @@ func (this *ApiController) PageUpdate() {
 		data.Id = tools.StringToInt(id)
 		data.Type = 1
 		data.Renew = tools.Int64ToString(time.Now().Unix())
-		if data.Uuid == "" {
-			data.Uuid = dict.Convert(data.Title, "-").None()
+		if data.Name == "" {
+			data.Name = dict.Convert(data.Title, "-").None()
 		}
 		err = models.UpdateArticle(data)
 		if err != nil {
 			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Uuid}
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "修改成功！", Data: data.Name}
 		}
 	}
 	this.Data["json"] = info
@@ -286,6 +286,26 @@ func (this *ApiController) SiteConfig() {
 	}
 	this.Data["json"] = info
 	this.ServeJSON()
+}
+
+//网站服务热更新 路由 /api/site/reload
+func (this *ApiController) Reload() {
+	err := tools.ReloadServer()
+	time.Sleep(5 * time.Second)
+	if err != nil {
+		this.Data["json"] = &ResultData{Error: 1, Title: "失败:", Msg: err.Error()}
+	} else {
+		this.Data["json"] = &ResultData{Error: 0, Title: "成功:", Msg: "网站重启成功！"}
+	}
+	this.ServeJSON()
+}
+
+//网站服务热编译 路由 /api/site/rebuild
+func (this *ApiController) Rebuild() {
+	//生成随机序列
+	id := tools.RandomString(16)
+	cryptostr := tools.StringToMd5(id, 32)
+	_ = tools.WriteFile(".rebuild", cryptostr)
 }
 
 /************************

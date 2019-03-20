@@ -4,7 +4,7 @@
         <div class="post-box paddingall">
             <div class="post-title-box">
                 <h4 class="post-title" itemprop="name headline"><a itemprop="url"
-                                                                   href="/article/{{.Uuid}}">{{.Title}}</a></h4>
+                                                                   href="/article/{{.Name}}">{{.Title}}</a></h4>
             </div>
             <div class="post-content" itemprop="articleBody">
                 <div class="md_block" id="markdown">
@@ -38,12 +38,12 @@
 {{with $elem := pna .Id "pre"}}
 {{if ne $elem.isNull "true"}}
     <span style="float: left;padding:2px;"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<a
-            href="/article/{{$elem.uuid}}" title="{{$elem.title}}">{{$elem.title}}</a></span>
+            href="/article/{{$elem.name}}" title="{{$elem.title}}">{{$elem.title}}</a></span>
 {{end}}
 {{end}}
     <span class="num" style="visibility:hidden">1/1</span>
 {{with $elem := pna .Id "next"}}
-{{if ne $elem.isNull "true"}}<span style="float: right;padding:2px;"><a href="/article/{{$elem.uuid}}"
+{{if ne $elem.isNull "true"}}<span style="float: right;padding:2px;"><a href="/article/{{$elem.name}}"
                                                                         title="{{$elem.title}}">{{$elem.title}}</a>&nbsp;<i
         class="fa fa-arrow-right" aria-hidden="true"></i></span>
 {{end}}

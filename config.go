@@ -98,7 +98,7 @@ func customTemplateFunction() {
 	_ = beego.AddFuncMap("comment", GetCommentNumber)     //获取分类下的评论数量
 	_ = beego.AddFuncMap("gavatar", GetGravatar)          //获取评论者gavatar头像
 	_ = beego.AddFuncMap("pna", PreOrNextAriticle)        //获取上一篇或者下一篇文章
-	_ = beego.AddFuncMap("itu", IdToUuid)                 //根据id返回uuid
+	_ = beego.AddFuncMap("itu", IdToName)                 //根据id返回name
 	_ = beego.AddFuncMap("cl", models.CategoryList)       //返回分类列表
 	_ = beego.AddFuncMap("link", models.GetAllLink)       //返回链接列表
 	_ = beego.AddFuncMap("menu", models.GetAllMenu)       //返回菜单栏

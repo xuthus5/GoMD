@@ -18,6 +18,9 @@ func main() {
 	//-----自定义日志配置
 	logSetting()
 
+	//开启热更新
+	//beego.BConfig.Listen.Graceful=true
+
 	//-----运行入口
 	beego.Run()
 }

@@ -24,8 +24,8 @@ func AllArticleList() (*[]Article, error) {
 // 查看某一篇文章 提供ID 查询文章
 func GetOneArticle(id, method string) *[]Article {
 	data := []Article{}
-	if method == "uuid" {
-		_ = dbx.Select(&data, "select * from article where uuid=?", id)
+	if method == "name" {
+		_ = dbx.Select(&data, "select * from article where name=?", id)
 	} else {
 		_ = dbx.Select(&data, "select * from article where id=?", id)
 	}
@@ -51,22 +51,22 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
-			res["uuid"] = ""
+			res["name"] = ""
 		} else {
 			res["isNull"] = "false"
 			res["title"] = data[0].Title
-			res["uuid"] = data[0].Uuid
+			res["name"] = data[0].Name
 		}
 	} else {
 		_ = dbx.Select(&data, "select * from article where id = (select id from article where id > ? order by id asc limit 1);", id)
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
-			res["uuid"] = ""
+			res["name"] = ""
 		} else {
 			res["isNull"] = "false"
 			res["title"] = data[0].Title
-			res["uuid"] = data[0].Uuid
+			res["name"] = data[0].Name
 		}
 	}
 	return &res
@@ -113,7 +113,7 @@ func AddArticle(data *Article) (string, error) {
 	id, err := dbc.Insert(data)
 	article := &Article{Id: int(id)}
 	_ = dbc.Read(article)
-	return article.Uuid, err
+	return article.Name, err
 }
 
 // 文章删除
@@ -156,11 +156,11 @@ func GetCommentNumFromArticle(id int) (int64, error) {
 	return dbc.QueryTable("comment").Filter("aid", id).Filter("status", 1).Count()
 }
 
-// 根据传递过来的id返回uuid
-func GetUuidById(id int64) string {
+// 根据传递过来的id返回name
+func GetNameById(id int64) string {
 	var article Article
-	_ = dbc.QueryTable("article").Filter("id", id).One(&article, "uuid")
-	return article.Uuid
+	_ = dbc.QueryTable("article").Filter("id", id).One(&article, "name")
+	return article.Name
 }
 
 // 返回指定条数最新评论

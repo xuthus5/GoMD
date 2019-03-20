@@ -22,6 +22,8 @@ func ApiRouter() {
 	beego.Router("/api/page/delete", &controllers.ApiController{}, "get:PageDelete")  //页面删除
 
 	beego.Router("/api/site/config", &controllers.ApiController{}, "post:SiteConfig") //网站配置
+	beego.Router("/api/site/reload", &controllers.ApiController{}, "get:Reload")      //网站热更新
+	beego.Router("/api/site/rebuild", &controllers.ApiController{}, "get:Rebuild")    //网站热编译
 
 	beego.Router("/api/notice", &controllers.ApiController{}, "post:Notice")         //网站公告
 	beego.Router("/api/notice/list", &controllers.ApiController{}, "get:NoticeList") //网站公告

@@ -2,7 +2,7 @@
     <section class="article-list">
     {{range .list}}
         <article>
-            <h2><a href="/article/{{.Uuid}}" class="">{{.Title}}</a></h2>
+            <h2><a href="/article/{{.Name}}" class="">{{.Title}}</a></h2>
             <div class="excerpt">
                 <p>{{with $summary := markdown .Summary}}
             {{str2html $summary }}
@@ -14,7 +14,7 @@
                 <span class="item"><i class="iconfont icon-crown"></i><a href="/category/{{category .Cid "key"}}"
                                                                          class="">{{category .Cid "name"}}</a></span>
                 <span class="item"><i class="iconfont icon-tag"></i><a
-                        href="/article/{{.Uuid}}#comments">{{comment .Id}} 评</a></span>
+                        href="/article/{{.Name}}#comments">{{comment .Id}} 评</a></span>
             </div>
         </article>
     {{end}}

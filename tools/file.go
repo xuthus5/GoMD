@@ -70,3 +70,13 @@ func FileMove(source, target string) error {
 		return nil
 	}
 }
+
+func WriteFile(filePath, fileContent string) error {
+	var f *os.File
+	f, err := os.OpenFile(filePath, os.O_WRONLY, 0666)
+	if err != nil {
+		return err
+	}
+	_, err = io.WriteString(f, fileContent)
+	return err
+}
