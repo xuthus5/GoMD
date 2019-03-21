@@ -137,7 +137,7 @@
 <script>
     function wait(timeout) {
         if (timeout === 0) {
-            window.location.href = "/admin";
+            window.location.href = "/login";
         } else {
             setTimeout("wait(0)", 1000);
         }
@@ -150,6 +150,7 @@
                 btn: ['是的', '放弃'],
                 skin: 'layer-class',
             }, function () {
+                layer.msg("网站即将重启", {time: 2000});
                 $.get("/api/site/rebuild", function (res) {
                     if (res.Error === 0) {
                         layer.msg("网站重启成功", {time: 2000});

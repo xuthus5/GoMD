@@ -3,7 +3,7 @@
     {{range .list}}
         <article>
             <h2>
-                {{if $.rewrite}}
+                {{if eq $.rewrite "true"}}
                     <a href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a>
                 {{else}}
                     <a href="/{{$.rule}}/{{.Name}}">{{.Title}}</a>
@@ -20,7 +20,7 @@
                 <span class="item"><i class="iconfont icon-crown"></i><a href="/category/{{category .Cid "key"}}"
                                                                          class="">{{category .Cid "name"}}</a></span>
                 <span class="item"><i class="iconfont icon-tag"></i>
-                     {{if $.rewrite}}
+                     {{if eq $.rewrite "true"}}
                          <a href="/{{$.rule}}/{{.Name}}.html#comments">{{comment .Id}} 评</a>
                      {{else}}
                          <a href="/{{$.rule}}/{{.Name}}#comments">{{comment .Id}} 评</a>

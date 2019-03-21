@@ -25,7 +25,7 @@
             {{with $list := na 3}}
                 {{range $list}}
                     <li>
-                        {{if $.rewrite}}
+                        {{if eq $.rewrite "true"}}
                             <a href="/{{$.rule}}/{{.Name}}.html"><i
                                         class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
                         {{else}}
@@ -45,10 +45,10 @@
                     <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
                                                                             src="{{gavatar .Email}}"
                                                                             alt="{{.Name}}" width="24" height="24"></a></span>
-                        {{if $.rewrite}}
-                            <a href="/{{$.rule}}/{{itu .Aid}}.html#comment-{{.Id}}"></a>: {{.Content}}
+                        {{if eq $.rewrite "true"}}
+                            <a href="/{{$.rule}}/{{itu .Aid}}.html#comment-{{.Id}}">{{.Name}}</a>: {{.Content}}
                         {{else}}
-                            <a href="/{{$.rule}}/{{itu .Aid}}#comment-{{.Id}}"></a>: {{.Content}}
+                            <a href="/{{$.rule}}/{{itu .Aid}}#comment-{{.Id}}">{{.Name}}</a>: {{.Content}}
                         {{end}}
                     </li>
                 {{end}}

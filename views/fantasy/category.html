@@ -1,18 +1,18 @@
 <main>
     <section class="content">
-        {{if eq .isNil 1}}
+        {{if eq .data.IsNil true}}
         <h1>{{.list}}</h1>
         {{else}}
-        {{range .data}}
+        {{range .data.Info}}
             <h1>{{.Name}}</h1>
             <div class="meta">{{.Description}}</div>
         {{end}}
         <div class="info"></div>
         <ul>
-            {{range .list}}
+            {{range .data.List}}
                 <li>
                     <time datetime="{{tsc .Renew false}}">{{tsc .Renew false}}</time>
-                    {{if $.rewrite}}
+                    {{if eq $.rewrite "true"}}
                         <a href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a>
                     {{else}}
                         <a href="/{{$.rule}}/{{.Name}}">{{.Title}}</a>

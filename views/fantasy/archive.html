@@ -7,7 +7,7 @@
         {{range .list}}
             <li>
                 <time>{{tsc .Renew false}}</time>
-                {{if $.rewrite}}
+                {{if eq $.rewrite "true"}}
                     <a href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a><span>{{category .Cid "name"}}</span>
                 {{else}}
                     <a href="/{{$.rule}}/{{.Name}}">{{.Title}}</a><span>{{category .Cid "name"}}</span>

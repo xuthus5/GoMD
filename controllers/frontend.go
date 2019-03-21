@@ -4,7 +4,6 @@ import (
 	"GoMD/models"
 	"GoMD/tools"
 	"github.com/astaxie/beego"
-	"strconv"
 	"strings"
 )
 
@@ -43,7 +42,11 @@ func (this *FrontendController) Index() {
 	this.Data["config"] = config
 	this.Data["page"] = page
 	this.Data["rule"] = rule
-	this.Data["rewrite"] = config["Rewrite"]
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
 	this.Layout = layout
 	this.TplName = theme + "/index.html"
 	if theme == "QuietV1" {
@@ -78,7 +81,11 @@ func (this *FrontendController) Article() {
 	this.Data["id"] = temp[0].Id
 	this.Data["article"] = article
 	this.Data["rule"] = rule
-	this.Data["rewrite"] = config["Rewrite"]
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
 	this.Data["comments"] = models.GetArticleComments(temp[0].Id)
 	this.Data["label"] = label
 	this.Data["config"] = config
@@ -93,6 +100,21 @@ func (this *FrontendController) Article() {
 
 func (this *FrontendController) Search() {
 	//查询页面
+	//检测伪静态
+	config := models.ConfigList()
+	var rule string
+	if config["Rewrite"] == "1" {
+		tmp := strings.Split(config["Repath"], "/")
+		rule = tmp[1]
+	} else {
+		rule = "article"
+	}
+	this.Data["rule"] = rule
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
 	keywords := this.GetString("keywords")
 	list, _ := models.Search(keywords)
 	this.Data["keywords"] = keywords
@@ -114,7 +136,11 @@ func (this *FrontendController) Archive() {
 		rule = "article"
 	}
 	this.Data["rule"] = rule
-	this.Data["rewrite"] = config["Rewrite"]
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
 	this.Data["config"] = config
 	data, _ := models.AllArticleList()
 	this.Data["list"] = data
@@ -134,20 +160,14 @@ func (this *FrontendController) Category() {
 	} else {
 		rule = "article"
 	}
-	data := models.GetOneCategoryInfo(this.GetString(":key"), "key")
-	temp := *data
-	if len(temp) == 0 {
-		this.Data["isNil"] = 1
-		this.Data["list"] = "没有找到该分类!"
-	} else {
-		this.Data["isNil"] = 0
-		list, _ := models.GetCategoryArticle(strconv.Itoa(temp[0].Id))
-		this.Data["list"] = list
-	}
+	this.Data["data"] = models.CategoryInformation(this.GetString(":key"))
 	this.Data["config"] = config
-	this.Data["data"] = data
 	this.Data["rule"] = rule
-	this.Data["rewrite"] = config["Rewrite"]
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
 	this.Layout = layout
 	this.TplName = theme + "/category.html"
 }

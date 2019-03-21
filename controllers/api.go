@@ -306,6 +306,9 @@ func (this *ApiController) Reload() {
 
 //网站服务热编译 路由 /api/site/rebuild
 func (this *ApiController) Rebuild() {
+	this.Data["json"] = &ResultData{Error: 0, Title: "成功:", Msg: "网站即将重启！"}
+	this.ServeJSON()
+	time.Sleep(5 * time.Second)
 	//生成随机序列
 	id := tools.RandomString(16)
 	cryptostr := tools.StringToMd5(id, 32)

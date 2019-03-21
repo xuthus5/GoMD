@@ -4,7 +4,7 @@
     <div class="post-box paddingall">
         <div class="post-title-box">
             <h4 class="post-title" itemprop="name headline">
-                {{if $.rewrite}}
+                {{if eq $.rewrite "true"}}
                     <a itemprop="url" href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a>
                 {{else}}
                     <a itemprop="url" href="/{{$.rule}}/{{.Name}}">{{.Title}}</a>
@@ -28,7 +28,7 @@
             </li>
             <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i>{{category .Cid "name"}}</li>
             <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i>
-                {{if $.rewrite}}
+                {{if eq $.rewrite "true"}}
                     <a itemprop="discussionUrl" href="/{{$.rule}}/{{.Name}}.html#comments">{{comment .Id}} 条评论</a>
                 {{else}}
                     <a itemprop="discussionUrl" href="/{{$.rule}}/{{.Name}}#comments">{{comment .Id}} 条评论</a>
@@ -48,7 +48,7 @@
         {{with $elem := pna .Id "pre"}}
             {{if ne $elem.isNull "true"}}
                 <span style="float: left;padding:2px;"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;
-        {{if $.rewrite}}
+        {{if eq $.rewrite "true"}}
             <a href="/{{$.rule}}/{{$elem.name}}.html" title="{{$elem.title}}">{{$elem.title}}</a>
         {{else}}
             <a href="/{{$.rule}}/{{$elem.name}}" title="{{$elem.title}}">{{$elem.title}}</a>
@@ -60,7 +60,7 @@
         <span class="num" style="visibility:hidden">1/1</span>
         {{with $elem := pna .Id "next"}}
             {{if ne $elem.isNull "true"}}<span style="float: right;padding:2px;">
-                {{if $.rewrite}}
+                {{if eq $.rewrite "true"}}
                     <a href="/{{$.rule}}/{{$elem.name}}.html" title="{{$elem.title}}">{{$elem.title}}</a>
                 {{else}}
                     <a href="/{{$.rule}}/{{$elem.name}}" title="{{$elem.title}}">{{$elem.title}}</a>
