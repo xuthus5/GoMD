@@ -4,11 +4,15 @@ import (
 	"GoMD/models"
 	"GoMD/tools"
 	"github.com/astaxie/beego"
+	"strings"
 )
 
 type BackendController struct {
 	beego.Controller
 }
+
+var config = models.ConfigList()
+var rule = strings.Split(config["Repath"], "/")[1]
 
 //*******************控制台*************************
 
@@ -54,6 +58,8 @@ func (this *BackendController) ArticleAdd() {
 		this.Redirect("/login", 302)
 	}
 	this.Data["master"] = master
+	this.Data["config"] = config
+	this.Data["rule"] = rule
 	this.Data["list"] = models.CategoryList()
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/article/add.html"
@@ -66,6 +72,8 @@ func (this *BackendController) PageAdd() {
 		this.Redirect("/login", 302)
 	}
 	this.Data["master"] = master
+	this.Data["config"] = config
+	this.Data["rule"] = rule
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/page/add.html"
 }
@@ -191,6 +199,8 @@ func (this *BackendController) ArticleUpdate() {
 	article := models.GetOneArticle(id, "id")
 	this.Data["article"] = article
 	this.Data["category"] = models.CategoryList()
+	this.Data["config"] = config
+	this.Data["rule"] = rule
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/article/update.html"
 }
@@ -206,6 +216,8 @@ func (this *BackendController) PageUpdate() {
 	article := models.GetOneArticle(id, "id")
 	this.Data["article"] = article
 	this.Data["category"] = models.CategoryList()
+	this.Data["config"] = config
+	this.Data["rule"] = rule
 	this.Layout = "admin/layout.html"
 	this.TplName = "admin/page/update.html"
 }

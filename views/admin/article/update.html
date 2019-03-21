@@ -20,7 +20,7 @@
                 <a href="/admin/article">文章管理</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>添加文章</strong>
+                <strong>文章更新</strong>
             </li>
         </ol>
     </div>
@@ -34,7 +34,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>添加文章
+                    <h5>文章更新
                         <small>请使用markdown语法</small>
                     </h5>
                     <div class="ibox-tools">
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inputEmail4">自定义标题</label>
-                                <input type="text" class="form-control" name="title" placeholder="请输入文章标题"
+                                <input type="text" class="form-control" name="name" placeholder="请输入文章标题"
                                        value="{{.Name}}">
                             </div>
                             <div class="form-group col-md-1">
@@ -107,7 +107,6 @@
                             <textarea name="content" data-provide="markdown" rows="10"
                                       id="content">{{.Content}}</textarea>
                         </div>
-
                         <button type="button" id="submit" class="btn btn-primary">发表</button>
                     </form>
                     {{end}}
@@ -223,13 +222,18 @@
             $.post("/api/article/update?id=" + GetQueryString("id"), postData, function (res) {
                 console.log(res);
                 if (res.Error === 0) {
+                    console.log("/{{.rule}}/" + res.data+".html");
                     layer.open({
                         skin: 'layer-class',
                         title: res.Title
                         , content: res.Msg,
                         btn: ['浏览', '列表'],
                         yes: function (index) {
-                            window.location.href = "/article/" + res.data;
+                            {{if .config.Rewrite}}
+                            console.log("/{{.rule}}/" + res.data+".html");
+                            window.location.href = "/{{.rule}}/" + res.data+".html";
+                            {{end}}
+                            window.location.href = "/{{.rule}}/" + res.data;
                         }
                         , btn2: function (index) {
                             window.location.href = "/admin/article";

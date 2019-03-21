@@ -209,7 +209,10 @@
                     , content: res.Msg,
                     btn: ['浏览', '列表'],
                     yes: function (index) {
-                        window.location.href = "/article/" + res.data;
+                        {{if .config.Rewrite}}
+                            window.location.href = "/{{.rule}}/" + res.data+".html";
+                        {{end}}
+                        window.location.href = "/{{.rule}}/" + res.data;
                     }
                     , btn2: function (index) {
                         window.location.href = "/admin/article";

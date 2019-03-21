@@ -3,12 +3,16 @@
     <article class="post Card typo" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-box paddingall">
             <div class="post-title-box">
-                <h4 class="post-title" itemprop="name headline"><a itemprop="url"
-                                                                   href="/article/{{.Name}}">{{.Title}}</a></h4>
+                <h4 class="post-title" itemprop="name headline">
+                    {{if eq $.rewrite "true"}}
+                        <a itemprop="url" href="/{{.Name}}.html">{{.Title}}</a>
+                    {{else}}
+                        <a itemprop="url" href="/{{.Name}}">{{.Title}}</a>
+                    {{end}}
+                </h4>
             </div>
             <div class="post-content" itemprop="articleBody">
                 <div class="md_block" id="markdown">
-
                 </div>
             </div>
         </div>
@@ -17,8 +21,13 @@
                 <li><i class="fa fa-calendar" aria-hidden="true">&nbsp; </i>
                     <time datetime="{{tsc .Renew false}}" itemprop="datePublished">{{tsc .Renew false}}</time>
                 </li>
-                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
-                        itemprop="discussionUrl" href="#comments">{{comment .Id}}</a></li>
+                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i>
+                    {{if eq $.rewrite "true"}}
+                        <a itemprop="discussionUrl" href="/{{.Name}}.html#comments">{{comment .Id}} 条评论</a>
+                    {{else}}
+                        <a itemprop="discussionUrl" href="/{{.Name}}#comments">{{comment .Id}} 条评论</a>
+                    {{end}}
+                </li>
             </ul>
         </div>
         <div class="SubtitleBox hidden-md"></div>
