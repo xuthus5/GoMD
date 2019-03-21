@@ -5,6 +5,16 @@
   "Version": [
     {
       "Type": "Release",
+      "Commit": "V0.3.1版本发布",
+      "Version": "0.3.1.0321_beta",
+      "Title": "Beta版0.3.1发布",
+      "Committer": "xuthus",
+      "Date": "2019-03-21",
+      "Tag": "https://gitee.com/xuthus5/GoMD",
+      "Level": "label-primary"
+    },
+    {
+      "Type": "Release",
       "Commit": "V0.3.0版本发布",
       "Version": "0.3.0.0320_beta",
       "Title": "Beta版0.3.0发布",
