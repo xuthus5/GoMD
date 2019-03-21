@@ -42,7 +42,7 @@ bee run
 
 ## 设计
 
-后台设计有仿照 typecho 网站大致结构如下
+后台设计有仿照 typecho 网站结构大致如下
 
 ![网站架构](./GoMD.png)
 
@@ -70,18 +70,22 @@ bee run
 
 - [ ] 固定链接
 
-## 内置两套主题
+## 主题
 
 1. QuietV1 [1025](https://1025.me/)
 
-![首页](http://dl.xuthus.cc/q-i.png)
-![内容](http://dl.xuthus.cc/q-a.png)
+![首页](http://static.xuthus.cc/quiet-index.png)
+![内容](http://static.xuthus.cc/quiet-article.png)
 
 2. fantasy [Seevil](https://github.com/Seevil/fantasy)
 
+![首页](http://static.xuthus.cc/fantasy-index.png)
+![内容](http://static.xuthus.cc/fantasy-article.png)
+
 ## 后台
 
-![首页](http://dl.xuthus.cc/admin.png)
-![内容](http://dl.xuthus.cc/admin-a.png)
+![首页](http://static.xuthus.cc/admin.png)
+![编辑](http://static.xuthus.cc/edit.png)
+![列表](http://static.xuthus.cc/list.png)
 
 注意:需要移植主题的可以提交issue
