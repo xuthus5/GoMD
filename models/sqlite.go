@@ -49,6 +49,8 @@ func Initialization() {
 	_, _ = dbc.Insert(&Config{Option: "LogoUrl", Value: "/static/common/images/user-head-image.jpeg"})
 	_, _ = dbc.Insert(&Config{Option: "UserEmail", Value: "admin@admin.com"})
 	_, _ = dbc.Insert(&Config{Option: "UserGithub", Value: "http://github.com"})
+	_, _ = dbc.Insert(&Config{Option: "Rewrite", Value: "1"})
+	_, _ = dbc.Insert(&Config{Option: "Repath", Value: "/article/{name}"})
 	//分类表初始化
 	_, _ = dbc.Insert(&Category{
 		Name:        "默认",
