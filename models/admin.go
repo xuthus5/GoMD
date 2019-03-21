@@ -47,7 +47,7 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 	data := []Article{}
 	res := make(map[string]string)
 	if method == "pre" {
-		_ = dbx.Select(&data, "select * from article where id = (select id from article where id < ? order by id desc limit 1);", id)
+		_ = dbx.Select(&data, "select * from article where id = (select id from article where type = 0 and id < ? order by id desc limit 1);", id)
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
@@ -58,7 +58,7 @@ func GetPreOrNextArticle(id int, method string) *map[string]string {
 			res["name"] = data[0].Name
 		}
 	} else {
-		_ = dbx.Select(&data, "select * from article where id = (select id from article where id > ? order by id asc limit 1);", id)
+		_ = dbx.Select(&data, "select * from article where id = (select id from article where type = 0 and id > ? order by id asc limit 1);", id)
 		if len(data) == 0 {
 			res["isNull"] = "true"
 			res["title"] = ""
@@ -80,7 +80,7 @@ func LimitArticleDisplay(page, limit int64) (*[]Article, int64) {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	count, _ := dbc.QueryTable("article").Count()
+	count, _ := dbc.QueryTable("article").Filter("type", 0).Count()
 	return &list, count
 }
 

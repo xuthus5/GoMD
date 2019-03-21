@@ -7,7 +7,11 @@
         {{range .list}}
             <li>
                 <time>{{tsc .Renew false}}</time>
-                <a href="/article/{{.Name}}">{{.Title}}</a> <span>{{category .Cid "name"}}</span>
+                {{if eq $.rewrite "true"}}
+                    <a href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a><span>{{category .Cid "name"}}</span>
+                {{else}}
+                    <a href="/{{$.rule}}/{{.Name}}">{{.Title}}</a><span>{{category .Cid "name"}}</span>
+                {{end}}
             </li>
         {{end}}
         </ul>
@@ -15,7 +19,7 @@
         <ul class="archived-posts">
         {{range .category}}
             <li>
-                <a href="/category/{{.Id}}">{{.Name}}</a> <span>共{{cn .Id}}篇</span>
+                <a href="/category/{{.Key}}">{{.Name}}</a> <span>共{{cn .Id}}篇</span>
             </li>
         {{end}}
         </ul>

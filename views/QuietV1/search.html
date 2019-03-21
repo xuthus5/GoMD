@@ -6,8 +6,12 @@
     <article class="post Card typo indexCard" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-box paddingall">
             <div class="post-title-box">
-                <h4 class="post-title" itemprop="name headline"><a itemprop="url"
-                                                                   href="/article/{{.Name}}">{{.Title}}</a>
+                <h4 class="post-title" itemprop="name headline">
+                    {{if eq $.rewrite "true"}}
+                        <a itemprop="url" href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a>
+                    {{else}}
+                        <a itemprop="url" href="/{{$.rule}}/{{.Name}}">{{.Title}}</a>
+                    {{end}}
                 </h4>
             </div>
             <div class="post-content" itemprop="articleBody">
@@ -21,8 +25,13 @@
                 </li>
                 <li><i class="fa fa-book fa-fw" aria-hidden="true">&nbsp; </i><a
                         href="/category/{{category .Cid "key"}}">{{category .Cid "name"}}</a></li>
-                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i><a
-                        itemprop="discussionUrl" href="/article/{{.Name}}#comments">{{comment .Id}} 条评论</a></li>
+                <li itemprop="interactionCount"><i class="fa fa-comments-o" aria-hidden="true">&nbsp; </i>
+                    {{if eq $.rewrite "true"}}
+                        <a itemprop="discussionUrl" href="/{{$.rule}}/{{.Name}}.html#comments">{{comment .Id}} 条评论</a>
+                    {{else}}
+                        <a itemprop="discussionUrl" href="/{{$.rule}}/{{.Name}}#comments">{{comment .Id}} 条评论</a>
+                    {{end}}
+                </li>
             </ul>
         </div>
     </article>

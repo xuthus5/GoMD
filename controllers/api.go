@@ -306,10 +306,41 @@ func (this *ApiController) Reload() {
 
 //网站服务热编译 路由 /api/site/rebuild
 func (this *ApiController) Rebuild() {
+	this.Data["json"] = &ResultData{Error: 0, Title: "成功:", Msg: "网站即将重启！"}
+	this.ServeJSON()
+	time.Sleep(5 * time.Second)
 	//生成随机序列
 	id := tools.RandomString(16)
 	cryptostr := tools.StringToMd5(id, 32)
 	_ = tools.WriteFile(".rebuild", cryptostr)
+}
+
+// 网站伪静态配置 /api/site/rewrite
+func (this *ApiController) Rewrite() {
+	swt := this.GetString("switch")
+	rule := this.GetString("rule")
+	info := &ResultData{}
+	if swt != "" {
+		config := &models.Config{Option: "Rewrite", Value: swt}
+		err := models.SiteConfig(config)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "出现未知错误！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "信息重置成功！"}
+		}
+	} else if rule != "" {
+		config := &models.Config{Option: "Repath", Value: rule}
+		err := models.SiteConfig(config)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "出现未知错误！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "信息重置成功！"}
+		}
+	} else {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "参数错误！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
 }
 
 /************************
