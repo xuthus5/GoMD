@@ -1,6 +1,9 @@
 package controllers
 
-import "GoMD/models"
+import (
+	"GoMD/models"
+	"strings"
+)
 
 /********************
 
@@ -8,10 +11,21 @@ import "GoMD/models"
 
 路由 ： /?:name
 *********************/
+
 func (this *FrontendController) Page() {
-	//文章查看页面
-	id := this.GetString(":name")
-	article := models.GetOneArticle(id, "name")
+	//检测伪静态
+	config := models.ConfigList()
+	name := this.GetString(":name")
+	if config["Rewrite"] == "1" {
+		names := strings.Split(name, ".")
+		name = names[0]
+	}
+	if config["Rewrite"] == "1" {
+		this.Data["rewrite"] = "true"
+	} else {
+		this.Data["rewrite"] = "false"
+	}
+	article := models.GetOneArticle(name, "name")
 	temp := *article
 	this.Data["id"] = temp[0].Id
 	this.Data["article"] = article

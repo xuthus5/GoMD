@@ -37,8 +37,11 @@
                     {{with $menu := menu}}
                     {{range $menu}}
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{.Url}}" title="{{.Description}}"><span>{{.Name}}</span></a>
+                        {{if eq $.rewrite "true"}}
+                            <a class="nav-link" href="{{.Url}}.html" title="{{.Description}}"><span>{{.Name}}</span></a>
+                        {{else}}
+                            <a class="nav-link" href="{{.Url}}" title="{{.Description}}"><span>{{.Name}}</span></a>
+                        {{end}}
                     </li>
                     {{end}}
                     {{end}}
