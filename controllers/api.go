@@ -312,6 +312,34 @@ func (this *ApiController) Rebuild() {
 	_ = tools.WriteFile(".rebuild", cryptostr)
 }
 
+// 网站伪静态配置 /api/site/rewrite
+func (this *ApiController) Rewrite() {
+	swt := this.GetString("switch")
+	rule := this.GetString("rule")
+	info := &ResultData{}
+	if swt != "" {
+		config := &models.Config{Option: "Rewrite", Value: swt}
+		err := models.SiteConfig(config)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "出现未知错误！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "信息重置成功！"}
+		}
+	} else if rule != "" {
+		config := &models.Config{Option: "Repath", Value: rule}
+		err := models.SiteConfig(config)
+		if err != nil {
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "出现未知错误！"}
+		} else {
+			info = &ResultData{Error: 0, Title: "成功:", Msg: "信息重置成功！"}
+		}
+	} else {
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "参数错误！"}
+	}
+	this.Data["json"] = info
+	this.ServeJSON()
+}
+
 /************************
 
 有关公告的API

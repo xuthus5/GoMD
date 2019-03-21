@@ -178,17 +178,23 @@ func ChangeLog() ChangeLogData {
 	resp, err := http.Get("https://gitee.com/xuthus5/GoMD/raw/master/CHANGELOG.json")
 	if err != nil {
 		beego.Error("获取更新信息失败")
+		content, err := ioutil.ReadFile("CHANGELOG.json")
+		if err != nil {
+			beego.Error("获取本地更新信息失败")
+		}
+		err = json.Unmarshal(content, &data)
+	} else {
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			beego.Error("读取更新信息失败！")
+		}
+		//读取的数据为json格式，需要进行解码
+		err = json.Unmarshal(body, &data)
+		if err != nil {
+			beego.Error("解析json数据失败")
+		}
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		beego.Error("读取更新信息失败！")
-	}
-	//读取的数据为json格式，需要进行解码
-	err = json.Unmarshal(body, &data)
-	if err != nil {
-		beego.Error("解析json数据失败")
-	}
 	return data
 }
 

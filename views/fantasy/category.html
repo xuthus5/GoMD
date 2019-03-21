@@ -3,7 +3,7 @@
         {{if eq .isNil 1}}
         <h1>{{.list}}</h1>
         {{else}}
-        {{range .info}}
+        {{range .data}}
             <h1>{{.Name}}</h1>
             <div class="meta">{{.Description}}</div>
         {{end}}
@@ -12,7 +12,11 @@
             {{range .list}}
                 <li>
                     <time datetime="{{tsc .Renew false}}">{{tsc .Renew false}}</time>
-                    <a href="/article/{{.Name}}">{{.Title}}</a>
+                    {{if $.rewrite}}
+                        <a href="/{{$.rule}}/{{.Name}}.html">{{.Title}}</a>
+                    {{else}}
+                        <a href="/{{$.rule}}/{{.Name}}">{{.Title}}</a>
+                    {{end}}
                 </li>
             {{end}}
             {{end}}

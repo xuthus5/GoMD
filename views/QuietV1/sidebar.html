@@ -10,7 +10,7 @@
         </div>
         <div class="side-info-link">
             <a href="mailto:{{sc "UserEmail"}}" target="_blank"><i class="fa fa-envelope-o fa-fw"
-                                                            aria-hidden="true">&nbsp; </i></a>
+                                                                   aria-hidden="true">&nbsp; </i></a>
             <a href="{{sc "UserGithub"}}" target="_blank"><i class="fa fa-git fa-fw"
                                                              aria-hidden="true">&nbsp; </i></a>
         </div>
@@ -22,40 +22,50 @@
     <section class="widget paddingall">
         <h5 class="widget-title">最新文章</h5>
         <ul class="widget-list">
-        {{with $list := na 3}}
-        {{range $list}}
-            <li><a href="/article/{{.Name}}"><i class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
-            </li>
-        {{end}}
-        {{end}}
+            {{with $list := na 3}}
+                {{range $list}}
+                    <li>
+                        {{if $.rewrite}}
+                            <a href="/{{$.rule}}/{{.Name}}.html"><i
+                                        class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
+                        {{else}}
+                            <a href="/{{$.rule}}/{{.Name}}"><i class="fa fa-caret-right fa-lg">&nbsp; </i>{{.Title}}</a>
+                        {{end}}
+                    </li>
+                {{end}}
+            {{end}}
         </ul>
     </section>
 
     <section class="widget paddingall">
         <h5 class="widget-title">最近回复</h5>
         <ul class="widget-list RecentReply zface-box">
-        {{with $list := nc 5 true}}
-        {{range $list}}
-            <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
-                                                                    src="{{gavatar .Email}}"
-                                                                    alt="{{.Name}}" width="24" height="24"></a></span><a
-                    href="/article/{{itu .Aid}}#comment-{{.Id}}">{{.Name}}</a>: {{.Content}}
-            </li>
-        {{end}}
-        {{end}}
+            {{with $list := nc 5 true}}
+                {{range $list}}
+                    <li><span class="avatar"><a href=mailto:{{.Email}}><img class="avatar"
+                                                                            src="{{gavatar .Email}}"
+                                                                            alt="{{.Name}}" width="24" height="24"></a></span>
+                        {{if $.rewrite}}
+                            <a href="/{{$.rule}}/{{itu .Aid}}.html#comment-{{.Id}}"></a>: {{.Content}}
+                        {{else}}
+                            <a href="/{{$.rule}}/{{itu .Aid}}#comment-{{.Id}}"></a>: {{.Content}}
+                        {{end}}
+                    </li>
+                {{end}}
+            {{end}}
         </ul>
     </section>
 
     <section class="widget paddingall">
         <h5 class="widget-title">分类</h5>
         <ul class="widget-list">
-        {{with $list := cl}}
-        {{range $list}}
-            <li><a href="/category/{{.Key}}"><i class="fa fa-book fa-lg"
-                                                aria-hidden="true">&nbsp; </i>{{.Name}}({{cn .Id}})</a>
-            </li>
-        {{end}}
-        {{end}}
+            {{with $list := cl}}
+                {{range $list}}
+                    <li><a href="/category/{{.Key}}"><i class="fa fa-book fa-lg"
+                                                        aria-hidden="true">&nbsp; </i>{{.Name}}({{cn .Id}})</a>
+                    </li>
+                {{end}}
+            {{end}}
         </ul>
     </section>
 
@@ -69,11 +79,11 @@
     <section class="widget paddingall">
         <h5 class="widget-title">友情链接</h5>
         <ul class="widget-list">
-        {{with $list := link}}
-        {{range $list}}
-            <li class="last"><a href="{{.Url}}" title="{{.Description}}">{{.Name}}</a></li>
-        {{end}}
-        {{end}}
+            {{with $list := link}}
+                {{range $list}}
+                    <li class="last"><a href="{{.Url}}" title="{{.Description}}">{{.Name}}</a></li>
+                {{end}}
+            {{end}}
         </ul>
     </section>
 
