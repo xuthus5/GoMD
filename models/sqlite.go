@@ -51,6 +51,7 @@ func Initialization() {
 	_, _ = dbc.Insert(&Config{Option: "UserGithub", Value: "http://github.com"})
 	_, _ = dbc.Insert(&Config{Option: "Rewrite", Value: "1"})
 	_, _ = dbc.Insert(&Config{Option: "Repath", Value: "/article/{name}"})
+	_, _ = dbc.Insert(&Config{Option: "Comment", Value: "off"})
 	//分类表初始化
 	_, _ = dbc.Insert(&Category{
 		Name:        "默认",

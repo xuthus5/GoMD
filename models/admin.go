@@ -137,6 +137,11 @@ func SearchArticleCategory(id int) *[]Category {
 
 // 添加一条评论
 func AddComment(data *Comment) error {
+	if ConfigList()["Comment"] == "on" {
+		data.Status = 0
+	}else {
+		data.Status = 1
+	}
 	_, err := dbc.Insert(data)
 	return err
 }

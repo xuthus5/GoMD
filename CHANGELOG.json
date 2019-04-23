@@ -4,6 +4,15 @@
   "Website": "http://gomd.xblogs.cn",
   "Version": [
     {
+      "Type": "Fix",
+      "Commit": "V0.3.2修复版本",
+      "Version": "0.3.1.0423_beta",
+      "Title": "Beta版0.3.1发布",
+      "Committer": "xuthus",
+      "Date": "2019-04-23",
+      "Tag": "https://gitee.com/xuthus5/GoMD",
+      "Level": "label-warning"
+    },{
       "Type": "Release",
       "Commit": "V0.3.1版本发布",
       "Version": "0.3.1.0321_beta",

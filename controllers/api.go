@@ -442,14 +442,21 @@ func (this *ApiController) CommentAdd() {
 	data := &models.Comment{}
 	info := &ResultData{}
 	if err := this.ParseForm(data); err != nil {
-		info = &ResultData{Error: 1, Title: "失败:", Msg: "接收表单数据出错！"}
+		//接收表单数据出错
+		info = &ResultData{Error: 1, Title: "失败:", Msg: "未知错误！"}
 	} else {
 		data.Date = tools.Int64ToString(time.Now().Unix())
 		err := models.AddComment(data)
 		if err != nil {
-			info = &ResultData{Error: 1, Title: "失败:", Msg: "数据库操作出错！"}
+			//数据库操作出错
+			info = &ResultData{Error: 1, Title: "失败:", Msg: "未知错误！"}
 		} else {
-			info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！"}
+			//判断是否需要审核
+			if models.ConfigList()["Comment"] == "on" {
+				info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！等待管理员审核"}
+			}else {
+				info = &ResultData{Error: 0, Title: "成功:", Msg: "发布成功！"}
+			}
 		}
 	}
 	this.Data["json"] = info
