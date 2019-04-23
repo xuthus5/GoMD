@@ -4,6 +4,35 @@
   "Website": "http://gomd.xblogs.cn",
   "Version": [
     {
+      "Type": "Fix",
+      "Commit": "V0.3.2修复版本",
+      "Version": "0.3.1.0423_beta",
+      "Title": "Beta版0.3.1发布",
+      "Committer": "xuthus",
+      "Date": "2019-04-23",
+      "Tag": "https://gitee.com/xuthus5/GoMD",
+      "Level": "label-warning"
+    },{
+      "Type": "Release",
+      "Commit": "V0.3.1版本发布",
+      "Version": "0.3.1.0321_beta",
+      "Title": "Beta版0.3.1发布",
+      "Committer": "xuthus",
+      "Date": "2019-03-21",
+      "Tag": "https://gitee.com/xuthus5/GoMD",
+      "Level": "label-primary"
+    },
+    {
+      "Type": "Release",
+      "Commit": "V0.3.0版本发布",
+      "Version": "0.3.0.0320_beta",
+      "Title": "Beta版0.3.0发布",
+      "Committer": "xuthus",
+      "Date": "2019-03-20",
+      "Tag": "https://gitee.com/xuthus5/GoMD",
+      "Level": "label-primary"
+    },
+    {
       "Type": "Added",
       "Commit": "V0.2版本发布",
       "Version": "0.2.0.0318_beta",

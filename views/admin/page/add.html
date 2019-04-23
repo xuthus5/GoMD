@@ -177,6 +177,7 @@
         const postData = $("#form").serialize();
         $.post("/api/page/add", postData, function (res) {
             if (res.Error === 0) {
+                console.log(res);
                 layer.open({
                     skin: 'layer-class',
                     title: res.Title
@@ -184,9 +185,9 @@
                     btn: ['浏览', '列表'],
                     yes: function (index) {
                         {{if .config.Rewrite}}
-                        window.location.href = "/{{.rule}}/" + res.data+".html";
+                        window.location.href = "/" + res.data+".html";
                         {{end}}
-                        window.location.href = "/{{.rule}}/" + res.data;
+                        window.location.href = "/" + res.data;
                     }
                     , btn2: function (index) {
                         window.location.href = "/admin/page";
