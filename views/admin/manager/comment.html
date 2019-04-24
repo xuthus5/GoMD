@@ -78,6 +78,7 @@
             setTimeout("wait(0)", 1000);
         }
     }
+
     $('#review').bootstrapTable({
         url: '/api/comment/review',
         responseHandler: responseHandler,
@@ -160,7 +161,7 @@
             $.get('/api/comment/update?id=' + row.Id, function (res) {
                 if (res.Error === 0) {
                     layer.msg("操作成功", {time: 2000});
-                    wait(1);
+                    setTimeout("window.location.href = \"/admin/comment\";", 1000);
                 } else {
                     layer.msg("操作失败", {
                         icon: 2,
@@ -197,8 +198,8 @@
     };
     window.deleteComment = {
         'click .delete': function (e, value, row, index) {
-            layer.confirm('确定删除？', {skin: 'layer-class'},function (index) {
-                    $.get("/api/comment/delete?id=" + row.Id, function (res) {
+            layer.confirm('确定删除？', {skin: 'layer-class'}, function (index) {
+                $.get("/api/comment/delete?id=" + row.Id, function (res) {
                     if (res.Error === 0) {
                         layer.open({
                             skin: 'layer-class',
