@@ -11,12 +11,14 @@
                             </div>
                         </div>
                         <div class="bg-white">
-                            <a href="javascript:;" class="emoji-btn" title="Emoji 表情"><i class="fa fa-smile-o fa-2x" name="emoji"></i></a>
+                            <a href="javascript:;" class="emoji-btn" title="Emoji 表情"><i class="fa fa-smile-o fa-2x"
+                                                                                         name="emoji"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="comment-textarea-box">
-                        <textarea rows="8" cols="50" name="content" id="textarea" class="textarea comment-textarea" required=""></textarea>
+                    <textarea rows="8" cols="50" name="content" id="textarea" class="textarea comment-textarea"
+                              required=""></textarea>
                 </div>
                 <div class="comment-form collapse show">
                     <div class="row comment-form-fields">
@@ -35,7 +37,7 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text bg-white" id="ico-email"><i
-                                                class="fa fa-envelope-o fa-fw" aria-hidden="true"></i></span>
+                                                    class="fa fa-envelope-o fa-fw" aria-hidden="true"></i></span>
                                 </div>
                                 <input type="email" name="email" id="mail" class="form-control" placeholder="邮箱"
                                        value="" aria-label="Email" aria-describedby="ico-email" required="">
@@ -45,7 +47,7 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text bg-white" id="ico-url"><i
-                                                class="fa fa-internet-explorer" aria-hidden="true"></i></span>
+                                                    class="fa fa-internet-explorer" aria-hidden="true"></i></span>
                                 </div>
                                 <input type="url" name="link" class="form-control" placeholder="网站(非必填)" value=""
                                        aria-label="Email" aria-describedby="ico-url">
@@ -64,40 +66,40 @@
     <h6>已有 {{comment .id}} 条评论</h6>
 
     <ol class="comment-list">
-    {{range .comments}}
-        <li id="comment-{{.Id}}" class="comment-body comment-parent comment-odd">
-            <div class="comment-author">
-                <div>
-                    <div class="row comment-row comment-mg">
-                        <div class="comment-show-con-img">
-                            <img class="avatar"
-                                 src="{{gavatar .Email}}"
-                                 alt="{{.Name}}" width="48" height="48"></div>
-                        <div class="col order-last comment-col">
-                            <div class="row comment-row">
-                                <div class="comment-show-con-list clearfix">
-                                    <div class="pl-text clearfix">
+        {{range .comments}}
+            <li id="comment-{{.Id}}" class="comment-body comment-parent comment-odd">
+                <div class="comment-author">
+                    <div>
+                        <div class="row comment-row comment-mg">
+                            <div class="comment-show-con-img">
+                                <img class="avatar"
+                                     src="{{gavatar .Email}}"
+                                     alt="{{.Name}}" width="48" height="48"></div>
+                            <div class="col order-last comment-col">
+                                <div class="row comment-row">
+                                    <div class="comment-show-con-list clearfix">
+                                        <div class="pl-text clearfix">
 											<span class="comment-author">
 												<a href="{{.Link}}" rel="external nofollow">{{.Name}}</a>											</span>
-                                        <a href="{{.Link}}" target="_blank"><i
-                                                class="fa fa-internet-explorer"></i></a> <span>:</span>
-                                        <span class="zface-box">
+                                            <a href="{{.Link}}" target="_blank"><i
+                                                        class="fa fa-internet-explorer"></i></a> <span>:</span>
+                                            <span class="zface-box">
                                         {{.Content}}
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row comment-row date-dz">
-                                <div class="col order-last comment-col comment-reply">
-                                    <a href="#">{{tsc .Date true}}&nbsp;</a>|
-                                    <a rel="nofollow" onclick='Comment({{.Name}},{{.Email}})'>回复</a></div>
+                                <div class="row comment-row date-dz">
+                                    <div class="col order-last comment-col comment-reply">
+                                        <a href="#">{{tsc .Date true}}&nbsp;</a>|
+                                        <a rel="nofollow" onclick='Comment({{.Name}},{{.Email}})'>回复</a></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </li>
-    {{end}}
+            </li>
+        {{end}}
     </ol>
 
     <script src="/static/admin/layer/layer.js"></script>
@@ -153,7 +155,7 @@
                 const postData = $("#comment-form").serialize();
                 $.post("/api/comment/add", postData, function (res) {
                     if (res.Error === 0) {
-                        layer.msg("发表成功！", {time: 2000});
+                        layer.msg(res.Msg, {time: 2000});
                         wait(1);
                     } else {
                         layer.msg(res.Title + res.Msg, {

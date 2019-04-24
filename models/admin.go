@@ -139,7 +139,7 @@ func SearchArticleCategory(id int) *[]Category {
 func AddComment(data *Comment) error {
 	if ConfigList()["Comment"] == "on" {
 		data.Status = 0
-	}else {
+	} else {
 		data.Status = 1
 	}
 	_, err := dbc.Insert(data)
